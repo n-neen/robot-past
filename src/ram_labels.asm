@@ -29,7 +29,7 @@ org $7e0100
 
 ;========================================= work ram ========================================
 
-w: {
+w: {                                    ;w
     .nmicounter         : skip 2
     .nmiflag            : skip 2
     .lagcounter         : skip 2
@@ -46,7 +46,19 @@ w: {
     .programstate       : skip 2
     
     
-    
+    org $7e1000
+    ..hdma: {                           ;w_hdma
+        !k_hdma_objects_count #=   7
+        ...init:    skip 2*!k_hdma_objects_count
+        ...routine: skip 2*!k_hdma_objects_count
+        ...timer:   skip 2*!k_hdma_objects_count
+        ...table:   skip 2*!k_hdma_objects_count
+        
+        ...bank:    skip 1*!k_hdma_objects_count
+        ...target:  skip 1*!k_hdma_objects_count
+        ...channel: skip 1*!k_hdma_objects_count
+        ...params:  skip 1*!k_hdma_objects_count
+    }
     
     org $7ec000
     .cgrambuffer        : skip !k_cgrambuffersize
