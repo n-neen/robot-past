@@ -48,17 +48,20 @@ w: {                                    ;w
     
     org $7e1000
     .hdma: {                           ;w_hdma
+        ;object independent
+        ..channels: skip 2
+        ..enable:   skip 2
+
+        ;object arrays
         !k_hdma_objects_count #=   7
-        ..id:      skip 2*!k_hdma_objects_count
-        ..init:    skip 2*!k_hdma_objects_count
-        ..routine: skip 2*!k_hdma_objects_count
-        ..timer:   skip 2*!k_hdma_objects_count
-        ..table:   skip 2*!k_hdma_objects_count
+        ..id:       skip 2*!k_hdma_objects_count+2
+        ..init:     skip 2*!k_hdma_objects_count+2
+        ..routine:  skip 2*!k_hdma_objects_count+2
+        ..timer:    skip 2*!k_hdma_objects_count+2
+        ..table:    skip 2*!k_hdma_objects_count+2
+        ..params:   skip 2*!k_hdma_objects_count+2 ;for $4300 and $4301 write at once
         
-        ..params:  skip 1*!k_hdma_objects_count
-        ..bank:    skip 1*!k_hdma_objects_count
-        ..target:  skip 1*!k_hdma_objects_count
-        ..channel: skip 1*!k_hdma_objects_count
+        ..bank:     skip 1*!k_hdma_objects_count
         
     }
     
