@@ -1,6 +1,5 @@
 
 
-;zero page
 org $00
 
 p: {
@@ -53,13 +52,14 @@ w: {                                    ;w
         ..enable:   skip 2
 
         ;object arrays
-        !k_hdma_objects_count #=   7
+        !k_hdma_objects_count #=   $0007
         ..id:       skip 2*!k_hdma_objects_count+2
         ..init:     skip 2*!k_hdma_objects_count+2
         ..routine:  skip 2*!k_hdma_objects_count+2
         ..timer:    skip 2*!k_hdma_objects_count+2
         ..table:    skip 2*!k_hdma_objects_count+2
         ..params:   skip 2*!k_hdma_objects_count+2 ;for $4300 and $4301 write at once
+        ..var:      skip 2*!k_hdma_objects_count+2
         
         ..bank:     skip 1*!k_hdma_objects_count
         

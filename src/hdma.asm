@@ -74,6 +74,9 @@ hdma: {
         %hdmachannelconfig(6)
         %hdmachannelconfig(7)
         
+        lda w_hdma_channels
+        sta $420c
+        
         +
         rtl
     }
@@ -84,7 +87,10 @@ hdma: {
         ;iterate over slots
         ;run main routine for each
         
-        ldx #!k_hdma_objects_count*2
+        phk
+        plb
+        
+        ldx.w #!k_hdma_objects_count*2
         -
         
         lda w_hdma_id,x
@@ -140,7 +146,12 @@ hdma: {
     
     
     .clearall: {
-        ldx #!k_hdma_objects_count*2
+        phb
+        
+        phk
+        plb
+        
+        ldx.w #!k_hdma_objects_count*2
         -
         
         jsr hdma_clear
@@ -148,6 +159,7 @@ hdma: {
         dex
         bpl -
         
+        plb
         rtl
     }
     
@@ -157,11 +169,6 @@ hdma: {
         
         ;we could probably do without setting db here
         ;but we're a hirom program, so it's best to do this
-        
-        phb
-        
-        phk
-        plb
         
         stz w_hdma_id,x
         stz w_hdma_init,x
@@ -176,7 +183,6 @@ hdma: {
         }
         rep #$20
         
-        plb
         rts
     }
     
@@ -184,12 +190,17 @@ hdma: {
     
     
     
-    .testobject: {
+    .testobject_inidisp: {
         ;to create the structure
         dw ..init, ..routine
         dl ..table                  ;bank byte is written last
         
         ..init: {
+            ;x = object index
+            
+            lda #$0000              ;target is high byte ($2100), params 00
+            sta w_hdma_params,x
+            
             rts
         }
         
@@ -198,14 +209,110 @@ hdma: {
         }
         
         ..table: {
-            db $01, $ff
+            ;gradient of screen brightness
+            ;3 lines each value
+            
+            db $03, $00
+            db $03, $01
+            db $03, $02
+            db $03, $03
+            db $03, $04
+            db $03, $05
+            db $03, $06
+            db $03, $07
+            db $03, $08
+            db $03, $09
+            db $03, $0a
+            db $03, $0b
+            db $03, $0c
+            db $03, $0d
+            db $03, $0e
+            db $03, $0f
+
+            db $04, $00
+            db $04, $01
+            db $04, $02
+            db $04, $03
+            db $04, $04
+            db $04, $05
+            db $04, $06
+            db $04, $07
+            db $04, $08
+            db $04, $09
+            db $04, $0a
+            db $04, $0b
+            db $04, $0c
+            db $04, $0d
+            db $04, $0e
+            db $04, $0f
+            
+            db $05, $00
+            db $05, $01
+            db $05, $02
+            db $05, $03
+            db $05, $04
+            db $05, $05
+            db $05, $06
+            db $05, $07
+            db $05, $08
+            db $05, $09
+            db $05, $0a
+            db $05, $0b
+            db $05, $0c
+            db $05, $0d
+            db $05, $0e
+            db $05, $0f
             db $00
         }
         
     }
     
     
-    
+    .testobject_coldata: {
+        ;to create the structure
+        dw ..init, ..routine
+        dl ..table                  ;bank byte is written last
+        
+        ..init: {
+            ;x = object index
+            
+            lda #$3200              ;target is high byte ($2100), params 00
+            sta w_hdma_params,x
+            
+            rts
+        }
+        
+        ..routine: {
+            rts
+        }
+        
+        ..table: {
+            ;gradient of screen brightness
+            ;3 lines each value
+            db $7f, $00
+            db $01, $1f
+            db $01, $01
+            db $01, $1f
+            db $01, $03
+            db $01, $1f
+            db $01, $05
+            db $01, $06
+            db $01, $07
+            db $01, $08
+            db $01, $09
+            db $01, $0a
+            db $01, $0b
+            db $01, $0c
+            db $01, $0d
+            db $01, $0e
+            db $01, $0f
+            db $01, $08
+            db $01, $02
+            db $01, $08
+            db $00
+        }
+        
+    }
     
     
     

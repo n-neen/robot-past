@@ -27,6 +27,20 @@ setup: {
     
     ;load graphics, palette, tilemap
     
+    jsl hdma_clearall
+    
+    
+    
+    ldy.w #hdma_testobject_inidisp
+    ldx #$0002
+    jsl hdma_spawn
+    
+    ldy.w #hdma_testobject_coldata
+    ldx #$0004
+    jsl hdma_spawn
+    
+    
+    
     jsr screenon
     
     lda #!state_gameloop
@@ -40,7 +54,11 @@ gameloop: {
     
     ;todo
     
-    lda w_controller
+    jsl hdma_top
+    
+    ;lda w_controller
+    
+    lda.w #$7fff
     sta $7ec000
     
     rts
