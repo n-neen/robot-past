@@ -22,13 +22,16 @@ org $808000
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
     incsrc "./src/color_cycling.asm"
+    print "80 end: ", pc
     
     
 org $c10000
     incsrc "./data/inc/c1.asm"
+    print "c1 end: ", pc
     
 org $c20000
-    ;
+    incsrc "./data/inc/c2.asm"
+    print "c2 end: ", pc
     
 
 ;===========================================================================================

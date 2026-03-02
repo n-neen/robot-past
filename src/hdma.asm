@@ -22,38 +22,38 @@ hdma: {
         
         ;ok we unroll this
         
-        ;print pc
+        ;print "hdma start", pc
         
         macro hdmachannelconfig(channel)
-            !regbitmask #= (<channel>)<<4       ;obj slot 3 = bitmask $30
-                                                ;mask onto hdma reg addr
+            !regbitmask #= (<channel>)<<4               ;obj slot 3 = bitmask $30
+                                                        ;mask onto hdma reg addr
             lda.w w_hdma_id+((<channel>)<<1)
             beq +++
             
-            lda.w w_hdma_params+((<channel>)<<1)  ;$43x0/43x1
+            lda.w w_hdma_params+((<channel>)<<1)        ;$43x0/43x1
             sta.w $4300|!regbitmask
             
             bit.w #$0040
-            beq +                               ;if indirect
+            beq +
             
-            lda.w w_hdma_bank+((<channel>)<<1)
-            and.w #$00ff
+            lda.w w_hdma_bank+((<channel>)<<1)          ;if indirect
+            and.w #$ff00                                ;set indirect bank (high byte)
+            xba
+            sta.w $4307|!regbitmask
+            
+            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x5/43x6/43x7
             sta.w $4305|!regbitmask
-            
-            lda.w w_hdma_table+((<channel>)<<1)   ;use $43x5/43x6/43x7
-            sta.w $4306|!regbitmask
             
             bra ++
             
-            +                                   ;if direct
+            +                                           ;if direct
             
-            lda.w w_hdma_table+((<channel>)<<1)   ;use $43x2/43x3/43x4
+            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
             sta.w $4302|!regbitmask
             
             lda.w w_hdma_bank+((<channel>)<<1)
             and.w #$00ff
             sta.w $4304|!regbitmask
-            
             ++
             
             lda.w #($0100)|($0001<<(<channel>))
@@ -301,13 +301,18 @@ hdma: {
     }
     
     
-    .testobject_inidisp_indirect: {
+    .testobject_coldata_indirect: {
         dw ..init, ..routine
         dl ..table                  ;bank byte is written last
         
         ..init: {
-            lda #$3200              ;target is high byte ($2100), params 00
+            lda #$3240              ;target is high byte ($2100), params 00
             sta w_hdma_params,x
+            
+            lda w_hdma_bank,x       ;set indirect bank
+            ora #$7e00
+            sta w_hdma_bank,x
+            
             rts
         }
         
@@ -326,7 +331,9 @@ hdma: {
         }
         
         ..table: {
-
+            db $40 : dw $2000
+            db $40 : dw $2002
+            db $40 : dw $2004
             db $00
         }
     }

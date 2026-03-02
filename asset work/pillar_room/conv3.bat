@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i E:\newpics\nightly_art\pillar_room\conversion_test_3\pillar_room_snes_test_3.png -p E:\newpics\nightly_art\pillar_room\conversion_test_3\pillar_room_snes_test_3.pal -m E:\newpics\nightly_art\pillar_room\conversion_test_3\pillar_room_snes_test_3.map -t E:\newpics\nightly_art\pillar_room\conversion_test_3\pillar_room_snes_test_3.chr --color-zero 000000
+
+pause

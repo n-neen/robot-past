@@ -35,11 +35,13 @@ setup: {
     ldx #$0002
     jsl hdma_spawn
     
-    ldy.w #hdma_testobject_coldata
-    ldx #$0004
-    jsl hdma_spawn
+    ;ldy.w #hdma_testobject_coldata
+    ;ldx #$0004
+    ;jsl hdma_spawn
     
-    
+    ;ldy.w #hdma_testobject_coldata_indirect
+    ;ldx #$0006
+    ;jsl hdma_spawn
     
     jsr screenon
     
@@ -56,9 +58,12 @@ gameloop: {
     
     jsl hdma_top
     
-    ;lda w_controller
+    lda w_nmicounter
+    and #$01f0
+    ora w_controller
+    ora #$1000
     
-    lda.w #$3038
+    ;lda.w #$3038
     sta $7ec000
     
     rts

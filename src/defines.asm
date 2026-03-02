@@ -53,3 +53,10 @@
 ;================================ cgram constants ===================================
 
 !k_cgrambuffersize  =       $0200
+
+
+;============================== scrolling constants =================================
+
+!k_scroll_columnsize    =   $0020
+!k_scroll_rowsize       =   $0020               ;keep convention of ram labels = one letter
+!k_level_bank           =   (l&$ff0000)>>16     ;label 'l' is for level
