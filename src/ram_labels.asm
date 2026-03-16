@@ -17,14 +17,22 @@ org $00
 p: {
     ;0-f are reserved for pseudoregisters
     
-    .0  : skip 2
-    .1  : skip 2
-    .2  : skip 2
-    .3  : skip 2
-    .4  : skip 2
-    .5  : skip 2
-    .6  : skip 2
-    .7  : skip 2
+    .0  : skip 1
+    .1  : skip 1
+    .2  : skip 1
+    .3  : skip 1
+    .4  : skip 1
+    .5  : skip 1
+    .6  : skip 1
+    .7  : skip 1
+    .8  : skip 1
+    .9  : skip 1
+    .a  : skip 1
+    .b  : skip 1
+    .c  : skip 1
+    .d  : skip 1
+    .e  : skip 1
+    .f  : skip 1
 }
 
 ;======================================= direct page =======================================
@@ -55,7 +63,7 @@ w: {                                    ;w
     .controller         : skip 2
     .programstate       : skip 2
     
-    .fadestate          : skip 2
+    .prestate           : skip 2
     .fadecounter        : skip 2
     .fadebitmask        : skip 2
     .fadenextstate      : skip 2
@@ -67,6 +75,17 @@ w: {                                    ;w
         ..seamrow       : skip 2
         
         ..direction     : skip 2
+    }
+    
+    .scene: {
+        ..definitionptr : skip 2
+        ..bank          : skip 2
+        ..palptr        : skip 2
+        ..gfxptr        : skip 2
+        ..mapptr        : skip 2
+        ..gfxsize       : skip 2
+        ..gameprops     : skip 2    ;probably store all this
+                                    ;individually when it exists
     }
     
     
@@ -96,9 +115,16 @@ w: {                                    ;w
 org $7f0000
 
 
+;decompressionbuffer overlaps level data:
+;decompress graphics here, upload to vram, then decompress level data here
+
+
 l: {
+    .decompressionbuffer:
     ;level dimensions and data
     .xsize  : skip 2
     .ysize  : skip 2
     .level  : skip $8000
+    
+    
 }

@@ -61,7 +61,7 @@ hdma: {
         endmacro
         
         lda.w w_hdma_enable
-        bne +
+        beq +
         
         %hdmachannelconfig(1)
         %hdmachannelconfig(2)

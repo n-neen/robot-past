@@ -40,7 +40,7 @@ dma: {
         lda.w w_dmasrcptr           ;2      source addr
         sta $4302
         
-        ldx.b w_dmasrcbank          ;1      source bank
+        ldx w_dmasrcbank            ;1      source bank
         stx $4304
         
         lda.w w_dmasize             ;2      transfur size
@@ -66,10 +66,10 @@ dma: {
         rep #$20
         sep #$10                    ;width  register
         
-        ldx.b w_dmabaseaddr         ;1      cgadd
+        ldx w_dmabaseaddr           ;1      cgadd
         stx $2121
         
-        ldx #$02                    ;1      transfur mode: write twice
+        ldx #$02                    ;1      transfur mode
         stx $4300
         
         ldx #$22                    ;1      register dest (cgram write)
@@ -78,7 +78,7 @@ dma: {
         lda.w w_dmasrcptr           ;2      source addr
         sta $4302
         
-        ldx.b w_dmasrcbank          ;1      source bank
+        ldx w_dmasrcbank            ;1      source bank
         stx $4304
         
         lda.w w_dmasize             ;2      transfur size
@@ -177,5 +177,73 @@ dma: {
         ..fillword: {
             dw $3800
         }
+    }
+    
+}
+    
+    
+    
+load: {
+    .romtobuffer: {
+        ;copy from rom to buffer
+        ;eventually decompression will replace this
+        
+        ;arguments:
+        ;p_0 = long pointer
+        ;a   = size, must be < $8000
+        
+        print "copy loop test ", pc
+        
+        phy
+        phb
+        
+        and #$7fff
+        tay
+        
+        pea.w (($ff0000&l_decompressionbuffer)>>8)+0
+        plb
+        plb     ;db = buffer bank (7f)
+        
+        -
+        lda [p_0],y                     ;copy from [long pointer] + y
+        sta.w l_decompressionbuffer,y   ;to buffer + x
+        ;dex
+        ;dex
+        dey
+        dey
+        bpl -
+        
+        plb
+        ply
+        rtl
+    }
+    
+    
+    .buffertovram: {
+        ;copy from decompression buffer to vram
+        ;fixed start location, variable size
+        
+        ;arguments:
+        ;a = size
+        ;x = vram destination
+        phb
+        
+        phk
+        plb
+        
+        sta w_dmasize
+        stx w_dmabaseaddr
+        
+        lda #l_decompressionbuffer
+        sta w_dmasrcptr
+        
+        ;print pc
+        lda #(($ff0000&l_decompressionbuffer)>>16)
+        sta w_dmasrcbank
+        
+        jsl dma_vramtransfur
+        
+        plb
+        rtl
     }
 }

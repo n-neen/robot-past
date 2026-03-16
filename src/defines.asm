@@ -6,17 +6,18 @@
 
 ;================================ program state constants ==================================
 
-!state_setup      =   $0000
-!state_gameloop   =   $0001
+!state_setup        =   $0000
+!state_gameloop     =   $0001
+!state_loadscene    =   $0002
 
 
 ;fade state
 
-!fade_state_none      =   $0000
-!fade_state_start     =   $0001
-!fade_state_out       =   $0002
-!fade_state_in        =   $0003
-!fade_state_done      =   $0004
+!pre_state_none     =   $0000
+!pre_state_start    =   $0001
+!pre_state_out      =   $0002
+!pre_state_in       =   $0003
+!pre_state_done     =   $0004
 
 
 ;================================= module bank constants ===================================

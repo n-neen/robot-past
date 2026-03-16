@@ -143,11 +143,26 @@ init: {
         lda.b #%00000011|(!bg3tilemapshifted<<2)
         sta $2109
         
+        lda.b #%00000001                                ;drawing mode
+        sta $2105
+        
+        
+        lda #$ff                    ;gotta set the bg scroll
+        sta $210e                   ;to -1 because of course we do
+        sta $210e
+        sta $210d
+        sta $210d
+        sta $2110
+        sta $2110
+        sta $2112
+        sta $2112
+
+        
         rep #$20
     }
     
     stz.w w_programstate
-    stz.w w_fadestate
+    stz.w w_prestate
 }
 
 ;fall through to main
