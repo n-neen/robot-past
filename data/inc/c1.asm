@@ -15,7 +15,7 @@ light: {
 }
 
 
-blood_lotus: {
+bloodlotus: {
     .pal:   incbin "./data/pal/blood.pal"
     .gfx:   incbin "./data/gfx/blood.gfx"
     .map:   incbin "./data/map/blood.map"

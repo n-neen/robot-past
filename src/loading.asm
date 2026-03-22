@@ -23,12 +23,12 @@ load: {
         lda w_scene_mapptr          ;tilemap pointer
         sta p_0
         
-        lda #$0800                  ;tilemap size
+        lda w_scene_tilemapsize     ;tilemap size
         jsl load_romtobuffer        ;copy tilemap to buffer
         
         ;upload buffer to vram
         
-        lda #$0800                  ;tilemap size
+        lda w_scene_tilemapsize     ;tilemap size
         ldx #!bg1tilemap            ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
@@ -162,6 +162,38 @@ load: {
         
         ply
         plb
+        rtl
+    }
+    
+    .playersprite: {
+        ;$01e0
+        
+        ldx #$0020
+        -
+        lda.l playersprite_pal,x
+        sta.l w_cgrambuffer+$01e0,x
+        dex
+        dex
+        bpl -
+        
+        rtl
+    }
+    
+    .playergfx: {
+        lda.w #datasize(playersprite_gfx)
+        sta w_dmasize
+        
+        lda #playersprite_gfx
+        sta w_dmasrcptr
+        
+        lda.w #(($ff0000&playersprite_gfx)>>16)+0
+        sta w_dmasrcbank
+        
+        lda #!spritegfx+$c00
+        sta w_dmabaseaddr
+        
+        jsl dma_vramtransfur
+        
         rtl
     }
     

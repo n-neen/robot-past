@@ -38,6 +38,7 @@ p: {
 ;======================================= direct page =======================================
 
 d: {
+    org $20
     ;
     ;todo
     ;
@@ -52,7 +53,15 @@ w: {                                    ;w
     .nmiflag            : skip 2
     .lagcounter         : skip 2
     
+    ;ppu register buffers
     .screenbrightness   : skip 2
+    .bg1xscroll         : skip 2
+    .bg1yscroll         : skip 2
+    
+    .bg2xscroll         : skip 2
+    .bg2yscroll         : skip 2
+    
+    .bg3xscroll         : skip 2
     .bg3yscroll         : skip 2
     
     ;dma arguments
@@ -87,8 +96,16 @@ w: {                                    ;w
         ..gfxptr        : skip 2
         ..mapptr        : skip 2
         ..gfxsize       : skip 2
+        ..tilemapsize   : skip 2
         ..gameprops     : skip 2    ;probably store all this
                                     ;individually when it exists
+    }
+    
+    .oam: {
+        ;print "oam buffer: ", pc
+        ..index         : skip 2
+        ..lo_buffer     : skip 512
+        ..hi_buffer     : skip 32
     }
     
     

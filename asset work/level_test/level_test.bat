@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\level_test\leveltest.png" -p "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\level_test\leveltest.pal" -t "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\level_test\leveltest.gfx" -m "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\level_test\leveltest.map" -v --palette-base-offset 1
+
+pause

@@ -6,7 +6,8 @@ scenedef: {
         dw <label>_gfx              ;graphics,                      ;5
         dw <label>_map              ;tilemap                        ;7
         dw datasize(<label>_gfx)    ;graphics size                  ;9
-        dw <label>_props            ;gameplay properties            ;11     ;unimplemented
+        dw datasize(<label>_map)    ;tilemap size                   ;b
+        dw <label>_props            ;gameplay properties            ;d     ;unimplemented
     endmacro
     
     ;list of scenes
@@ -17,6 +18,7 @@ scenedef: {
     
     .light:             %scenedefentry(light)
     .meetsisters:       %scenedefentry(meetsisters)
-    .blood_lotus:       %scenedefentry(blood_lotus)
+    .bloodlotus:        %scenedefentry(bloodlotus)
     
+    .leveltest:         %scenedefentry(leveltest)
 }

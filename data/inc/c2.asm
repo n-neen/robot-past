@@ -13,10 +13,23 @@ pillar_room: {
         dw $ffff
 }
 
+
 meetsisters: {
     .pal:   incbin "./data/pal/meetsisters.pal"
     .gfx:   incbin "./data/gfx/meetsisters.gfx"
     .map:   incbin "./data/map/meetsisters.map"
+    
+    
+    .props:
+        ;gameplay aspects of this scene
+        dw $ffff
+}
+
+
+leveltest: {
+    .pal:   incbin "./data/pal/leveltest.pal"
+    .gfx:   incbin "./data/gfx/leveltest.gfx"
+    .map:   incbin "./data/map/leveltest.map"
     
     
     .props:

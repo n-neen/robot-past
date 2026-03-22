@@ -15,6 +15,28 @@
         ;p = params
         ;t = ppu target
 
+
+    ;ldy.w #hdma_testobject_inidisp
+    ;ldx #$0002
+    ;jsl hdma_spawn
+    
+    ;ldy.w #hdma_testobject_coldata
+    ;ldx #$0004
+    ;jsl hdma_spawn
+    
+    ;ldy.w #hdma_testobject_coldata_indirect
+    ;ldx #$0006
+    ;jsl hdma_spawn
+    
+    ;lda #$0001
+    ;sta w_hdma_enable
+
+
+
+
+
+
+
 hdma: {
     .nmihandler: {
         ;look for object slots that are occupied

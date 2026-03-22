@@ -32,6 +32,7 @@ main: {
         dw setup            ;0
         dw gameloop         ;1
         dw loadscene        ;2
+        dw scenehandler     ;3
     }
     
 }
@@ -67,7 +68,10 @@ scenetransition: {
     lda $0009,x
     sta.l w_scene_gfxsize
     
-    lda $0011,x
+    lda $000b,x
+    sta.l w_scene_tilemapsize
+    
+    lda $000d,x
     sta.l w_scene_gameprops
     
     plb
@@ -209,24 +213,9 @@ setup: {
     
     jsl hdma_clearall
     
-    
-    ;ldy.w #hdma_testobject_inidisp
-    ;ldx #$0002
-    ;jsl hdma_spawn
-    
-    ;ldy.w #hdma_testobject_coldata
-    ;ldx #$0004
-    ;jsl hdma_spawn
-    
-    ;ldy.w #hdma_testobject_coldata_indirect
-    ;ldx #$0006
-    ;jsl hdma_spawn
-    
     stz w_hdma_enable
     
-    ;ldx.w #scenedef_meetsisters
     ldx.w #scenedef_meetsisters
-    ;ldx.w #scenedef_light
     
     jsr scenetransition         ;testing, populate pointers in scene ram
     
@@ -236,21 +225,21 @@ setup: {
     jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer
     jsl load_bg3tilemapupload       ;upload buffer
     jsl load_bg3tilesupload         ;bg3 tiles to vram
+    jsl load_playersprite
+    jsl load_playergfx
     
     jsr enablenmi
     jsr waitfornmi
     jsr screenon
     
-    ;ldy.w #hdma_testobject_inidisp
-    ;ldx #$0002
-    ;jsl hdma_spawn
-    
-    ;lda #$0001
-    ;sta w_hdma_enable
-    
     lda #!state_loadscene       ;program state = load scene
     sta w_programstate
     
+    rts
+}
+
+
+scenehandler: {
     rts
 }
 
@@ -281,7 +270,7 @@ gameloop: {
         
         lda w_testsceneindex
         inc
-        cmp #$0003
+        cmp #$0004
         bne +
         
         stz w_testsceneindex
@@ -298,22 +287,34 @@ gameloop: {
     
     ++
     
-    lda w_controller
+    lda w_controller        ;up
     bit #$0800
     beq +
-    inc w_bg3yscroll
+    dec w_bg1yscroll
     +
     
-    bit #$0400
+    bit #$0400              ;down
     beq +
-    dec w_bg3yscroll
+    inc w_bg1yscroll
     +
+    
+    bit #$0200              ;left
+    beq +
+    dec w_bg1xscroll
+    +
+    
+    bit #$0100              ;right
+    beq +
+    inc w_bg1xscroll
+    +
+    
     rts
     
     
     .testtable: {
         dw scenedef_meetsisters,        ;0
-           scenedef_blood_lotus,        ;1
-           scenedef_light               ;2
+           scenedef_bloodlotus,         ;1
+           scenedef_light,              ;2
+           scenedef_leveltest           ;3
     }
 }

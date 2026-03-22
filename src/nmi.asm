@@ -39,9 +39,10 @@ nmi: {
     ;nmi stuf goez here
     ;todo: ppu register buffers
     
-    jsr readcontroller
     jsr colorbufferupload
+    jsr readcontroller
     jsr nmippuregisters
+    jsl oam_uploadbuffer        ;unfinished
     jsl hdma_nmihandler         ;unfinished
     
     stz w_nmiflag
@@ -59,13 +60,37 @@ nmi: {
     bra .return
 }
 
+
 nmippuregisters: {
-    ;todo
-    
     sep #$20
     {
         lda w_screenbrightness      ;update inidisp
         sta $2100
+        
+        lda w_bg1xscroll
+        sta $210d
+        lda w_bg1xscroll+1
+        sta $210d
+        
+        lda w_bg1yscroll
+        sta $210e
+        lda w_bg1yscroll+1
+        sta $210e
+        
+        lda w_bg2xscroll
+        sta $210f
+        lda w_bg2xscroll+1
+        sta $210f
+        
+        lda w_bg2yscroll
+        sta $2110
+        lda w_bg2yscroll+1
+        sta $2110
+        
+        lda w_bg3xscroll
+        sta $2111
+        lda w_bg3xscroll+1
+        sta $2111
         
         lda w_bg3yscroll
         sta $2112
@@ -75,9 +100,9 @@ nmippuregisters: {
     }
     rep #$20
     
-    
     rts
 }
+
 
 colorbufferupload: {
     ;inline all this and do not use the thing in dma.asm

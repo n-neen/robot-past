@@ -132,6 +132,9 @@ init: {
         lda.b #!bg3tileshifted                          ;bg3
         sta $210c
         
+        lda.b #!spritegfxshifted>>1
+        sta $2101
+        
         ;tilemap base addresses
         
         lda.b #%00000011|(!bg1tilemapshifted<<2)
@@ -155,29 +158,45 @@ init: {
         lda #%00000000
         sta $212d
         
+        ;gotta set the bg scroll to -1 because of course we do
+        lda #$ff
+        stz $210d       ;bg1 x scroll
+        stz $210d
+        
+        sta $210e       ;bg1 y scroll
+        sta $210e
+        
+        stz $210f       ;bg2 x scroll
+        stz $210f
+        
+        sta $2110       ;bg2 y scroll
+        sta $2110
+        
+        stz $2111       ;bg3 x scroll
+        stz $2111
+        
+        lda #$ff
+        sta $2112       ;bg3 vertical scroll
+        lda #$80
+        sta $2112
+        
         rep #$20
         
     }
     
-        ;gotta set the bg scroll to -1 because of course we do
-        lda #$ffff
-        sta $210e
-        sta $210e
-        
-        sta $210d
-        sta $210d
-        
-        sta $2110
-        sta $2110
-        
-        lda #$ff80
-        
-        sta $2112       ;bg3 vertical scroll
-        sta $2112
-        sta w_bg3yscroll
-        
-        rep #$20
-    }
+    lda #$ffff
+    sta w_bg1yscroll
+    sta w_bg2yscroll
+    
+    lda #$ff80
+    sta w_bg3yscroll
+    
+    stz w_bg1xscroll
+    stz w_bg2xscroll
+    stz w_bg3xscroll
+    
+    
+    
     
     stz.w w_programstate
     stz.w w_prestate

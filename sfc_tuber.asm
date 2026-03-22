@@ -22,6 +22,8 @@ org $808000
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
     incsrc "./src/loading.asm"
+    incsrc "./src/player.asm"
+    incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"
     print "80 end: ", pc
     
@@ -34,6 +36,9 @@ org $c20000
     incsrc "./data/inc/c2.asm"
     print "c2 end: ", pc
     
+org $c30000
+    incsrc "./data/inc/c3.asm"
+    print "c3 end: ", pc
 
 ;===========================================================================================
 ;==================================               ==========================================
@@ -43,7 +48,7 @@ org $c20000
 
 
 org $c0ffc0                             ;game header
-    db "superfamicomtuber    "          ;cartridge name
+    db "robot past           "          ;cartridge name
     db $31                              ;fastrom, lorom
     db $02                              ;rom + ram + sram
     db $09                              ;rom size = 512k
