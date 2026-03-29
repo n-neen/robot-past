@@ -5,54 +5,131 @@
 scroll: {
     .main: {
         
-        ;move background layer,
-        ;determine if scrolling update is necessary,
-        ;possibly use layer (camera) scroll % 8
-        ;and if panned to edge of scroll area
+        lda w_controller
         
-        ;then
+        bit #!controller_up
+        beq ..noup
+        jsr scroll_up
+        ..noup:
         
-        lda w_scroll_direction
-        beq +
-        asl
-        tax
+        bit #!controller_dn
+        beq ..nodown
+        jsr scroll_down
+        ..nodown:
         
-        jsr (scroll_main_directiontable,x)
+        bit #!controller_lf
+        beq ..noleft
+        jsr scroll_left
+        ..noleft:
         
-        +
+        bit #!controller_rt
+        beq ..noright
+        jsr scroll_right
+        ..noright:
+        
+        ;apply camera to bg1 scroll
+        lda w_level_camerax
+        sta w_bg1xscroll
+        
+        lda w_level_cameray
+        sta w_bg1yscroll
+        
         rtl
-        
-        ..directiontable: {
-            dw scroll_up
-            dw scroll_down
-            dw scroll_left
-            dw scroll_right
-        }
     }
     
     .up: {
-        ;do somethin then
-        jsr scroll_figurerow
+        pha
+        
+        lda w_level_cameray
+        cmp w_scroll_upbound
+        bmi +
+        
+        lda w_level_camerasuby
+        sec
+        sbc w_scroll_camerasubspeed
+        sta w_level_camerasuby
+        
+        lda w_level_cameray
+        sbc w_scroll_cameraspeed
+        sta w_level_cameray
+        
+        +
+        
+        pla
         rts
     }
     
     .down: {
-        ;
-        jsr scroll_figurerow
+        pha
+        
+        lda w_level_cameray
+        cmp w_scroll_downbound
+        bpl +
+        
+        lda w_level_camerasuby
+        clc
+        adc w_scroll_camerasubspeed
+        sta w_level_camerasuby
+        
+        lda w_level_cameray
+        adc w_scroll_cameraspeed
+        sta w_level_cameray
+        
+        +
+        
+        pla
         rts
     }
 
     .left: {
-        ;
-        jsr scroll_figurecolumn
+        pha
+        
+        lda w_level_camerax
+        cmp w_scroll_leftbound
+        bmi +
+        
+        lda w_level_camerasubx
+        sec
+        sbc w_scroll_camerasubspeed
+        sta w_level_camerasubx
+        
+        lda w_level_camerax
+        sbc w_scroll_cameraspeed
+        sta w_level_camerax
+        
+        +
+        
+        pla
         rts
     }
 
     .right: {
-        ;
-        jsr scroll_figurecolumn
+        pha
+        
+        lda w_level_camerax
+        cmp w_scroll_rightbound
+        bpl +
+        
+        lda w_level_camerasubx
+        clc
+        adc w_scroll_camerasubspeed
+        sta w_level_camerasubx
+        
+        lda w_level_camerax
+        adc w_scroll_cameraspeed
+        sta w_level_camerax
+        
+        +
+        
+        pla
         rts
-    }    
+    }
+    
+    
+    
+    ;i doubt i will ever use the stuff below here:
+    
+    
     
     .figurecolumn: {
         

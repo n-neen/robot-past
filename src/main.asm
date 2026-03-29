@@ -2,14 +2,14 @@ main: {
     phk
     plb
     
-    lda w_prestate
-    beq +
-    asl
-    tax
+    ;lda w_prestate
+    ;beq +
+    ;asl
+    ;tax
     
-    jsr (main_prestatetable,x)
+    ;jsr (main_prestatetable,x)
     
-    +
+    ;+
     lda w_programstate
     asl
     tax
@@ -21,18 +21,15 @@ main: {
     jmp main
     
     .prestatetable: {
-        dw pre_none         ;0: none
-        dw pre_startfade    ;1
-        dw pre_fadeout      ;2
-        dw pre_fadein       ;3
-        dw pre_fadedone     ;4
+        dw pre_none         ;0: none yet
     }
     
     .table: {
         dw setup            ;0
-        dw gameloop         ;1
+        dw scenehandler     ;1
         dw loadscene        ;2
-        dw scenehandler     ;3
+        dw gameplay         ;3
+        dw loadgame         ;4
     }
     
 }
@@ -82,121 +79,46 @@ scenetransition: {
 loadscene: {
     jsl load_scene
     
-    lda #$0020
-    ldx #$0003
-    ldy #!state_gameloop
-    jsr pre_startfade_in
+    lda #!state_scenehandler
+    sta w_programstate
+    
+    jsr layer3on
+    
+    jsr waitfornmi
+    jsr fadein
+    
+    
+    rts
+}
+
+
+layer3on: {
+    sep #$20
+    lda w_mainscreenlayers
+    ora #%00000100
+    sta w_mainscreenlayers
+    rep #$20
+    
+    rts
+}
+
+
+layer3off: {
+    sep #$20
+    lda w_mainscreenlayers
+    and #%11111011
+    sta w_mainscreenlayers
+    rep #$20
     
     rts
 }
 
 
 pre: {
-    ;handle fading screen brightness as its own thread prior to
-    ;main state handler
-    
     ;unimplemented
     
     .none: {
-        rts
-    }
-    
-    .startfade: {
-        ;arguments:
-        ;a = initial timer value
-        ;x = fade bitmask to check nmi counter
-        ;y = main state to enter when done
-        
-        ..in:
-        sta w_fadecounter
-        
-        lda #!pre_state_in
-        sta w_prestate
-        bra +
-        
-        ..out:
-        sta w_fadecounter
-        
-        lda #!pre_state_out
-        sta w_prestate
-        
-        +
-        
-        stx w_fadebitmask
-        sty w_fadenextstate
-        
-        
-        rts
-    }
-    
-    
-    .fadeout: {
-        lda w_nmicounter
-        bit w_fadebitmask
-        bne +
-        
-        sep #$20
-        
-        lda w_screenbrightness
-        beq ..proceed
-        dec
-        sta w_screenbrightness
-        
-        rep #$20
-        +
-        rts
-        
-        ..proceed: {
-            rep #$20
-            
-            jsr waitfornmi
-            jsr screenoff
-            
-            stz w_prestate
-            
-            lda w_fadenextstate
-            sta w_programstate
-            
-            rts
-        }
-        
-    }
-    
-    .fadein: {
-        lda w_nmicounter
-        bit w_fadebitmask
-        bne +
-        
-        sep #$20
-        
-        lda w_screenbrightness
-        cmp #$0f
-        beq ..proceed
-        inc
-        sta w_screenbrightness
-        
-        rep #$20
-        +
-        rts
-        
-        ..proceed: {
-            rep #$20
-            
-            jsr waitfornmi
-            jsr screenon
-            
-            stz w_prestate
-            
-            lda w_fadenextstate
-            sta w_programstate
-            
-            rts
-        }
-        
-    }
-    
-    .fadedone: {
-        ;not sure this is necessary
+        ;todo
         
         rts
     }
@@ -212,11 +134,24 @@ setup: {
     ;load graphics, palette, tilemap
     
     jsl hdma_clearall
+    jsl glow_clearall
     
     stz w_hdma_enable
+    stz w_glow_enable
+    
+    lda #!fade_bitmask_default
+    sta w_fadebitmask
+    
+    lda #!fade_timer_default
+    sta w_fadetimer
+    
+    lda #!camera_subspeed_default
+    sta w_scroll_camerasubspeed
+    
+    lda #!camera_speed_default
+    sta w_scroll_cameraspeed
     
     ldx.w #scenedef_meetsisters
-    
     jsr scenetransition         ;testing, populate pointers in scene ram
     
     ;temp test not real
@@ -227,6 +162,9 @@ setup: {
     jsl load_bg3tilesupload         ;bg3 tiles to vram
     jsl load_playerpal
     jsl load_playergfx
+    
+    ;ldy #glow_test
+    ;jsl glow_spawn
     
     jsr enablenmi
     jsr waitfornmi
@@ -239,74 +177,60 @@ setup: {
 }
 
 
-scenehandler: {
+gameplay: {
+    lda w_controller
+    and #$0f00
+    beq +
+    
+    jsl scroll_main
+    +
+    
+    ;game goes here
+    
+    
     rts
 }
 
 
-gameloop: {
+scenehandler: {
     ;todo
     
     jsl hdma_top
-    
-    
-    
-    ;testing
+    ;jsl glow_top
     
     lda w_controller
-    bit #$8000
-    beq ++
+    beq .return
     
     ;initiate scene change
     
     {
-        lda w_prestate
-        bne ++
-        
-        lda #$0015              ;fade counter
-        ldx #$0003              ;fade bitmask (interval)
-        ldy #!state_loadscene   ;next state after fade
-        jsr pre_startfade_out   ;set parameters for prestate: fadeout
-        
         lda w_testsceneindex
         inc
+        sta w_testsceneindex
         cmp #$0004
-        bne +
-        
-        stz w_testsceneindex
-        lda #$0000
+        beq .gotogame
         
         +
-        sta w_testsceneindex
+        lda w_testsceneindex
         asl
         tax
-        lda.l gameloop_testtable,x
+        lda.l scenehandler_testtable,x
         tax
         jsr scenetransition
+        
+        lda #!state_loadscene
+        sta w_programstate
+        
+        jsr fadeout
     }
     
-    ++
+    .return:
+    rts
     
-    lda w_controller        ;up
-    bit #$0800
-    beq +
-    dec w_bg1yscroll
-    +
+    .gotogame:
     
-    bit #$0400              ;down
-    beq +
-    inc w_bg1yscroll
-    +
-    
-    bit #$0200              ;left
-    beq +
-    dec w_bg1xscroll
-    +
-    
-    bit #$0100              ;right
-    beq +
-    inc w_bg1xscroll
-    +
+    lda #!state_loadgame
+    sta w_programstate
     
     rts
     
@@ -315,6 +239,95 @@ gameloop: {
         dw scenedef_meetsisters,        ;0
            scenedef_bloodlotus,         ;1
            scenedef_light,              ;2
-           scenedef_leveltest           ;3
+           scenedef_room2,              ;3
+           scenedef_room2               ;4
     }
+}
+
+
+loadgame: {
+    ;presumably something happens here
+    ;but right now this is a reserved state
+    
+    jsr waitfornmi
+    jsr fadeout
+    
+    ;do thing here
+    
+    ;initialize scroll bounds
+    stz w_scroll_direction
+    
+    lda #!scroll_upbound_default
+    sta w_scroll_upbound
+    
+    lda #!scroll_downbound_default
+    sta w_scroll_downbound
+    
+    lda #!scroll_leftbound_default
+    sta w_scroll_leftbound
+    
+    lda #!scroll_rightbound_default
+    sta w_scroll_rightbound
+    
+    jsr layer3off
+    
+    lda #$0001
+    sta w_level_cameray
+    sta w_level_camerax
+    sta w_bg1xscroll
+    sta w_bg1yscroll
+    
+    jsr waitfornmi
+    jsr fadein
+    
+    lda #!state_gameplay
+    sta w_programstate
+    
+    rts
+}
+
+
+fadeout: {
+    ;screen must be ON when this is called
+    
+    jsr enablenmi
+    jsr screenon        ;in fact just do this to be sure
+    
+    -
+    jsr waitfornmi
+    
+    lda w_nmicounter
+    bit w_fadebitmask
+    beq -
+    
+    lda w_screenbrightness
+    dec
+    sta w_screenbrightness
+    bne -
+    
+    jsr screenoff
+    rts
+}
+
+
+fadein: {
+    jsr enablenmi
+    stz w_screenbrightness
+    
+    -
+    jsr waitfornmi
+    
+    lda w_nmicounter
+    bit w_fadebitmask
+    beq -
+    
+    lda w_screenbrightness
+    inc
+    sta w_screenbrightness
+    cmp #$000f
+    bne -
+    
+    ;returns with screen brightness = $0f
+    jsr screenon
+    rts
 }

@@ -83,7 +83,10 @@ hdma: {
         endmacro
         
         lda.w w_hdma_enable
-        beq +
+        bne .enabled
+        jmp .disabled
+        
+        .enabled:
         
         %hdmachannelconfig(1)
         %hdmachannelconfig(2)
@@ -96,7 +99,7 @@ hdma: {
         lda.w w_hdma_channels
         sta $420c
         
-        +
+        .disabled:
         rtl
     }
     

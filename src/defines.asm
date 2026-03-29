@@ -7,17 +7,49 @@
 ;================================ program state constants ==================================
 
 !state_setup        =   $0000
-!state_gameloop     =   $0001
+!state_scenehandler =   $0001
 !state_loadscene    =   $0002
+!state_gameplay     =   $0003
+!state_loadgame     =   $0004
 
 
-;fade state
+;pre-state
+;currently not used
 
 !pre_state_none     =   $0000
 !pre_state_start    =   $0001
 !pre_state_out      =   $0002
 !pre_state_in       =   $0003
 !pre_state_done     =   $0004
+
+
+;================================ constants ==================================
+
+!fade_bitmask_default       =   $0005
+!fade_timer_default         =   $0010
+
+!scroll_upbound_default     =   $0001
+!scroll_downbound_default   =   $00ff
+!scroll_leftbound_default   =   $0001
+!scroll_rightbound_default  =   $00ff
+
+!camera_subspeed_default    =   $0000       ;default speed = 1.5
+!camera_speed_default       =   $0001
+
+;controller bit constants
+!controller_b                         =       $8000
+!controller_y                         =       $4000
+!controller_sl                        =       $2000
+!controller_st                        =       $1000
+!controller_up                        =       $0800
+!controller_dn                        =       $0400
+!controller_lf                        =       $0200
+!controller_rt                        =       $0100
+!controller_a                         =       $0080
+!controller_x                         =       $0040
+!controller_l                         =       $0020
+!controller_r                         =       $0010
+
 
 
 ;================================= module bank constants ===================================

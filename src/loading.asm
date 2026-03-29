@@ -55,16 +55,8 @@ load: {
         ldx w_scene_palptr
         jsl load_romtocolorbuffer
         
-        
         jsr enablenmi
         jsr waitfornmi
-        ;jsr screenon
-        
-        stz w_screenbrightness      ;otherwise fade in doesn't happen
-        
-        lda #!state_gameloop        ;return to gameplay
-        sta w_programstate
-        
         
         plx
         plb

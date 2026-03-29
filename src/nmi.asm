@@ -97,6 +97,12 @@ nmippuregisters: {
         lda w_bg3yscroll+1
         sta $2112
         
+        lda w_mainscreenlayers
+        sta $212c
+        
+        lda w_subscreenlayers
+        sta $212d
+        
     }
     rep #$20
     

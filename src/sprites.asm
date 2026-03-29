@@ -63,18 +63,21 @@ oam: {
         sep #$20
         
         lda $0000,x
-        sta w_oam_lo_buffer,y
+        sta w_oam_lo_buffer,y           ;x
         
         lda $0001,x
-        sta w_oam_lo_buffer+1,y
+        sta w_oam_lo_buffer+1,y         ;y
         
         lda $0002,x
-        sta w_oam_lo_buffer+2,y
+        sta w_oam_lo_buffer+2,y         ;tile
         
         lda $0003,x
-        sta w_oam_lo_buffer+3,y
+        sta w_oam_lo_buffer+3,y         ;properties bit field
         
+        ;todo:
         ;high table
+        ;object association with oam entries
+        ;object system at all
         
         plb
         rtl

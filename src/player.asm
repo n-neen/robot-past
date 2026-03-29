@@ -6,4 +6,19 @@
 
 player: {
     ;
+    
+    .spritemap: {
+        ; xx yy tt pp hh
+        ; ^  ^  ^  ^  ^
+        ; x  ^  ^  ^  high table bits
+        ;    y  ^  properties
+        ;       tile
+        ;
+        ..test: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $80, $80, $c0, $00, $00
+        }
+    }
 }

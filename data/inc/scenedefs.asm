@@ -21,4 +21,7 @@ scenedef: {
     .bloodlotus:        %scenedefentry(bloodlotus)
     
     .leveltest:         %scenedefentry(leveltest)
+    
+    .room1:             %scenedefentry(room1)
+    .room2:             %scenedefentry(room2)
 }

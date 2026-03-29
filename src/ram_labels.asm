@@ -65,6 +65,9 @@ w: {
     .bg3xscroll         : skip 2
     .bg3yscroll         : skip 2
     
+    .subscreenlayers    : skip 1
+    .mainscreenlayers   : skip 1
+    
     ;dma arguments
     .dmabaseaddr        : skip 2
     .dmasrcptr          : skip 2
@@ -74,20 +77,36 @@ w: {
     .controller         : skip 2
     .programstate       : skip 2
     
-    .prestate           : skip 2
-    .fadecounter        : skip 2
+    .prestate           : skip 2        ;not sure if using this
+    .fadetimer          : skip 2
     .fadebitmask        : skip 2
-    .fadenextstate      : skip 2
+    .fadenextstate      : skip 2        ;deprecated
     
     .testsceneindex     : skip 2
     
     .level: {
         ..camerax       : skip 2
         ..cameray       : skip 2
-        ..seamcolumn    : skip 2
-        ..seamrow       : skip 2
         
-        ..direction     : skip 2
+        ..camerasubx    : skip 2
+        ..camerasuby    : skip 2
+        
+        ..seamcolumn    : skip 2        ;unused
+        ..seamrow       : skip 2        ;unused
+        
+        ..dmastart      : skip 2        ;unimplemented
+    }
+    
+    .scroll: {
+        ..direction     : skip 2        ;unused
+        
+        ..leftbound     : skip 2
+        ..rightbound    : skip 2
+        ..upbound       : skip 2
+        ..downbound     : skip 2
+        
+        ..camerasubspeed: skip 2
+        ..cameraspeed   : skip 2
     }
     
     .scene: {
@@ -115,7 +134,7 @@ w: {
         ..enable    : skip 2
 
         ;object arrays
-        !k_hdma_objects_count #=   $0007
+        !k_hdma_objects_count   =   $0007
         ..id        :   skip 2*!k_hdma_objects_count+2
         ..init      :   skip 2*!k_hdma_objects_count+2
         ..routine   :   skip 2*!k_hdma_objects_count+2
@@ -125,6 +144,21 @@ w: {
         ..var       :   skip 2*!k_hdma_objects_count+2
         ..bank      :   skip 2*!k_hdma_objects_count+2  ;low byte = direct bank, high byte = indirect bank
         
+    }
+    
+    .glow: {
+        !glow_objects_count = $0008
+        
+        ..enable        : skip 2
+        
+        ..id                : skip 2*!glow_objects_count+2
+        ..init              : skip 2*!glow_objects_count+2
+        ..routine           : skip 2*!glow_objects_count+2
+        ..timer             : skip 2*!glow_objects_count+2
+        ..colorindex        : skip 2*!glow_objects_count+2
+        ..list              : skip 2*!glow_objects_count+2
+        ..liststart         : skip 2*!glow_objects_count+2
+        ..colorindexstart   : skip 2*!glow_objects_count+2
     }
     
     print "work ram end:   ", pc

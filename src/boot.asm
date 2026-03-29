@@ -152,10 +152,12 @@ init: {
         lda #%00000000      ;color math layers
         sta $2131
     
-        lda #%00000101      ;main screen layers
+        lda #%00000001
+        sta w_mainscreenlayers
         sta $212c
         
         lda #%00000000
+        sta w_subscreenlayers
         sta $212d
         
         ;gotta set the bg scroll to -1 because of course we do
@@ -188,7 +190,7 @@ init: {
     sta w_bg1yscroll
     sta w_bg2yscroll
     
-    lda #$ff80
+    lda #$00b8
     sta w_bg3yscroll
     
     stz w_bg1xscroll

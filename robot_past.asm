@@ -19,6 +19,7 @@ org $808000
     incsrc "./src/nmi.asm"
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
+    incsrc "./src/scroll.asm"
     incsrc "./src/loading.asm"
     incsrc "./src/player.asm"
     incsrc "./src/sprites.asm"
@@ -40,6 +41,10 @@ org $c20000
 org $c30000
     incsrc "./data/inc/c3.asm"
     print "c3 end: ", pc
+
+org $c40000
+    incsrc "./data/inc/c4.asm"
+    print "c4 end: ", pc
 
 ;===========================================================================================
 ;==================================               ==========================================
