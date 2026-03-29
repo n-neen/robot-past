@@ -239,7 +239,7 @@ scenehandler: {
         dw scenedef_meetsisters,        ;0
            scenedef_bloodlotus,         ;1
            scenedef_light,              ;2
-           scenedef_room2,              ;3
+           scenedef_room1,              ;3
            scenedef_room2               ;4
     }
 }

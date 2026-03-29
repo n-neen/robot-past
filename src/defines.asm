@@ -33,7 +33,7 @@
 !scroll_leftbound_default   =   $0001
 !scroll_rightbound_default  =   $00ff
 
-!camera_subspeed_default    =   $0000       ;default speed = 1.5
+!camera_subspeed_default    =   $2f00       ;default speed = speed.subspeed, set in main.asm
 !camera_speed_default       =   $0001
 
 ;controller bit constants

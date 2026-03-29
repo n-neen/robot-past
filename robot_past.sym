@@ -203,9 +203,9 @@ C3:2000 playersprite_pal
 80:83C1 readcontroller
 C3:2020 room1
 C3:2040 room1_gfx
-C3:9880 room1_map
+C3:9480 room1_map
 C3:2020 room1_pal
-C3:B880 room1_props
+C3:B480 room1_props
 C4:0000 room2
 C4:0020 room2_gfx
 C4:7960 room2_map
@@ -326,7 +326,7 @@ C0:004B scenedef_room2
 
 [source files]
 0000 7382667c c:/users/keenan/desktop/robot_past/robot_past/src/boot.asm
-0001 d349ad7e c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
+0001 15419b6e c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
 0002 218b1f06 c:/users/keenan/desktop/robot_past/robot_past/src/nmi.asm
 0003 1d79ae36 c:/users/keenan/desktop/robot_past/robot_past/src/dma.asm
 0004 bdcd7ac3 c:/users/keenan/desktop/robot_past/robot_past/src/hdma.asm
@@ -343,7 +343,7 @@ C0:004B scenedef_room2
 000f 3389348e c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-4be72a9e
+c89c5d71
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -1666,8 +1666,8 @@ c3:0000 000d:00000009
 c3:2000 000d:0000000c
 c3:2020 000d:0000001a
 c3:2040 000d:0000001b
-c3:9880 000d:0000001c
-c3:b880 000d:0000001f
+c3:9480 000d:0000001c
+c3:b480 000d:0000001f
 c4:0000 000e:00000009
 c4:0020 000e:0000000a
 c4:7960 000e:0000000b
