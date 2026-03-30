@@ -178,12 +178,11 @@ setup: {
 
 
 gameplay: {
-    lda w_controller
-    and #$0f00
-    beq +
+    stz w_player_direction
+    stz w_scroll_direction
     
+    jsl player_main
     jsl scroll_main
-    +
     
     ;game goes here
     
@@ -195,7 +194,7 @@ gameplay: {
 scenehandler: {
     ;todo
     
-    jsl hdma_top
+    ;jsl hdma_top
     ;jsl glow_top
     
     lda w_controller
@@ -239,7 +238,7 @@ scenehandler: {
         dw scenedef_meetsisters,        ;0
            scenedef_bloodlotus,         ;1
            scenedef_light,              ;2
-           scenedef_room1,              ;3
+           scenedef_room2,              ;3
            scenedef_room2               ;4
     }
 }
@@ -270,6 +269,14 @@ loadgame: {
     sta w_scroll_rightbound
     
     jsr layer3off
+    
+    jsl player_init
+    
+    sep #$20
+    lda w_mainscreenlayers
+    ora #%00010000
+    sta w_mainscreenlayers
+    rep #$20
     
     lda #$0001
     sta w_level_cameray

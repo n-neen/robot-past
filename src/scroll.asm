@@ -4,8 +4,59 @@
 
 scroll: {
     .main: {
+        lda w_player_x_onscreen
+        cmp #!camera_box_lf_bound
+        bpl ..skipleft
+        ;if > x bound (towards center of screen),
+        lda w_player_direction
+        bit #!controller_lf
+        beq ..skipleft
+        ;and moving left,
+        and #!controller_lf
+        ora w_scroll_direction
+        sta w_scroll_direction
+        ..skipleft:
         
-        lda w_controller
+        lda w_player_x_onscreen
+        cmp #!camera_box_rt_bound
+        bmi ..skipright
+        ;if < x bound (towards center of screen),
+        lda w_player_direction
+        bit #!controller_rt
+        beq ..skipright
+        ;and moving right,
+        and #!controller_rt
+        ora w_scroll_direction
+        sta w_scroll_direction
+        ..skipright:
+        
+        lda w_player_y_onscreen
+        cmp #!camera_box_up_bound
+        bpl ..skipup
+        ;if > y bound (towards center of screen),
+        lda w_player_direction
+        bit #!controller_up
+        beq ..skipup
+        ;and moving up,
+        and #!controller_up
+        ora w_scroll_direction
+        sta w_scroll_direction
+        ..skipup:
+        
+        lda w_player_y_onscreen
+        cmp #!camera_box_dn_bound
+        bmi ..skipdown
+        ;if < y bound (towards center of screen),
+        lda w_player_direction
+        bit #!controller_dn
+        beq ..skipdown
+        ;and moving down,
+        and #!controller_dn
+        ora w_scroll_direction
+        sta w_scroll_direction
+        ..skipdown:
+        
+        lda w_scroll_direction
         
         bit #!controller_up
         beq ..noup

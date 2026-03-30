@@ -43,6 +43,35 @@ oam: {
     }
     
     
+    .testsprite: {
+        ldx w_oam_index
+        
+        sep #$20
+        
+        lda #$80
+        sta w_oam_lo_buffer,x       ;x pos
+        inx
+        
+        lda #$70
+        sta w_oam_lo_buffer,x       ;y pos
+        inx
+        
+        lda #$c8
+        sta w_oam_lo_buffer,x       ;tile
+        inx
+        
+        lda #%00111110              ;properties
+        sta w_oam_lo_buffer,x
+        inx
+        
+        rep #$20
+        
+        stx w_oam_index
+        
+        rtl
+    }
+    
+    
     
     .addsprite: {
         ;argument:

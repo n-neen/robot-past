@@ -84,6 +84,18 @@ w: {
     
     .testsceneindex     : skip 2
     
+    .player: {
+        ..x             : skip 2
+        ..subx          : skip 2
+        ..y             : skip 2
+        ..suby          : skip 2
+        
+        ..x_onscreen    : skip 2
+        ..y_onscreen    : skip 2
+        
+        ..direction     : skip 2
+    }
+    
     .level: {
         ..camerax       : skip 2
         ..cameray       : skip 2
@@ -98,7 +110,7 @@ w: {
     }
     
     .scroll: {
-        ..direction     : skip 2        ;unused
+        ..direction     : skip 2
         
         ..leftbound     : skip 2
         ..rightbound    : skip 2

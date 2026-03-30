@@ -158,7 +158,8 @@ load: {
     }
     
     .playerpal: {
-        ;$01e0
+        ;copies a single palette line
+        ;to the last sprite palette in buffer
         
         ldx #$0020
         -
@@ -231,6 +232,8 @@ load: {
     
     
     .bg3tilemaptobuffer: {
+        ;copy from rom to buffer
+        
         phb
         
         pea.w (($ff0000&bg3data)>>8)+0
@@ -252,6 +255,8 @@ load: {
     
     
     .bg3tilesupload: {
+        ;copy graphics from rom to vram
+        
         lda #(!bg3tiles)
         sta w_dmabaseaddr
         

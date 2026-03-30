@@ -33,8 +33,16 @@
 !scroll_leftbound_default   =   $0001
 !scroll_rightbound_default  =   $00ff
 
-!camera_subspeed_default    =   $2f00       ;default speed = speed.subspeed, set in main.asm
+!camera_subspeed_default    =   $8000       ;default speed = speed.subspeed, set in main.asm
 !camera_speed_default       =   $0001
+
+
+!camera_box_up_bound        =   $0020
+!camera_box_dn_bound        =   $00b1
+!camera_box_lf_bound        =   $0020
+!camera_box_rt_bound        =   $00d0
+
+
 
 ;controller bit constants
 !controller_b                         =       $8000
@@ -54,6 +62,8 @@
 
 ;================================= module bank constants ===================================
 
+;these are more often than not not being inlined
+;at the site where needed
 
 ;!MODULEbanklong           =   (MODULE&$ff0000)
 ;!MODULEbankword           =   !MODULEbanklong>>8
