@@ -177,6 +177,23 @@ player: {
         
         ldx #$0000
         
+        phk
+        plb
+        
+        lda w_nmicounter
+        bit #$07
+        bne +
+        
+        lda w_player_animationtimer
+        inc
+        sta w_player_animationtimer
+        cmp #$08
+        bmi +
+        stz w_player_animationtimer
+        lda #$00
+        +
+        ldy w_player_animationtimer
+        
         lda w_player_x_onscreen
         sta w_oam_lo_buffer,x       ;x pos
         inx
@@ -185,7 +202,18 @@ player: {
         sta w_oam_lo_buffer,x       ;y pos
         inx
         
-        lda #$c8
+        
+        rep #$20
+        lda w_player_direction
+        bit #!controller_lf|!controller_rt
+        bne ..h
+        lda player_draw_animationlist_vert,y
+        bra ..v
+        ..h
+        lda player_draw_animationlist_horz,y
+        ..v
+        sep #$20
+        
         sta w_oam_lo_buffer,x       ;tile
         inx
         
@@ -196,6 +224,14 @@ player: {
         rep #$20
         
         rts
+        
+        ..animationlist_vert: {
+            db $c0, $c1, $c2, $c3, $c4, $c5, $c6, $c7, $c8
+        }
+        
+        ..animationlist_horz: {
+            db $d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8
+        }
     }
     
     

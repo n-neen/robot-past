@@ -85,6 +85,7 @@ w: {
     .testsceneindex     : skip 2
     
     .player: {
+        ;print pc
         ..x             : skip 2
         ..subx          : skip 2
         ..y             : skip 2
@@ -94,6 +95,8 @@ w: {
         ..y_onscreen    : skip 2
         
         ..direction     : skip 2
+        
+        ..animationtimer: skip 2
     }
     
     .level: {

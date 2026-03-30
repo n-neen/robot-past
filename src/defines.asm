@@ -40,7 +40,7 @@
 !camera_box_up_bound        =   $0020
 !camera_box_dn_bound        =   $00b1
 !camera_box_lf_bound        =   $0020
-!camera_box_rt_bound        =   $00d0
+!camera_box_rt_bound        =   $00d1
 
 
 

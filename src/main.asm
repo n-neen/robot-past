@@ -238,7 +238,7 @@ scenehandler: {
         dw scenedef_meetsisters,        ;0
            scenedef_bloodlotus,         ;1
            scenedef_light,              ;2
-           scenedef_room2,              ;3
+           scenedef_room1,              ;3
            scenedef_room2               ;4
     }
 }
@@ -278,7 +278,7 @@ loadgame: {
     sta w_mainscreenlayers
     rep #$20
     
-    lda #$0001
+    lda #$0020
     sta w_level_cameray
     sta w_level_camerax
     sta w_bg1xscroll
