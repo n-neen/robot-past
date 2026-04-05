@@ -28,7 +28,7 @@ main: {
         dw setup            ;0
         dw scenehandler     ;1
         dw loadscene        ;2
-        dw gameplay         ;3
+        dw gameplayvector   ;3
         dw loadgame         ;4
     }
     
@@ -209,40 +209,10 @@ setup: {
 }
 
 
-gameplay: {
-    stz w_player_direction
-    stz w_scroll_direction
+gameplayvector: {
     
-    jsl player_main
-    jsl scroll_main
+    jsl gameplay
     
-    ;game goes here
-    
-    lda w_controller
-    bit #$c0c0
-    beq +
-    ;test room change
-    
-    ldx #scenedef_room2         ;get scene pointer
-    jsr scenetransition         ;populate scene area of memory
-    
-    lda w_scene_mode            ;transition to program state
-    sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
-    
-    jsr fadeout
-    
-    +
-    
-    lda w_controller
-    bit #$1000
-    beq ++
-    
-    ;if start go here
-    jsl msg_tilemaptest
-    
-    
-    
-    ++
     rts
 }
 
@@ -344,6 +314,7 @@ loadgame: {
     
     jsr waitfornmi
     jsr fadein
+    jsr screenon
     
     lda #!state_gameplay
     sta w_programstate

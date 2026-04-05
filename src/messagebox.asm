@@ -30,6 +30,21 @@ msg: {
         ora #$2000                      ;add priority bit
         sta.l w_msgbuffer,x             ;write to ram. possibly hirom area so needs this
         
+        
+        {   ;use this if you want to type out one character per frame
+            phy
+            phx
+            
+            lda #$0001
+            sta w_msg_uploadflag
+            jsl waitfornmi_long
+            
+            ;jsl gameplay                ;could call gameplay here too
+            
+            plx
+            ply
+        }
+        
         inx
         inx
         +
@@ -59,14 +74,38 @@ msg: {
         txa
         
         clc
-        adc #$0040
-        and #$ffc0
+        adc #$0040      ;add $20*2 (two bytes of tilemap) to go down a line
+        and #$ffc0      ;remove bits lower than $40 to align to left
         
         tax
         pla
         
         +
         rts
+    }
+    
+    
+    .cleartilemap: {
+        pea.w (($ff0000&w_msgbuffer)>>8)+0     ;db = message buffer bank (7e)
+        plb
+        plb
+        
+        ldx #$0100
+        
+        -
+        stz.w w_msgbuffer,x
+        stz.w w_msgbuffer+$100,x
+        stz.w w_msgbuffer+$200,x
+        stz.w w_msgbuffer+$300,x
+        stz.w w_msgbuffer+$400,x
+        stz.w w_msgbuffer+$500,x
+        stz.w w_msgbuffer+$600,x
+        stz.w w_msgbuffer+$700,x
+        dex
+        dex
+        bpl -
+        
+        rtl
     }
     
     
@@ -90,15 +129,14 @@ msg: {
     
     
     .tilemaptest: {
+        jsl layer3on_long
+        stz w_bg3yscroll
+        
         ldx #msg_testtext
         jsr msg_writetilemap
         
         lda #$0001
         sta w_msg_uploadflag
-        
-        jsl layer3on_long
-        
-        stz w_bg3yscroll
         
         rtl
     }

@@ -42,8 +42,8 @@ nmi: {
     jsr colorbufferupload
     jsr readcontroller
     jsr nmippuregisters
-    jsl oam_uploadbuffer        ;unfinished
-    jsl hdma_nmihandler         ;unfinished
+    jsl oam_uploadbuffer
+    ;jsl hdma_nmihandler         ;unfinished
     
     lda w_msg_uploadflag
     beq +
@@ -64,6 +64,7 @@ nmi: {
     inc w_lagcounter
     bra .return
 }
+
 
 bg3upload: {
     jsl msg_upload
@@ -172,7 +173,7 @@ readcontroller: {
     rts
 }
 
-
+;print pc, " wait for nmi"
 waitfornmi: {
     php
     sep #$20

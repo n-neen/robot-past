@@ -16,6 +16,7 @@ incsrc "./src/ram_labels.asm"
 org $808000
     incsrc "./src/boot.asm"
     incsrc "./src/main.asm"
+    incsrc "./src/gameplay.asm"
     incsrc "./src/nmi.asm"
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
