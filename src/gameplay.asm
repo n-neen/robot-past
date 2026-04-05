@@ -3,32 +3,36 @@ gameplay: {
     ;screen brightness in a bad place
     ;maybe only happens on snes9x?!
     ;todo fix that
+    ;ok i can't reproduce it anymore, no idea lol
     
     
     stz w_player_direction
     stz w_scroll_direction
+    
+    jsl obj_runmain
+    jsl obj_collision
     
     jsl player_main
     jsl scroll_main
     
     ;game goes here
     
-    lda w_controller
-    bit #$c0c0
-    beq +
+    ;lda w_controller
+    ;bit #$c0c0
+    ;beq +
     ;test room change
     
-    ldx #scenedef_room2         ;get scene pointer
-    jsr scenetransition         ;populate scene area of memory
+    ;ldx #scenedef_room2         ;get scene pointer
+    ;jsr scenetransition         ;populate scene area of memory
     
-    lda w_scene_mode            ;transition to program state
-    sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
+    ;lda w_scene_mode            ;transition to program state
+    ;sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
     
-    jsl msg_cleartilemap
+    ;jsl msg_cleartilemap
     
-    jsr fadeout
-    bra ++                      ;maybe we want to avoid doing both msg test and room transition at the same time
-    +
+    ;jsr fadeout
+    ;bra ++                      ;maybe we want to avoid doing both msg test and room transition at the same time
+    ;+
     
     lda w_controller
     bit #$1000

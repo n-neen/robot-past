@@ -97,6 +97,14 @@ w: {
         ..direction     : skip 2
         
         ..animationtimer: skip 2
+        
+        ..xsize         : skip 2
+        ..ysize         : skip 2
+        
+        ..hitboxleft    : skip 2
+        ..hitboxright   : skip 2
+        ..hitboxtop     : skip 2
+        ..hitboxbottom  : skip 2
     }
     
     .level: {
@@ -111,6 +119,9 @@ w: {
         
         ..playerstartx  : skip 2
         ..playerstarty  : skip 2
+        
+        ..objlist       : skip 2
+        ..objlistindex  : skip 2
     }
     
     .scroll: {
@@ -143,6 +154,23 @@ w: {
         ..uploadflag    :   skip 2
         ..size          :   skip 2
         ..start         :   skip 2
+    }
+    
+    .obj: {
+        !obj_count      =   $001f
+        
+        ..id            :   skip 2*!obj_count+2
+        ..xsize         :   skip 2*!obj_count+2
+        ..ysize         :   skip 2*!obj_count+2
+        ..init          :   skip 2*!obj_count+2
+        ..main          :   skip 2*!obj_count+2
+        ..touch         :   skip 2*!obj_count+2
+        
+        ..x             :   skip 2*!obj_count+2
+        ..y             :   skip 2*!obj_count+2
+        ..var1          :   skip 2*!obj_count+2
+        ..var2          :   skip 2*!obj_count+2
+        ..roomptr       :   skip 2*!obj_count+2
     }
     
     .oam: {

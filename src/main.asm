@@ -75,6 +75,8 @@ scenetransition: {
     
     ;scene dialogue/gameplay properties
     
+    ;probably skip the following if it's not a gameplay room
+    
     lda $0000,x
     sta.l w_scene_mode
     
@@ -89,6 +91,9 @@ scenetransition: {
     
     lda $0008,x
     sta.l w_level_playerstarty
+    
+    lda $000a,x
+    sta.l w_level_objlist
     
     plb
     rts
@@ -195,6 +200,8 @@ setup: {
     jsl load_playerpal
     jsl load_playergfx
     
+    jsl obj_clearall
+    
     ;ldy #glow_test
     ;jsl glow_spawn
     
@@ -259,17 +266,13 @@ scenehandler: {
 
 
 loadgame: {
-    ;presumably something happens here
-    ;but right now this is a reserved state
-    
     jsr enablenmi
     jsr screenoff
     
     jsl load_scene
+    jsl obj_clearall
     
-    ;do thing here
-    
-    ;initialize scroll bounds
+    ;initialize scroll
     stz w_scroll_direction
     
     lda #!scroll_upbound_default
@@ -302,13 +305,11 @@ loadgame: {
     sta w_level_cameray
     sta w_bg1yscroll
     
-    
-    ;this should fix stale player onscreen position at the start
-    ;of gameplay, but it doesn't
+    jsl obj_spawnall
+    jsl obj_runinit
     
     jsl player_main
     jsl scroll_main
-    
     
     jsl oam_uploadbuffer
     

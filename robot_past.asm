@@ -26,10 +26,12 @@ org $808000
     incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"
     incsrc "./src/messagebox.asm"
+    incsrc "./src/objects.asm"
     print "80 end: ", pc
     
 org $c00000
     incsrc "./data/inc/scenedefs.asm"
+    incsrc "./data/inc/objlists.asm"
     print "c0 end: ", pc
     
 org $c10000
@@ -47,6 +49,10 @@ org $c30000
 org $c40000
     incsrc "./data/inc/c4.asm"
     print "c4 end: ", pc
+    
+    
+    ;org $c4ffff
+    ;db 00
 
 ;===========================================================================================
 ;==================================               ==========================================

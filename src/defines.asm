@@ -44,7 +44,10 @@
 
 !msg_newline    = $0a
 !msg_end        = $00
-        
+
+
+!obj_list_entry_length      =   datasize(objlist_definitionstart)
+
 
 
 ;controller bit constants

@@ -12,8 +12,45 @@ player: {
         lda w_level_playerstarty
         sta w_player_y
         
-        jsr player_draw              ;test sprite not real
+        lda #$0006
+        sta w_player_xsize          ;radius
         
+        lda #$0006
+        sta w_player_ysize
+        
+        jsr player_draw             ;test sprite not real
+        
+        rtl
+    }
+    
+    
+    .calchitbox: {
+        phb
+        
+        phk
+        plb
+        
+        lda w_player_x              ;player x - x size = left bound
+        sec
+        sbc w_player_xsize
+        sta w_player_hitboxleft
+        
+        lda w_player_x              ;player x + x size = right bound
+        clc
+        adc w_player_xsize
+        sta w_player_hitboxright
+        
+        lda w_player_y              ;player y + y size = bottom bound
+        clc
+        adc w_player_ysize
+        sta w_player_hitboxbottom
+        
+        lda w_player_y              ;player y + y size = top bound
+        sec
+        sbc w_player_ysize
+        sta w_player_hitboxtop
+        
+        plb
         rtl
     }
     

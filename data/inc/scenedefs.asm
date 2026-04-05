@@ -29,18 +29,10 @@ scenedef: {
 
 properties: {
     ;if a scene is a dialogue screen, we need to point at the text scripts
-    ;if a scene is a gameplay room, we need 
-    
-    
-    ;have the following:
-    
-    ;room bounds
-    ;scroll box bounds?
-    ;object list
-    ;sprite list
-    
+    ;if a scene is a gameplay room, we need gameplay data
     .light: {
         dw !state_loadscene
+        ;text script pointers, eventually
     }
     
     .meetsisters: {
@@ -55,32 +47,19 @@ properties: {
         dw !state_loadgame
     }
     
-    .room1: {
-        ;program state to proceed to after loading
-        ;scene pointers
-        dw !state_loadgame
-        
-        ;starting camera position
-        dw $0001, $0001
-        
-        ;starting player position
-        dw $0020, $0055
-        
-        ;maybe somma dis:
-        ;dw objlist_room1
-        ;dw spritelist_room1
+    .room1: {                           ;description                ;number of bytes in
+        dw !state_loadgame              ;program mode to use        ;0
+        dw $0001, $0001                 ;starting camera position   ;2,4
+        dw $0040, $0040                 ;starting player position   ;6,8
+        dw objlist_room1                ;object list pointer        ;a
+        ;dw spritelist_room1            ;unimplemented              ;c
     }
     
     .room2: {
-        dw !state_loadgame
-        
-        ;starting camera position x,y
-        dw $0080, $0080
-        
-        ;starting player position
-        dw $0100, $0100
-        
-        ;dw objlist_room1
-        ;dw spritelist_room1
+        dw !state_loadgame              ;program mode to use
+        dw $0080, $0080                 ;starting camera position x,y
+        dw $0100, $0100                 ;starting player position x,y
+        dw objlist_room2                ;object list pointer
+        ;dw spritelist_room1            ;unimplemented
     }
 }
