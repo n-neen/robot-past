@@ -10,6 +10,7 @@
     
     ..init: {
         ;runs once when object is spawned
+        
         rts
     }
     

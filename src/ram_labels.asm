@@ -157,8 +157,6 @@ w: {
     }
     
     .obj: {
-        !obj_count      =   $001f
-        
         ..id            :   skip 2*!obj_count+2
         ..xsize         :   skip 2*!obj_count+2
         ..ysize         :   skip 2*!obj_count+2
@@ -174,6 +172,7 @@ w: {
         
         ..screenupdates :   skip 2
         ..drawindex     :   skip 2
+        ..index         :   skip 2
     }
     
     .oam: {

@@ -9,13 +9,39 @@
 ;that file is for writing individual objects in this system
 ;
 ;
-;w_obj_var1
+;w_obj_var1: tile for drawing
 ;w_obj_var2
 ;w_obj_var3: used to hold pointers for door and text trigger objects
 ;
 
 
 obj: {
+    .drawall: {
+        phb
+        
+        phk
+        plb
+        
+        ldx #!obj_count*2
+        -
+        
+        lda w_obj_id,x
+        beq +
+        
+        jsr obj_draw
+        
+        +
+        dex
+        dex
+        bpl -
+        
+        
+        plb
+        rtl
+    }
+    
+    
+    
     .draw: {
         ;x = object index
         
@@ -25,61 +51,96 @@ obj: {
         
         ;p_0    used for x coordinate
         ;p_2    used for y coordinate
-        ;p_e    used for adding screen offsets
+        ;p_4    used for adding screen offsets
         
-        
+        phy
         phx
-        phb
         
-        phk
-        plb
-        
+        stx w_obj_index
         stz w_obj_drawindex
-        stz p_e              ;used for adding screen offsets
         
-        ;lda w_obj_x,x       ;x
-        lda w_player_x
-        lsr
-        lsr
-        lsr
-        
-        cmp #$0020
-        bmi +
-        
-        pha
-        lda p_e
-        clc
-        adc #$0800          ;screen +1
-        sta p_e
-        pla
-        
-        +
-        
+        lda w_obj_x,x       ;x
+        ;lda w_player_x
+        ;lsr
+        ;lsr
+        ;lsr
         sta p_0
         
-        ;lda w_obj_y,x       ;y
-        lda w_player_y
-        lsr
-        lsr
-        lsr
-        sta $14
+        lda w_obj_y,x       ;y
+        ;lda w_player_y
+        ;lsr
+        ;lsr
+        ;lsr
+        sta p_2
         
+        lda p_0                 ;if x > $20, we're on right half of screen
+        cmp #$0020
+        bpl ..righthalf
+        
+        ..lefthalf:             ;else, we're on left half
+        lda p_2             
+        cmp #$0020
+        bpl +
+        
+        ldx #!obj_flag_update_screen0   ;if y < $20, we're in screen 0
+        lda #$0000
+        jsr obj_screen
+        bra ..write
+        +
+        
+        ldx #!obj_flag_update_screen2   ;if y > $20, we're in screen 2
+        lda #$1000
+        jsr obj_screen
+        bra ..write
+        ++
+        
+        ..righthalf:                    ;we're on right half
+        lda p_2
         cmp #$0020
         bmi +
         
-        pha
-        lda p_e
-        clc
-        adc #$0800      ;screen + 1
-        sta p_e
-        pla
-        
+        ldx #!obj_flag_update_screen3
+        lda #$1800
+        jsr obj_screen          ;if y > $20, (and on right half), we're in screen 3
+        bra ..write
         +
         
+        ldx #!obj_flag_update_screen1
+        lda #$0800
+        jsr obj_screen          ;else, screen 1
+        ++
+        
+        ..write
+        tax
+        ldy w_obj_index
+        lda w_obj_var1,y        ;tile to draw
+        ;lda #$0234
+        sta.l l_level,x
+        
+        ..return:
+        plx
+        ply
+        rts
+    }
+    
+    
+    .screen: {
+        sta p_4                     ;a = screen offset
+        
+        txa
+        ora w_obj_screenupdates
+        sta w_obj_screenupdates     ;add screen to screen update list
+        
+        lda p_0
+        and #$001f
+        sta p_0
+        ;screen relative position
+        
+        lda p_2
+        and #$001f
         sta p_2
+        ;screen relative position
         
-        
-        ;multiply (y-1)*32
         sep #$20
         
         lda p_2
@@ -91,49 +152,18 @@ obj: {
         rep #$20
         nop #8
         
-        lda $4216           ;result = (y-1)*32
-        
-        clc
-        adc p_0             ;+ x coordinate
+        lda $4216           ;result = y*32
         asl
         
         clc
-        adc p_e             ;add screen offsets
-        sta w_obj_drawindex
-        sta $12
+        adc p_0
+        adc p_0             ;y*32+x*2
         
-        tax
-        lda #$0234
-        sta.l l_level,x
+        clc
+        adc p_4             ;+ screen
         
-        lda w_obj_drawindex
-        cmp #$1800
-        bmi +
-        lda #!obj_flag_update_screen3
-        bra ..return
-        +
-        
-        cmp #$1000
-        bmi +
-        lda #!obj_flag_update_screen2
-        bra ..return
-        +
-        
-        cmp #$0800
-        bmi +
-        lda #!obj_flag_update_screen1
-        bra ..return
-        +
-        
-        lda #!obj_flag_update_screen0
-        
-        ..return:
-        ;lda #$000f
-        sta w_obj_screenupdates
-        
-        plb
-        plx
-        rtl
+        ;return with A = index
+        rts
     }
     
     

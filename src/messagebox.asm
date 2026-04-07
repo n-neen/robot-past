@@ -39,6 +39,7 @@ msg: {
             sta w_msg_uploadflag
             txa
             inc
+            inc
             sta w_msg_size
             jsl waitfornmi_long
             

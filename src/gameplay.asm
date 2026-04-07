@@ -25,28 +25,16 @@ gameplay: {
     beq +
     
     {   ;reset dialog prototype
-        stz w_msg_size
         jsl msg_cleartilemap
+        
+        lda #$0001
+        sta w_msg_uploadflag
+        lda #$0800
+        sta w_msg_size
+        
         jsl layer3off_long
     }
     +
-    
-    lda w_controller
-    bit #!controller_st      ;push start: screen update test
-    beq +
-    
-    {   ;screen update test
-        ;lda #!obj_flag_update_screen0
-        ;lda #$000f
-        ;sta w_obj_screenupdates
-        
-        ldx #!obj_count*2
-        jsl obj_draw
-        
-    }
-    +
-    
-    
     
     rtl
 }

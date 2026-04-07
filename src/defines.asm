@@ -46,6 +46,8 @@
 !msg_end        = $00
 
 
+!obj_count      =   $001f
+
 !obj_list_entry_length      =   datasize(objlist_definitionstart)
 
 !obj_flag_update_screen0    =   %0000000000000001

@@ -266,10 +266,11 @@ scenehandler: {
 
 
 loadgame: {
-    jsr enablenmi
+    jsr disablenmi
     jsr screenoff
     
     jsl load_scene
+    
     jsl obj_clearall
     
     ;initialize scroll
@@ -289,6 +290,10 @@ loadgame: {
     
     jsr layer3off
     jsl msg_cleartilemap
+    lda #$0001
+    sta w_msg_uploadflag
+    lda #$0800
+    sta w_msg_size
     
     jsl player_init
     
@@ -308,12 +313,14 @@ loadgame: {
     
     jsl obj_spawnall
     jsl obj_runinit
+    jsl obj_drawall
     
     jsl player_main
     jsl scroll_main
     
     jsl oam_uploadbuffer
     
+    jsr enablenmi
     jsr waitfornmi
     jsr fadein
     jsr screenon
