@@ -82,12 +82,12 @@ player: {
         phk
         plb
         
-        jsr player_input            ;get input (adds direction bits to w_player_direction)
+        jsr player_input            ;get input. adds direction bits to w_player_direction
         jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_collision        ;removes direction bits from w_player_direction
-        jsr player_applyvelocity
-        jsr player_decelerate
+        jsr player_applyvelocity    ;use subspeed and speed to affect player position
+        jsr player_decelerate       ;use the same to do the same (but inverse, if dpad not held)
         
         lda w_player_direction
         jsr player_move             ;move in the directions of remaining direction bits
@@ -289,11 +289,18 @@ player: {
         }
         
         ..solid: {
-            lda w_player_direction
-            eor #$0f00
-            jsr player_move
+            ;stz w_player_xspeed
+            ;stz w_player_yspeed
             
-            stz w_player_direction
+            lda w_player_yspeed
+            eor #$ffff
+            inc
+            sta w_player_yspeed
+            
+            lda w_player_yspeed
+            eor #$ffff
+            inc
+            sta w_player_yspeed
 
             rts
         }
@@ -398,6 +405,28 @@ player: {
     .input: {
         lda w_controller
         
+        bit #!controller_a
+        beq ..noa
+        {
+            ;if a pressed
+            pha
+            
+            stz w_player_xspeed
+            stz w_player_yspeed
+            
+            stz w_player_ysubspeed
+            stz w_player_ysubspeed
+            
+            stz w_player_suby
+            stz w_player_subx
+            
+            stz w_player_direction
+            
+            pla
+        }
+        ..noa:
+        
+        
         bit #!controller_up
         beq ..noup
         {
@@ -453,28 +482,6 @@ player: {
             pla
         }
         ..nort:
-        
-        bit #!controller_a
-        beq ..noa
-        {
-            ;if a pressed
-            pha
-            
-            stz w_player_xspeed
-            stz w_player_yspeed
-            
-            stz w_player_ysubspeed
-            stz w_player_ysubspeed
-            
-            stz w_player_suby
-            stz w_player_subx
-            
-            stz w_player_direction
-            
-            pla
-        }
-        ..noa:
-        
         
         rts
     }

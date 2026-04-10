@@ -116,6 +116,12 @@ nmippuregisters: {
         lda w_subscreenlayers
         sta $212d
         
+        lda w_colormathlayers
+        sta $2131
+        
+        lda w_colormathlogic
+        sta $2130
+        
     }
     rep #$20
     

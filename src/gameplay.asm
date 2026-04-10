@@ -18,13 +18,14 @@ gameplay: {
     
     jsl player_main         ;adds direction bits based on dpad and moves
     jsl scroll_main
+    jsl scroll_bg2
     
     
     
     ;game goes here
     
     lda w_controller
-    bit #!controller_a      ;push A: clear text
+    bit #!controller_x      ;push A: clear text
     beq +
     
     {

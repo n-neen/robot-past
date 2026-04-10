@@ -339,6 +339,8 @@ loadgame: {
     sta w_mainscreenlayers
     rep #$20
     
+    ;jsl load_bg2test
+    
     lda w_level_camerastartx
     sta w_level_camerax
     sta w_bg1xscroll

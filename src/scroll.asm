@@ -203,4 +203,20 @@ scroll: {
         rts
     }
     
+    
+    .bg2: {
+        ;todo
+        
+        lda w_bg1xscroll
+        clc
+        adc w_player_x
+        sta w_bg2xscroll
+        
+        lda w_bg1yscroll
+        clc
+        adc w_player_y
+        sta w_bg2yscroll
+        
+        rtl
+    }
 }

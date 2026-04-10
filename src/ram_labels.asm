@@ -67,6 +67,8 @@ w: {
     
     .subscreenlayers    : skip 1
     .mainscreenlayers   : skip 1
+    .colormathlayers    : skip 1
+    .colormathlogic     : skip 1
     
     ;dma arguments
     .dmabaseaddr        : skip 2
@@ -91,7 +93,6 @@ w: {
         ..y                 : skip 2
         ..suby              : skip 2
         
-        print pc
         ..xspeed            : skip 2
         ..yspeed            : skip 2
         ..xsubspeed         : skip 2

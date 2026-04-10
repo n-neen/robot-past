@@ -337,6 +337,33 @@ load: {
     }
     
     
+    .bg2test: {
+        ;layer 2 test
+        
+        sep #$20
+        {
+            lda w_subscreenlayers
+            ora #%00000010
+            sta w_subscreenlayers
+            
+            lda #%10110011
+            sta w_colormathlayers
+            
+            lda #%00000010
+            sta w_colormathlogic
+        }
+        rep #$20
+        
+        lda #$0800                  ;tilemap size
+        ldx #!bg2tilemap            ;destination in vram
+        jsl load_levelbuffertovram  ;dma tilemap to vram
+        
+        
+        
+        rtl
+    }
+    
+    
     .updatelevelscreen: {
         ;screen 0, 1, 2 or 3
         
