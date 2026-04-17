@@ -66,7 +66,7 @@
         lda w_scene_mode            ;transition to program state
         sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
         
-        jsr fadeout
+        jsl fadeout_long
         
         plx
         rts
@@ -101,32 +101,32 @@
     }
     
     ..touch: {
-        phx
         
         lda #!collision_type_solid
         sta w_player_collisiontype
         
-        {
-            ;test harness for dynamic spawning
-            lda w_obj_x,x       ;x+3,y+3
-            inc
-            inc
-            inc
-            sta p_0
-            
-            lda w_obj_y,x
-            inc
-            inc
-            inc
-            sta p_2
-            
-            lda #obj_solid
-            jsl obj_dynamicspawn
-        }
+        phx
+        ;{
+        ;    ;test harness for dynamic spawning
+        ;    lda w_obj_x,x       ;x+3,y+3
+        ;    inc
+        ;    inc
+        ;    inc
+        ;    sta p_0
+        ;    
+        ;    lda w_obj_y,x
+        ;    inc
+        ;    inc
+        ;    inc
+        ;    sta p_2
+        ;    
+        ;    lda #obj_solid
+        ;    jsl obj_dynamicspawn
+        ;}
         
         plx
         
-        jsr obj_clear
+        ;jsr obj_clear
         rts
     }
     
@@ -186,15 +186,7 @@
 }
 
 
-
-
-
-
-
 .dialogtrigger: {
-    ;unfinished
-    
-    
     db $02, $02         ;x, y radii
     dw ..init           ;\
     dw ..main           ; routine pointers
@@ -217,25 +209,29 @@
         ;x = obj index
         phx
         
-        lda w_scene_definitionptr
+        lda w_scene_ptr
         sta w_prevscene
         
         lda w_obj_var3,x
         tax
         jsl scenetransition_long
         
-        lda w_scene_mode            ;transition to program state
+        lda #!state_loadnongame     ;transition to program state
+        sta w_scene_mode
         sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
         
-        jsr obj_clear
+        jsl fadeout_long
+        
+        jsl msg_reset
         
         plx
+        jsr obj_clear
         rts
     }
     
     ..draw: {
         db $02
-        db $00, $00 : dw $0000
-        db $01, $01 : dw $0001
+        db $00, $00 : dw $00ff
+        db $01, $01 : dw $00fe
     }
 }

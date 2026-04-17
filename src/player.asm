@@ -488,7 +488,7 @@ player: {
             ;if x pressed
             pha
             
-            jsr irq_setupplayerline
+            ;jsr irq_setupplayerline
             
             pla
         }

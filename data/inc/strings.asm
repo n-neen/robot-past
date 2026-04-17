@@ -86,10 +86,21 @@ str: {
         db !msg_end
     }
 
-
-
-
-
-
-
+    .entrance: {
+        db "             within"
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db "              this"
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db "              cave"
+        db !msg_end
+    }
+    
+    
+    
+    
+    
 }

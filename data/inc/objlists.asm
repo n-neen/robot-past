@@ -23,10 +23,14 @@ objlist: {
     }
     
     .room2: {
-                        ;type,             x    y   var1,  var2,  var3
-        %obj_list_entry (obj_door,        $1a, $13, $0234, $0223, scenedef_room1)
-        %obj_list_entry (obj_texttrigger, $1a, $33, $2012, $0003, str_testtext)
-        %obj_list_entry (obj_texttrigger, $2a, $33, $2012, $0008, str_text2)
+                        ;type,               x    y   var1,  var2,  var3
+        %obj_list_entry (obj_door,          $1a, $13, $0234, $0223, scenedef_room1)
+        %obj_list_entry (obj_texttrigger,   $1a, $33, $2012, $0003, str_testtext)
+        %obj_list_entry (obj_texttrigger,   $2a, $33, $2012, $0008, str_text2)
+        
+        %obj_list_entry (obj_dialogtrigger, $08, $10, $0000, $0000, scenedef_entrance)
+        
+        
         dw $ffff    ;terminator
     }
 }

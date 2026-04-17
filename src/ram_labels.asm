@@ -160,7 +160,8 @@ w: {
     .prevscene          : skip 2        ;scene to return to after dialog
     
     .scene: {
-        ..definitionptr : skip 2
+        ..ptr           : skip 2        ;location of scenedef in scenedef.asm
+        ..definitionptr : skip 2        ;location of scene data that follows
         ..bank          : skip 2
         ..palptr        : skip 2
         ..gfxptr        : skip 2

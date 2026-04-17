@@ -10,21 +10,24 @@ scenedef: {
         dw properties_<label>       ;gameplay properties            ;d
     endmacro
     
-    ;list of scenes
-    
     ;run superfamiconv to output every scene using at most the bottom 7 palettes
     ;of bg palette area. reserve top 16 colors for bg3!
     ;the routine load_romtocolorbuffer will start at the second palette
-    .leveltest:         %scenedefentry(leveltest)           ;unused
     
+    ;unused
+    .leveltest:         %scenedefentry(leveltest)       ;room
+    .light:             %scenedefentry(light)           ;text
     
-    .light:             %scenedefentry(light)               ;unused
+    ;intro text scenes
     .meetsisters:       %scenedefentry(meetsisters)
     .bloodlotus:        %scenedefentry(bloodlotus)
     .flamecircle:       %scenedefentry(flamecircle)
     .city:              %scenedefentry(city)
     
+    ;dialog text scenes (gameplay subscenes)
+    .entrance:          %scenedefentry(entrance)
     
+    ;gameplay rooms
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
 }
@@ -58,7 +61,7 @@ properties: {
         dw $0000                    ;hdma object to spawn and run
     }
     
-    .city: {
+    .city: {                        ;intro 4
         dw !state_loadscene
         dw str_intro4
         db $04
@@ -70,6 +73,14 @@ properties: {
         db $10
         dw $0000                    ;hdma object to spawn and run
     }
+    
+    .entrance: {
+        dw !state_loadscene         ;not actually used for dialog scenes
+        dw str_entrance
+        db $0a                      ;starting line
+        dw $0000                    ;hdma object to spawn and run
+    }
+    
     
     .room1: {                           ;description                ;number of bytes in
         dw !state_loadgame              ;program mode to use        ;0

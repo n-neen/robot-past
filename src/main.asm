@@ -26,11 +26,13 @@ main: {
     }
     
     .table: {
-        dw setup            ;0
-        dw scenehandler     ;1
-        dw loadscene        ;2
-        dw gameplayvector   ;3
-        dw loadgame         ;4
+        dw setup                    ;0
+        dw introhandler             ;1
+        dw loadscene                ;2
+        dw gameplayvector           ;3
+        dw loadgame                 ;4
+        dw loadnongameplayscene     ;5
+        dw nongameplayhandler       ;6
     }
 }
 
@@ -58,9 +60,14 @@ scenetransition: {
     ;arguments:
     ;x = scene pointer in scenedef bank
     
+    phk
+    plb
+    
+    stx w_scene_ptr                         ;save this first
+    
     phb
     
-    pea.w (($ff0000&scenedef)>>8)+0         ;db = scene def bank (7e)
+    pea.w (($ff0000&scenedef)>>8)+0         ;db = scene def bank
     plb
     plb
     
@@ -141,6 +148,77 @@ scenetransition: {
 }
 
 
+loadnongameplayscene: {
+    jsr waitfornmi
+    jsr screenoff
+    jsr disablenmi
+    
+    stz w_hdma_enable
+    stz w_glow_enable
+    stz w_scene_timer
+    
+    stz w_bg1xscroll
+    
+    lda #$03ff
+    sta w_bg1yscroll
+    
+    jsl load_scene
+    
+    lda #!state_nongamehandler
+    sta w_programstate
+    
+    jsr layer3on
+    jsr spritesoff
+    
+    jsr enablenmi
+    jsr waitfornmi
+    jsr fadein
+    
+    rts
+}
+
+
+spritesoff: {
+    sep #$20
+    
+    lda w_mainscreenlayers
+    and #%11101111
+    sta w_mainscreenlayers
+    
+    rep #$20
+    rts
+}
+
+
+nongameplayhandler: {
+    lda w_scene_timer
+    bne +
+    stz w_bg3yscroll
+    
+    ldx w_scene_strptr
+    ldy w_scene_strline
+    jsl msg_display
+    +
+    
+    lda w_controller
+    beq +
+    {
+        ldx w_prevscene
+        jsr scenetransition
+        
+        lda #!state_loadgame
+        sta w_programstate
+        
+        jsr fadeout
+    }
+    +
+    
+    inc w_scene_timer
+    
+    rts
+}
+
+
 loadscene: {
     jsr waitfornmi
     jsr screenoff
@@ -152,7 +230,7 @@ loadscene: {
     
     jsl load_scene
     
-    lda #!state_scenehandler
+    lda #!state_introhandler
     sta w_programstate
     
     jsr layer3on
@@ -262,7 +340,7 @@ gameplayvector: {
 }
 
 
-scenehandler: {
+introhandler: {
     lda w_scene_hdmaobj
     beq +
     lda #$0001
@@ -298,7 +376,7 @@ scenehandler: {
         lda w_testsceneindex
         asl
         tax
-        lda.l scenehandler_testtable,x
+        lda.l introhandler_testtable,x
         tax
         jsr scenetransition             ;initiate scene change
         
@@ -421,6 +499,11 @@ fadeout: {
     
     jsr screenoff
     rts
+    
+    .long: {
+        jsr fadeout
+        rtl
+    }
 }
 
 
@@ -444,4 +527,9 @@ fadein: {
     ;returns with screen brightness = $0f
     jsr screenon
     rts
+    
+    .long: {
+        jsr fadein
+        rtl
+    }
 }
