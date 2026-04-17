@@ -90,8 +90,6 @@ w: {
     
     .irq: {
         ..command       : skip 2
-        ..htarget       : skip 2
-        ..vtarget       : skip 2
     }
     
     .player: {

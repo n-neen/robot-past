@@ -405,28 +405,6 @@ player: {
     .input: {
         lda w_controller
         
-        bit #!controller_a
-        beq ..noa
-        {
-            ;if a pressed
-            pha
-            
-            stz w_player_xspeed
-            stz w_player_yspeed
-            
-            stz w_player_ysubspeed
-            stz w_player_ysubspeed
-            
-            stz w_player_suby
-            stz w_player_subx
-            
-            stz w_player_direction
-            
-            pla
-        }
-        ..noa:
-        
-        
         bit #!controller_up
         beq ..noup
         {
@@ -482,6 +460,68 @@ player: {
             pla
         }
         ..nort:
+        
+        bit #!controller_b
+        beq ..nob
+        {
+            ;if b pressed
+            pha
+            
+            stz w_player_xspeed
+            stz w_player_yspeed
+            
+            stz w_player_ysubspeed
+            stz w_player_ysubspeed
+            
+            stz w_player_suby
+            stz w_player_subx
+            
+            stz w_player_direction
+            
+            pla
+        }
+        ..nob:
+        
+        bit #!controller_x
+        beq ..nox
+        {
+            ;if x pressed
+            pha
+            
+            jsr irq_setupplayerline
+            
+            pla
+        }
+        ..nox:
+        
+        bit #!controller_y
+        beq ..noy
+        {
+            ;if y pressed
+            pha
+            
+            jsr player_decelerate
+            jsr player_decelerate
+            
+            pla
+        }
+        ..noy:
+        
+        bit #!controller_a
+        beq ..noa
+        {
+            ;if a pressed
+            pha
+            
+            jsl msg_reset
+            jsl layer3off_long
+            
+            pla
+        }
+        ..noa:
+        
+        
+        
         
         rts
     }

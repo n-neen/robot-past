@@ -11,6 +11,9 @@ irq: {
     phx
     phy
     
+    phk
+    plb
+    
     lda $4211               ;acknowledge interrupt
     
     jml .setbank            ;maybe not necessary if this is short enough
@@ -105,11 +108,9 @@ irq: {
         lda w_player_y_onscreen
         inc
         inc
-        sta w_irq_vtarget
         sta $4209
         
-        lda #$0050
-        sta w_irq_htarget
+        lda #$0040
         sta $4207
         
         sep #$20
@@ -136,7 +137,7 @@ irq: {
         
         sep #$10
         
-        ldx #$a0                    ;1      cgadd
+        ldx #$f0                    ;1      cgadd
         stx $2121
         
         ldx #%00000010              ;1      transfur mode: write twice
