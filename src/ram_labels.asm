@@ -157,7 +157,7 @@ w: {
         ;todo: put other camera stuff here
     }
     
-    .prevscene          : skip 2        ;scene to return to after dialog
+    .nextscene          : skip 2        ;scene to return to after dialog
     
     .scene: {
         ..ptr           : skip 2        ;location of scenedef in scenedef.asm

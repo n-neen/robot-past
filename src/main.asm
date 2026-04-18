@@ -203,7 +203,7 @@ nongameplayhandler: {
     lda w_controller
     beq +
     {
-        ldx w_prevscene
+        ldx w_nextscene
         jsr scenetransition
         
         lda #!state_loadgame

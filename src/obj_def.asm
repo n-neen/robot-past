@@ -25,8 +25,8 @@
     }
     
     ..draw: {
-        db $01
-        db $00, $00 : dw $0000
+        db $01                      ;number of tiles
+        db $00, $00 : dw $0000      ;x,y position; tile to draw
     }
 }
 
@@ -193,9 +193,9 @@
     dw ..touch          ;/
     dw ..draw           ;draw instruction ptr
     
-    ;var1   
-    ;var2
-    ;var3   scene pointer
+    ;var1   next scene after dialog
+    ;var2   string pointer
+    ;var3   scene pointer for dialog
     
     ..init: {
         rts
@@ -208,13 +208,18 @@
     ..touch: {
         ;x = obj index
         phx
-        
-        lda w_scene_ptr
-        sta w_prevscene
+        phx
         
         lda w_obj_var3,x
         tax
-        jsl scenetransition_long
+        jsl scenetransition_long    ;populate memory for next scene
+        plx
+        
+        lda w_obj_var2,x            ;string ptr
+        sta w_scene_strptr
+        
+        lda w_obj_var1,x            ;
+        sta w_nextscene
         
         lda #!state_loadnongame     ;transition to program state
         sta w_scene_mode
@@ -225,13 +230,13 @@
         jsl msg_reset
         
         plx
-        jsr obj_clear
         rts
     }
     
     ..draw: {
-        db $02
+        db $03
+        db $ff, $ff : dw $00ff
         db $00, $00 : dw $00ff
-        db $01, $01 : dw $00fe
+        db $01, $01 : dw $00ff
     }
 }

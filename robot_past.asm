@@ -57,7 +57,7 @@ org $c50000
     print "c5 end: ", pc
     
 org $c60000
-    ;incsrc "./data/inc/c5.asm"
+    incsrc "./data/inc/c6.asm"
     print "c6 end: ", pc
     
 org $c70000
