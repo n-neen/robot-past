@@ -480,6 +480,7 @@ C0:01BE str_intro1
 C0:01F4 str_intro2
 C0:0204 str_intro3
 C0:0225 str_intro4
+C0:0291 str_poem
 C0:0130 str_testtext
 C0:0198 str_text2
 7E:0100 w
@@ -640,7 +641,7 @@ C0:0198 str_text2
 000d 61533bf4 ./src/obj_def.asm
 000e 41300168 c:/users/keenan/desktop/robot_past/robot_past/data/inc/scenedefs.asm
 000f 1a45ed6b c:/users/keenan/desktop/robot_past/robot_past/data/inc/objlists.asm
-0010 82c68863 c:/users/keenan/desktop/robot_past/robot_past/data/inc/strings.asm
+0010 5d610c51 c:/users/keenan/desktop/robot_past/robot_past/data/inc/strings.asm
 0011 31b9ecb2 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c1.asm
 0012 16607059 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c2.asm
 0013 a7b919c4 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c3.asm
@@ -650,7 +651,7 @@ C0:0198 str_text2
 0017 1c1c1018 c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-72edb346
+b398bcd2
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -3304,6 +3305,13 @@ c0:027c 0010:00000060
 c0:027d 0010:00000061
 c0:027e 0010:00000062
 c0:0290 0010:00000063
+c0:0291 0010:00000067
+c0:02b5 0010:00000068
+c0:02b6 0010:00000069
+c0:02d9 0010:0000006a
+c0:02da 0010:0000006b
+c0:02db 0010:0000006c
+c0:02fe 0010:0000006d
 c1:0000 0011:00000007
 c1:000e 0011:00000008
 c1:001c 0011:00000009

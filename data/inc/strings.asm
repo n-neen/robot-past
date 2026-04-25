@@ -99,7 +99,15 @@ str: {
         db !msg_end
     }
     
-    
+    .poem: {
+        db "a thought occurs and brings a scream"
+        db !msg_newline
+        db "out in the agony of returning to me"
+        db !msg_newline
+        db !msg_newline
+        db "the sound of your voice is a melody"
+        db !msg_end
+    }
     
     
     
