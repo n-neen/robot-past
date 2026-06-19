@@ -39,9 +39,9 @@ p: {
 
 d: {
     org $20
-    ;
-    ;todo
-    ;
+    
+    .hcounter   :   skip 2
+    .vcounter   :   skip 2
 }
 
 
@@ -121,23 +121,26 @@ w: {
         ..hitboxbottom      : skip 2
         
         ..collisiontype     : skip 2
+        ..tileindex         : skip 2    ;15a
     }
     
     .level: {
-        ..camerax       : skip 2
-        ..cameray       : skip 2
+        ..camerax           : skip 2
+        ..cameray           : skip 2
         
-        ..camerasubx    : skip 2
-        ..camerasuby    : skip 2
+        ..camerasubx        : skip 2
+        ..camerasuby        : skip 2
         
-        ..camerastartx  : skip 2
-        ..camerastarty  : skip 2
+        ..camerastartx      : skip 2
+        ..camerastarty      : skip 2
         
-        ..playerstartx  : skip 2
-        ..playerstarty  : skip 2
+        ..playerstartx      : skip 2
+        ..playerstarty      : skip 2
         
-        ..objlist       : skip 2
-        ..objlistindex  : skip 2
+        ..objlist           : skip 2
+        ..objlistindex      : skip 2
+        
+        ..collisionmap_ptr  : skip 2
     }
     
     .scroll: {
@@ -185,7 +188,25 @@ w: {
     }
     
     .obj: {
+        macro objarrayentry(length, name)
+            !a #= 0
+            
+            ..<name>:
+            
+            while !a < <length>
+                
+                ..<name>_!a:
+                skip 2
+                
+               !a #= !a+2
+            endwhile
+        endmacro
+        
         ..id            :   skip 2*!obj_count+2
+        ;%objarrayentry((2*!obj_count+2), id)
+        
+        
+        
         ..xsize         :   skip 2*!obj_count+2
         ..ysize         :   skip 2*!obj_count+2
         ..init          :   skip 2*!obj_count+2
@@ -266,12 +287,14 @@ org $7f0000
 
 l: {
     .level: {
-        ..screen0   :   skip $800
-        ..screen1   :   skip $800
-        ..screen2   :   skip $800
-        ..screen3   :   skip $800
+        ..screen0   :   skip $800   ;7f0000
+        ..screen1   :   skip $800   ;7f0800
+        ..screen2   :   skip $800   ;7f1000
+        ..screen3   :   skip $800   ;7f1800
         
-        ..extra     :   skip $6000      ;reserved space
+        ..collision :   skip $1000  ;7f2000-3000
+        
+        ..extra     :   skip $5000      ;reserved space
     }
     .decompressionbuffer    :   skip $8000
 }

@@ -123,6 +123,9 @@ scenetransition: {
     lda $000a,x
     sta.l w_level_objlist
     
+    lda $000c,x
+    sta.l w_level_collisionmap_ptr
+    
     plb
     rts
     
@@ -458,6 +461,8 @@ loadgame: {
     lda w_level_camerastarty
     sta w_level_cameray
     sta w_bg1yscroll
+    
+    jsl load_collisionmap
     
     jsl obj_spawnall
     jsl obj_runinit

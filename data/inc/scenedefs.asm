@@ -38,7 +38,7 @@ scenedef: {
         dw icecave1_map             ;tilemap                        ;7
         dw datasize(entrance_gfx)   ;graphics size                  ;9
         dw datasize(icecave1_map)   ;tilemap size                   ;b
-        dw properties_icecave1      ;gameplay properties            ;d
+        dw properties_icecave1      ;gameplay properties            ;d  
 }
 
 
@@ -90,13 +90,14 @@ properties: {
         dw $0000                    ;hdma object to spawn and run
     }
     
+    ;gameplay scenes========================================================================
     
     .room1: {                           ;description                ;number of bytes in
         dw !state_loadgame              ;program mode to use        ;0
         dw $0001, $0001                 ;starting camera position   ;2,4
         dw $0028, $0058                 ;starting player position   ;6,8
         dw objlist_room1                ;object list pointer        ;a
-        ;dw spritelist_room1            ;unimplemented              ;c
+        dw collisionmap_room1           ;unimplemented              ;c
     }
     
     .room2: {
@@ -104,7 +105,7 @@ properties: {
         dw $0100, $0000                 ;starting camera position x,y
         dw $01e0, $0080                 ;starting player position x,y
         dw objlist_room2                ;object list pointer
-        ;dw spritelist_room1            ;unimplemented
+        dw collisionmap_room2           ;unimplemented
     }
     
     .icecave1: {
@@ -112,6 +113,6 @@ properties: {
         dw $0000, $0000                 ;starting camera position x,y
         dw $0080, $0080                 ;starting player position x,y
         dw objlist_icecave1             ;object list pointer
-        ;dw spritelist_room1            ;unimplemented
+        dw collisionmap_icecave1        ;unimplemented
     }
 }

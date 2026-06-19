@@ -77,6 +77,42 @@ player: {
         rts
     }
     
+    .locateontile: {
+        ;db=pb
+        
+        ;(player_y/8)*level_width+(player_x/8)
+        
+        lda w_player_x
+        lsr
+        lsr
+        lsr
+        sta p_0             ;player x pixel position/8
+        
+        lda w_player_y
+        lsr
+        lsr
+        lsr                 ;player x pixel position/8
+        sep #$20
+        
+        sta $4202
+        
+        lda.b #!level_width ;player y*level width
+        sta $4203
+        
+        rep #$20
+        nop #8
+        
+        lda $4216
+        
+        clc
+        adc p_0             ;+ player x
+        
+        sta w_player_tileindex
+        
+        rts
+    }
+    
+    
     
     .main: {
         phk
@@ -85,6 +121,7 @@ player: {
         jsr player_input            ;get input. adds direction bits to w_player_direction
         jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
+        jsr player_locateontile     ;translate player pixel position into tile index
         jsr player_collision        ;removes direction bits from w_player_direction
         jsr player_applyvelocity    ;use subspeed and speed to affect player position
         jsr player_decelerate       ;use the same to do the same (but inverse, if dpad not held)
@@ -266,9 +303,17 @@ player: {
     
     
     .collision: {
-        lda w_player_collisiontype
+        ;lda w_player_collisiontype
+        ;asl
+        ;tax
+        
+        lda w_player_tileindex
+        tax
+        lda.l l_level_collision,x
         asl
         tax
+        
+        
         
         jsr (player_collision_table,x)
         
@@ -486,9 +531,14 @@ player: {
         beq ..nox
         {
             ;if x pressed
+            
             pha
             
-            ;jsr irq_setupplayerline
+            sep #$20
+            {
+                ;uhhhhhhhhhhhhhhh
+            }
+            rep #$20
             
             pla
         }
@@ -500,6 +550,7 @@ player: {
             ;if y pressed
             pha
             
+            ;A = direction bits already
             jsr player_decelerate
             jsr player_decelerate
             

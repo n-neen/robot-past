@@ -19,12 +19,12 @@ org $808000                             ;main system bank
     incsrc "./src/gameplay.asm"
     incsrc "./src/interrupts.asm"
     incsrc "./src/dma.asm"
-    incsrc "./src/hdma.asm"
+    incsrc "./src/hdma.asm"             ;broken, unfinished
     incsrc "./src/scroll.asm"
     incsrc "./src/loading.asm"
     incsrc "./src/player.asm"
     incsrc "./src/sprites.asm"
-    incsrc "./src/color_cycling.asm"
+    incsrc "./src/color_cycling.asm"    ;broken, unfinished
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     
@@ -33,6 +33,7 @@ org $808000                             ;main system bank
 org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
+    incsrc "./data/inc/collision_maps.asm"
     incsrc "./data/inc/strings.asm"
     print "c0 end: ", pc
     

@@ -206,6 +206,10 @@ init: {
     
     stz.w w_programstate
     stz.w w_prestate
+    
+    print pc, " decompression test"
+    jsl decompressiontest
+    
 }
 
 ;fall through to main

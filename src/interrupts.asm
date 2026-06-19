@@ -366,6 +366,8 @@ waitfornmi: {
     ;jsr debug_showcpu
     ;+
     
+    jsr showcpu
+    
     .waitloop: {
         lda w_nmiflag
     } : bne .waitloop
@@ -376,6 +378,26 @@ waitfornmi: {
         jsr waitfornmi
         rtl
     }
+}
+
+
+showcpu: {
+    sep #$20
+    
+    lda $2137
+    lda $213f
+    
+    lda $213c
+    sta d_hcounter
+    
+    lda $2137
+    lda $213f
+    
+    lda $213d
+    sta d_vcounter
+    
+    rep #$20
+    rts
 }
 
 

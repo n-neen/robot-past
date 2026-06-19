@@ -70,6 +70,38 @@ load: {
         rtl
     }
     
+    .collisionmap: {
+        ;p_0 = short pointer in collisionmap bank)
+        
+        phb
+        phx
+        phy
+        
+        pea.w bank(collisionmap)<<8
+        plb
+        plb
+        
+        lda.l w_level_collisionmap_ptr
+        sta p_0
+        
+        ldy #!collision_map_size
+        ldx #!collision_map_size
+        
+        -
+        lda (p_0),y
+        sta l_level_collision,x
+        dex
+        dex
+        dey
+        dey
+        bpl -
+        
+        ply
+        plx
+        plb
+        rtl
+    }
+    
     
     .romtobuffer: {
         ;copy from rom to buffer
@@ -471,4 +503,87 @@ load: {
         ..return:
         rtl
     }
+}
+
+
+decompress: {
+    ;RLE decompression
+    ;format to be output by a python script i have yet to write
+    
+    ;p_0                    = long pointer to source (p_2 is the bank)
+    ;p_4                    = counter for repeats
+    ;l_decompressionbuffer  = destination
+    
+    ;format:
+    ;ss ss = size in words (number of times to repeat)
+    ;dd dd = the data to repeat s times
+    ;repeat until terminator (size of $0000)
+    phb
+    phx
+    phy
+    
+    pei (p_1)   ;db = source bank
+    plb
+    plb
+    
+    ldy #$fffe
+    ldx #$0000
+    
+    .next
+    
+    iny
+    iny
+    
+    lda (p_0),y                     ;read size
+    beq .done
+    sta p_4
+    
+    iny                             ;next word
+    iny
+    
+    lda (p_0),y                     ;fill
+    -
+    sta.l l_decompressionbuffer,x
+    inx
+    inx
+    dec p_4
+    bne -
+    bra .next
+    
+    .done
+    ply
+    plx
+    plb
+    rtl
+}
+
+decompressiontest: {
+    lda #decompressiontestdata
+    sta p_0
+    
+    lda #bank(decompressiontestdata)
+    sta p_2
+    
+    jsl decompress
+    
+    rtl
+}
+
+
+
+decompressiontestdata: {
+    .1
+        dw $0008        ;repeat counter
+        dw $1234        ;fill word
+        
+        dw $0080        
+        dw $5678
+        
+        dw $0000        ;end
+    
+    .2
+        dw $0800        ;repeat counter
+        dw $1122
+        
+        dw $0000
 }

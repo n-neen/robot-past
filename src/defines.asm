@@ -56,6 +56,9 @@
 !collision_type_preventright    =   $0004
 !collision_type_solid           =   $0005
 
+!collision_map_size             =   $1000
+
+!level_width                    =   $40
 
 !player_xsize_default           =   $0004
 !player_ysize_default           =   $0004
