@@ -72,6 +72,7 @@ load: {
     
     .collisionmap: {
         ;p_0 = short pointer in collisionmap bank)
+        ;print pc
         
         phb
         phx

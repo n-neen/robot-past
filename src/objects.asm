@@ -56,6 +56,9 @@ obj: {
         
         -
         sep #$20
+        stz p_1             ;these bytes can be dirty from other usages of p_0/p_2 in 16 bit A
+        stz p_3             ;just clean them up here ok
+        
         lda $0000,y         ;signed byte (x pos) of tile relative to object tile
         clc
         adc w_obj_x,x
@@ -121,7 +124,7 @@ obj: {
         bpl ..righthalf
         
         ..lefthalf:             ;else, we're on left half
-        lda p_2             
+        lda p_2
         cmp #$0020
         bpl +
         

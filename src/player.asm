@@ -301,19 +301,17 @@ player: {
         }
     }
     
-    
     .collision: {
         ;lda w_player_collisiontype
         ;asl
         ;tax
         
         lda w_player_tileindex
+        and #$00ff
         tax
         lda.l l_level_collision,x
         asl
         tax
-        
-        
         
         jsr (player_collision_table,x)
         
