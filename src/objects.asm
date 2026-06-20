@@ -56,20 +56,22 @@ obj: {
         
         -
         sep #$20
-        stz p_1             ;these bytes can be dirty from other usages of p_0/p_2 in 16 bit A
-        stz p_3             ;just clean them up here ok
-        
-        lda $0000,y         ;signed byte (x pos) of tile relative to object tile
-        clc
-        adc w_obj_x,x
-        sta p_0             ;x tile to write to
-        
-        lda $0001,y
-        clc
-        adc w_obj_y,x
-        sta p_2             ;y tile to write to
-        
+        {
+            stz p_1         ;these bytes can be dirty from other usages of p_0/p_2 in 16 bit A
+            stz p_3         ;just clean them up here ok
+            
+            lda $0000,y     ;signed byte (x pos) of tile relative to object tile
+            clc
+            adc w_obj_x,x
+            sta p_0         ;x tile to write to
+            
+            lda $0001,y
+            clc
+            adc w_obj_y,x
+            sta p_2         ;y tile to write to
+        }
         rep #$20
+        
         lda $0002,y
         sta w_obj_tile,x
         

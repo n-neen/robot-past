@@ -34,7 +34,7 @@
 !fade_timer_default         =   $0010
 
 
-;player and camera constants
+;================================ camera/scroll
 
 !scroll_upbound_default     =   $0001       ;used in scroll.asm
 !scroll_downbound_default   =   $00ff
@@ -60,6 +60,9 @@
 
 !level_width                    =   $40
 
+
+;================================ player
+
 !player_xsize_default           =   $0004
 !player_ysize_default           =   $0004
 
@@ -69,12 +72,15 @@
 !player_y_subvelocity           =   $0800
 !player_y_velocity              =   $0000
 
+!player_max_speed               =   0002
+
+;================================ messagebox
 
 !msg_newline    = $0a                       ;used in messagebox.asm
 !msg_end        = $00                       ;and in strings.asm
 
 
-;object constants
+;================================ object
 
 !obj_count      =   $001f
 
