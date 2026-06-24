@@ -23,17 +23,17 @@ org $808000                             ;main system bank
     incsrc "./src/scroll.asm"
     incsrc "./src/loading.asm"
     incsrc "./src/player.asm"
-    incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"    ;broken, unfinished
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
+    incsrc "./src/fae.asm"
     
     print "80 end: ", pc
     
 org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
-    incsrc "./data/inc/collision_maps.asm"
+    incsrc "./data/inc/collision_maps.asm"  ;probably move this into bulk data section
     incsrc "./data/inc/strings.asm"
     print "c0 end: ", pc
     
@@ -62,7 +62,7 @@ org $c60000
     print "c6 end: ", pc
     
 org $c70000
-    ;incsrc "./data/inc/c5.asm"
+    incsrc "./data/spritemap/spritemaps.asm"
     print "c7 end: ", pc
     
     ;pad the rom

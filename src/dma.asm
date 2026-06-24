@@ -178,6 +178,119 @@ dma: {
             dw $3800
         }
     }
+}
+
+oam: {
+    .uploadbuffer: {
+        ;runs in vblank
+        
+        phx
+        php
+        
+        sep #$10                        ;8 bit x/y mode
+        rep #$20                        ;16 bit A
+        
+                                        ;width  register
+        stz $2102                       ;1      oam high starting addr = 0
+        
+        ldx #$00                        ;1      transfur mode
+        stx $4300
+        
+        ldx #$04                        ;1      register dest (oam add)
+        stx $4301
+        
+        ldx.b #(($ff0000&w_oam)>>16)    ;1      source bank
+        stx $4304
+        
+        lda.w #w_oam_lo_buffer          ;2      source addr
+        sta $4302
+        
+        lda #$0220                      ;2      transfur size = 542 bytes (oam table size)
+        sta $4305
+        
+        ldx #$01                        ;1      enable transfur on dma channel 0             
+        stx $420b
+        
+        plp
+        plx
+        rtl
+    }
     
+    .cleanbuffer: {
+        ;remove stale sprites after sprites for this frame are drawn
+        
+        ldx w_oam_index
+        lda #$e0e0
+        
+        -
+        sta w_oam_lo_buffer,x
+        inx
+        inx
+        cpx #$0200
+        bmi -
+        
+        rtl
+    }
+    
+    .constructhibuffer: {
+        ;unimplemented, untested
+        
+        phx
+        phy
+        php
+        
+        ldx #$0080*4
+        ldy #$0080
+        
+        sep #$20            ;%00000000
+        {
+            -
+            stz p_8
+            
+            lda w_oam_hi_bytebuffer,x
+            ora p_8
+            sta p_8
+            
+            lda w_oam_hi_bytebuffer+1,x
+            asl
+            asl
+            ora p_8
+            sta p_8
+            
+            lda w_oam_hi_bytebuffer+2,x
+            asl
+            asl
+            asl
+            asl
+            ora p_8
+            sta p_8
+            
+            lda w_oam_hi_bytebuffer+3,x
+            asl
+            asl
+            asl
+            asl
+            asl
+            asl
+            ora p_8
+            sta p_8
+            
+            sta w_oam_hi_buffer,y
+            
+            dex
+            dex
+            dex
+            dex
+            
+            dey
+            
+            bpl -
+        }
+        
+        plp
+        ply
+        plx
+        rtl
+    }
 }
     

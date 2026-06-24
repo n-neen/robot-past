@@ -1,8 +1,9 @@
 
 errhandle: {
-    rti
+    jml errhandle
 }
 
+;none of the irq stuff is currently used 6.22.2026
 
 irq: {
     rep #$30

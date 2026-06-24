@@ -23,6 +23,11 @@ gameplay: {
     jsl scroll_main
     jsl scroll_bg2
     
+    jsl fae_testspawn                   ;test fae not real
+    jsl fae_spritedrawingtest           ;see above
+    
+    jsl oam_cleanbuffer
+    
     rtl
     
     

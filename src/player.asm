@@ -686,7 +686,7 @@ player: {
         phk
         plb
         
-        ldx #$0000
+        ldx #$0000                              ;this is the oam index being initialized
         
         lda w_nmicounter
         bit #$0007

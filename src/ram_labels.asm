@@ -231,6 +231,21 @@ w: {
         ..index         : skip 2
         ..lo_buffer     : skip 512
         ..hi_buffer     : skip 32
+        ..hi_bytebuffer : skip 128      ;use these bytes to construct the real table
+    }
+    
+    .fae: {
+        !fae_count      =   $0018
+        ;print "fae start: ", pc
+        ..id            : skip 2*!fae_count+2
+        ..x             : skip 2*!fae_count+2
+        ..subx          : skip 2*!fae_count+2
+        ..y             : skip 2*!fae_count+2
+        ..suby          : skip 2*!fae_count+2
+        ..spritemapptr  : skip 2*!fae_count+2
+        ..touchptr      : skip 2*!fae_count+2
+        ..mainptr       : skip 2*!fae_count+2
+        ;print "fae end:   ", pc
     }
     
     .hdma: {                           ;w_hdma
