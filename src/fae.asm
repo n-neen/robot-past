@@ -50,32 +50,43 @@ fae: {
         
         {   ;x position
             lda $0000,x                     ;add camera position to fae's
+            and #$00ff
             clc                             ;object position
             adc p_6
-            cmp #$fffe
             bpl +
             
-            ;if negative, add extra x bit
+            ;if negative, add extra x bit and remove high byte
+            and #$00ff
+            pha
             
-            lda #$0001
+            lda #$0001                      ;x high bit to be or'd in in high table write later
             sta p_a
             
+            pla
             +
-            sta $30                         ;debug for watching position
             sta w_oam_lo_buffer,y           ;x
         }
         
-        
-        lda $0001,x
-        clc
-        adc p_8
-        sta $32                         ;debug for watching position
-        sta w_oam_lo_buffer+1,y         ;y
+        { ; y position
+            lda $0001,x
+            and #$00ff
+            clc
+            adc p_8
+            cmp #$fff0
+            bpl +
+            
+            lda #$00e0
+            
+            +
+            sta w_oam_lo_buffer+1,y         ;y
+        }
         
         lda $0002,x
+        and #$00ff
         sta w_oam_lo_buffer+2,y         ;tile
         
         lda $0003,x
+        and #$00ff
         sta w_oam_lo_buffer+3,y         ;properties bit field
         
         {
@@ -87,7 +98,7 @@ fae: {
             tay
             
             lda $0004,x
-            and #$0003
+            and #$00ff
             ora p_a                         ;add extra x bit if present
             sta w_oam_hi_bytebuffer,y       ;oam hi buffer
             
