@@ -27,6 +27,7 @@ gameplay: {
     jsl fae_spritedrawingtest           ;see above
     
     jsl oam_cleanbuffer
+    jsl oam_constructhibuffer
     
     rtl
     

@@ -471,6 +471,9 @@ loadgame: {
     jsl player_main
     jsl scroll_main
     
+    jsl fae_testspawn                   ;test fae not real
+    jsl fae_spritedrawingtest           ;see above
+    
     jsl oam_uploadbuffer
     
     jsr enablenmi

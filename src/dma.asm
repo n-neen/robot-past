@@ -234,13 +234,14 @@ oam: {
     
     .constructhibuffer: {
         ;unimplemented, untested
+        ;debuggering nao
         
         phx
         phy
         php
         
-        ldx #$0080*4
-        ldy #$0080
+        ldx #$001f*4
+        ldy #$001f
         
         sep #$20            ;%00000000
         {

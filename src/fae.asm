@@ -24,15 +24,15 @@ fae: {
         lda w_fae_x,x
         sec
         sbc w_level_camerax
-        cmp #$ffd0              ;if fae is offscreen entirely, exit
-        bmi ..return
+        ;cmp #$ffd0             ;if fae is offscreen entirely, exit
+        ;bmi ..return
         sta p_6                 ;fae onscreen x position
         
         lda w_fae_y,x
         sec
         sbc w_level_cameray
-        cmp #$ffd0              ;if fae is offscreen entirely, exit
-        bmi ..return
+        ;cmp #$ffd0             ;if fae is offscreen entirely, exit
+        ;bmi ..return
         sta p_8                 ;fae onscreen y position
         
         ldx p_0                 ;x = spritemap ptr
@@ -46,20 +46,30 @@ fae: {
         
         ..nextsprite
         
-        lda $0000,x                     ;add camera position to fae's
-        clc                             ;object position
-        adc p_6
-        ;cmp #$ffa0
-        ;bmi ..skip
-        sta p_c                         ;debug for watching position
-        sta w_oam_lo_buffer,y           ;x
+        stz p_a                  ;extra x bit if present (clear from previous iteration)
+        
+        {   ;x position
+            lda $0000,x                     ;add camera position to fae's
+            clc                             ;object position
+            adc p_6
+            cmp #$fffe
+            bpl +
+            
+            ;if negative, add extra x bit
+            
+            lda #$0001
+            sta p_a
+            
+            +
+            sta $30                         ;debug for watching position
+            sta w_oam_lo_buffer,y           ;x
+        }
+        
         
         lda $0001,x
         clc
         adc p_8
-        ;cmp #$ffa0
-        ;bpl ..skip
-        sta p_e                         ;debug for watching position
+        sta $32                         ;debug for watching position
         sta w_oam_lo_buffer+1,y         ;y
         
         lda $0002,x
@@ -68,21 +78,35 @@ fae: {
         lda $0003,x
         sta w_oam_lo_buffer+3,y         ;properties bit field
         
-        lda $0004,x
-        sta w_oam_hi_bytebuffer,y       ;oam hi buffer
+        {
+            phy
+            
+            tya                         ;y/4 (for hi table byte array)
+            lsr
+            lsr
+            tay
+            
+            lda $0004,x
+            and #$0003
+            ora p_a                         ;add extra x bit if present
+            sta w_oam_hi_bytebuffer,y       ;oam hi buffer
+            
+            ply
+        }
         
-        ..skip
+        iny
+        iny
+        iny
+        iny
+        
+        ..skip              ;advance spritemap pointer but not oam index
         
         inx
         inx
         inx
         inx
-        inx                             ;the extra x is for high table bits
-                                            ;at the end of spritemap line
-        iny
-        iny
-        iny
-        iny
+        inx
+        
         
         dec p_4
         bne ..nextsprite
@@ -132,7 +156,7 @@ fae: {
     .testspritemap: {
         ;number of sprites
         db 36
-        ;  xx   yy   tt   pp         hh
+        ;  xx   yy   tt   pp         hh 01 = extra x bit, 02 = size select
         db $00, $00, $6a, %00111101, $00
         db $08, $00, $6b, %00111101, $00
         db $10, $00, $6c, %00111101, $00
@@ -160,6 +184,7 @@ fae: {
         db $18, $18, $9d, %00111101, $00
         db $20, $18, $9e, %00111101, $00
         db $28, $18, $9f, %00111101, $00
+        
         
         db $00, $20, $aa, %00111101, $00
         db $08, $20, $ab, %00111101, $00
