@@ -10,6 +10,7 @@ fae: {
         ;p_6 = fae x onscreen position
         ;p_8 = fae y onscreen position
         ;p_a = extra x bit
+        ;p_c = just put this value down for a sec to recheck its psr bits
         
         phb
         phx
@@ -24,15 +25,11 @@ fae: {
         lda w_fae_x,x
         sec
         sbc w_level_camerax
-        ;cmp #$ffd0             ;if fae is offscreen entirely, exit
-        ;bmi ..return
         sta p_6                 ;fae onscreen x position
         
         lda w_fae_y,x
         sec
         sbc w_level_cameray
-        ;cmp #$ffd0             ;if fae is offscreen entirely, exit
-        ;bmi ..return
         sta p_8                 ;fae onscreen y position
         
         ldx p_0                 ;x = spritemap ptr
@@ -53,10 +50,17 @@ fae: {
             and #$00ff
             clc                             ;object position
             adc p_6
+            sta p_c
+            
+            cmp #$0100
+            bpl ..skip                      ;right offscreen case
+            
+            lda p_c
             bpl +
             
-            ;if negative, add extra x bit and remove high byte
-            and #$00ff
+            ;left offscreen case
+            
+            and #$00ff                      ;if negative, add extra x bit and remove high byte
             pha
             
             lda #$0001                      ;x high bit to be or'd in in high table write later
@@ -72,12 +76,20 @@ fae: {
             and #$00ff
             clc
             adc p_8
-            cmp #$fff0
+            sta $32
+            
+            cmp #$00f0                      ;down offscreen case
+            bpl ..skip                      ;if far enough offscreen, stop entirely
+            
+            cmp #$fff0                      ;up offscreen case
             bpl +
+            
+            ;clump to $e0 based on being inside the offscreen seam (should be enough for 8 and 16px)
             
             lda #$00e0
             
             +
+            and #$00ff
             sta w_oam_lo_buffer+1,y         ;y
         }
         
@@ -156,8 +168,10 @@ fae: {
     .testspawn: {
         ldx #!fae_count*2           ;first slot
         
-        lda #$0080
+        lda #$01a0
         sta w_fae_x,x
+        
+        lda #$0080
         sta w_fae_y,x
         
         rtl
