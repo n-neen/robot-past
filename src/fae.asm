@@ -152,7 +152,15 @@ fae: {
         phk
         plb
         
-        lda #fae_testspritemap
+        ldx #!fae_count*2           ;first slot
+        
+        lda #$0080
+        sta w_fae_x,x
+        
+        lda #$0080
+        sta w_fae_y,x
+        
+        lda #fae_quadrant_test1
         sta p_0
         lda #bank(fae_testspritemap)
         sta p_2
@@ -160,19 +168,67 @@ fae: {
         ldx #!fae_count*2
         jsl fae_addspritemap
         
+        
+        
+        ldx #(!fae_count-2)*2           ;second slot
+        
+        lda #$0180
+        sta w_fae_x,x
+        
+        lda #$0080
+        sta w_fae_y,x
+        
+        lda #fae_quadrant_test2
+        sta p_0
+        lda #bank(fae_testspritemap)
+        sta p_2
+        
+        ldx #(!fae_count-2)*2
+        jsl fae_addspritemap
+        
+        
+        
+        ldx #(!fae_count-3)*2           ;third slot
+        
+        lda #$0080
+        sta w_fae_x,x
+        
+        lda #$0180
+        sta w_fae_y,x
+        
+        lda #fae_quadrant_test3
+        sta p_0
+        lda #bank(fae_testspritemap)
+        sta p_2
+        
+        ldx #(!fae_count-3)*2
+        jsl fae_addspritemap
+        
+        
+        
+        ldx #(!fae_count-4)*2           ;fourth slot
+        
+        lda #$0180
+        sta w_fae_x,x
+        
+        lda #$0180
+        sta w_fae_y,x
+        
+        lda #fae_quadrant_test4
+        sta p_0
+        lda #bank(fae_testspritemap)
+        sta p_2
+        
+        ldx #(!fae_count-4)*2
+        jsl fae_addspritemap
+        
+        
         plb
         rtl
     }
     
     
     .testspawn: {
-        ldx #!fae_count*2           ;first slot
-        
-        lda #$01a0
-        sta w_fae_x,x
-        
-        lda #$0080
-        sta w_fae_y,x
         
         rtl
     }
@@ -224,6 +280,31 @@ fae: {
         db $18, $28, $bd, %00111101, $00
         db $20, $28, $be, %00111101, $00
         db $28, $28, $bf, %00111101, $00
+    }
+    
+    
+    .quadrant_test1: {
+        db 01
+        ;   xx   yy   tt  properties  hh
+        db $00, $00, $40, %00111111, $02
+    }
+    
+    .quadrant_test2: {
+        db 01
+        ;   xx   yy   tt  properties  hh
+        db $00, $00, $42, %00111111, $02
+    }
+    
+    .quadrant_test3: {
+        db 01
+        ;   xx   yy   tt  properties  hh
+        db $00, $00, $44, %00111111, $02
+    }
+    
+    .quadrant_test4: {
+        db 01
+        ;   xx   yy   tt  properties  hh
+        db $00, $00, $46, %00111111, $02
     }
     
     .clear: {
