@@ -271,6 +271,9 @@ fae: {
         jsr (w_fae_initptr,x)
         
         ..noslots:
+        ;this could return with x = $fffe if no slots found
+        ;would need to get rid of phx/plx, or do txy or something and use y
+        ;not sure i care about detercting this at the moment, but could
         plb
         plx
         rtl
@@ -309,6 +312,9 @@ fae: {
         stz w_fae_spritemapptr,x
         stz w_fae_touchptr,x
         stz w_fae_mainptr,x
+        stz w_fae_initptr,x
+        stz w_fae_xsize,x
+        stz w_fae_ysize,x
         
         rts
     }
