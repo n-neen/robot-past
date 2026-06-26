@@ -211,7 +211,6 @@ nmi: {
     ;todo: ppu register buffers
     
     jsr colorbufferupload
-    jsr readcontroller
     jsr nmippuregisters
     jsl oam_uploadbuffer
     jsl load_updatelevelscreen
@@ -221,6 +220,8 @@ nmi: {
     beq +
     jsr bg3upload
     +
+    
+    jsr readcontroller
     
     stz w_nmiflag
     
@@ -350,6 +351,10 @@ readcontroller: {
     
     lda $4218           ;store to wram
     sta w_controller
+    
+    lda $421a
+    sta w_controller2
+    
     plp
     rts
 }

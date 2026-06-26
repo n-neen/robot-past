@@ -1,5 +1,8 @@
 fae: {
     .addspritemap: {
+        ;================================== ADD ENTIRE SPRITEMAP TO OAM ==================================
+        
+        
         ;adds one spritemap to oam
         ;argument:
         ;p_0 = long pointer to spritemap
@@ -45,7 +48,9 @@ fae: {
         
         stz p_a                  ;extra x bit if present (clear from previous iteration)
         
-        {   ;x position
+        ; =================================== x position ===================================
+        
+        {
             lda $0000,x                     ;add camera position to fae's
             and #$00ff
             clc                             ;object position
@@ -71,7 +76,9 @@ fae: {
             sta w_oam_lo_buffer,y           ;x
         }
         
-        { ; y position
+        ; =================================== y position ===================================
+        
+        {
             lda $0001,x
             and #$00ff
             clc
@@ -93,6 +100,8 @@ fae: {
             sta w_oam_lo_buffer+1,y         ;y
         }
         
+        ; =============================== tile and properties ==============================
+        
         lda $0002,x
         and #$00ff
         sta w_oam_lo_buffer+2,y         ;tile
@@ -100,6 +109,8 @@ fae: {
         lda $0003,x
         and #$00ff
         sta w_oam_lo_buffer+3,y         ;properties bit field
+        
+        ; =================================== high table ===================================
         
         {
             phy
@@ -122,7 +133,7 @@ fae: {
         iny
         iny
         
-        ..skip              ;advance spritemap pointer but not oam index
+        ..skip              ;advance spritemap pointer (x) but not oam index (y)
         
         inx
         inx
@@ -146,6 +157,162 @@ fae: {
         rtl
     }
     
+    
+    .top: {
+        ;run main routines
+        ;handle collision
+        ;draw
+        
+        phk
+        plb
+        
+        jsr fae_runmainroutines         ;let fae manipulate their spritemaps!
+        jsr fae_collision               ;let collision delete them
+        jsr fae_drawall                 ;them draw
+        
+        rtl
+    }
+    
+    .drawall: {
+        lda #bank(fae)
+        sta p_2
+        
+        ldx #!fae_count*2
+        
+        -
+        lda w_fae_spritemapptr,x
+        beq +
+        sta p_0
+        jsl fae_addspritemap
+        +
+        dex
+        dex
+        bpl -
+        
+        rts
+    }
+    
+    .collision: {
+        ;todo
+        
+        rts
+    }
+    
+    
+    .runmainroutines: {
+        phx
+        
+        ldx #!fae_count*2
+        
+        -
+        lda w_fae_mainptr,x
+        beq +
+        jsr (w_fae_mainptr,x)
+        +
+        dex
+        dex
+        bpl -
+        
+        plx
+        rts
+    }
+    
+    
+    .spawn: {
+        ;arguments:
+        ;x = fae index
+        ;a = fae id (pointer to header)
+        
+        ;used in routine:
+        ;p_4 = used to hold fae id temporarily
+        
+        phx
+        phb
+        
+        phk
+        plb
+        
+        sta p_4             ;p_4 = A = fae id, from call
+        
+        ldx #!fae_count*2
+        
+        -
+        lda w_fae_id,x
+        beq ..slotfound
+        dex
+        dex
+        bpl -
+        bmi ..noslots
+        
+        ..slotfound:
+        
+        lda p_4
+        sta w_fae_id,x
+        tay                 ;y = pointer to fae header
+        
+        lda $0000,y
+        sta w_fae_mainptr,x
+        
+        lda $0002,y
+        sta w_fae_touchptr,x
+        
+        lda $0004,y
+        sta w_fae_initptr,x
+        
+        lda $0006,y
+        sta w_fae_spritemapptr,x
+        
+        lda $0008,y
+        sta w_fae_xsize,x
+        
+        lda $000a,y
+        sta w_fae_ysize,x
+        
+        jsr (w_fae_initptr,x)
+        
+        ..noslots:
+        plb
+        plx
+        rtl
+    }
+    
+    
+    
+    .clearall: {
+        phx
+        phb
+        
+        phk
+        plb
+        
+        ldx #!fae_count*2
+        
+        -
+        jsr fae_clear
+        dex
+        dex
+        bpl -
+        
+        plb
+        plx
+        rtl
+    }
+    
+    .clear: {
+        ;x = fae index
+        
+        stz w_fae_id,x
+        stz w_fae_x,x
+        stz w_fae_subx,x
+        stz w_fae_y,x
+        stz w_fae_suby,x
+        stz w_fae_spritemapptr,x
+        stz w_fae_touchptr,x
+        stz w_fae_mainptr,x
+        
+        rts
+    }
+    
     .spritedrawingtest: {
         phb
         
@@ -162,7 +329,7 @@ fae: {
         
         lda #fae_quadrant_test1
         sta p_0
-        lda #bank(fae_testspritemap)
+        lda #bank(fae)
         sta p_2
         
         ldx #!fae_count*2
@@ -180,7 +347,7 @@ fae: {
         
         lda #fae_quadrant_test2
         sta p_0
-        lda #bank(fae_testspritemap)
+        lda #bank(fae)
         sta p_2
         
         ldx #(!fae_count-2)*2
@@ -198,7 +365,7 @@ fae: {
         
         lda #fae_quadrant_test3
         sta p_0
-        lda #bank(fae_testspritemap)
+        lda #bank(fae)
         sta p_2
         
         ldx #(!fae_count-3)*2
@@ -216,7 +383,7 @@ fae: {
         
         lda #fae_quadrant_test4
         sta p_0
-        lda #bank(fae_testspritemap)
+        lda #bank(fae)
         sta p_2
         
         ldx #(!fae_count-4)*2
@@ -225,61 +392,6 @@ fae: {
         
         plb
         rtl
-    }
-    
-    
-    .testspawn: {
-        
-        rtl
-    }
-    
-    
-    .testspritemap: {
-        ;number of sprites
-        db 36
-        ;  xx   yy   tt   pp         hh 01 = extra x bit, 02 = size select
-        db $00, $00, $6a, %00111101, $00
-        db $08, $00, $6b, %00111101, $00
-        db $10, $00, $6c, %00111101, $00
-        db $18, $00, $6d, %00111101, $00
-        db $20, $00, $6e, %00111101, $00
-        db $28, $00, $6f, %00111101, $00
-        
-        db $00, $08, $7a, %00111101, $00
-        db $08, $08, $7b, %00111101, $00
-        db $10, $08, $7c, %00111101, $00
-        db $18, $08, $7d, %00111101, $00
-        db $20, $08, $7e, %00111101, $00
-        db $28, $08, $7f, %00111101, $00
-        
-        db $00, $10, $8a, %00111101, $00
-        db $08, $10, $8b, %00111101, $00
-        db $10, $10, $8c, %00111101, $00
-        db $18, $10, $8d, %00111101, $00
-        db $20, $10, $8e, %00111101, $00
-        db $28, $10, $8f, %00111101, $00
-        
-        db $00, $18, $9a, %00111101, $00
-        db $08, $18, $9b, %00111101, $00
-        db $10, $18, $9c, %00111101, $00
-        db $18, $18, $9d, %00111101, $00
-        db $20, $18, $9e, %00111101, $00
-        db $28, $18, $9f, %00111101, $00
-        
-        
-        db $00, $20, $aa, %00111101, $00
-        db $08, $20, $ab, %00111101, $00
-        db $10, $20, $ac, %00111101, $00
-        db $18, $20, $ad, %00111101, $00
-        db $20, $20, $ae, %00111101, $00
-        db $28, $20, $af, %00111101, $00
-        
-        db $00, $28, $ba, %00111101, $00
-        db $08, $28, $bb, %00111101, $00
-        db $10, $28, $bc, %00111101, $00
-        db $18, $28, $bd, %00111101, $00
-        db $20, $28, $be, %00111101, $00
-        db $28, $28, $bf, %00111101, $00
     }
     
     
@@ -305,21 +417,6 @@ fae: {
         db 01
         ;   xx   yy   tt  properties  hh
         db $00, $00, $46, %00111111, $02
-    }
-    
-    .clear: {
-        ;x = fae index
-        
-        stz w_fae_id,x
-        stz w_fae_x,x
-        stz w_fae_subx,x
-        stz w_fae_y,x
-        stz w_fae_suby,x
-        stz w_fae_spritemapptr,x
-        stz w_fae_touchptr,x
-        stz w_fae_mainptr,x
-        
-        rts
     }
     
 }

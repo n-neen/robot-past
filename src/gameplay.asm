@@ -8,26 +8,25 @@ gameplay: {
     ;i can't recall actually understanding how it worked
     ;or deliberately fixing it
     
-    sei
-    
-    stz w_player_direction  ;direction bits = 0
+    stz w_player_direction
     stz w_scroll_direction
-    stz w_player_collisiontype
+    stz w_player_collisiontype          ;not really used currently
     
-    ;jsr irq_playerlinebuildcolorlist
+    jsl oam_cleanhibytebuffer
     
     jsl obj_runmain
-    jsl obj_collision       ;removes direction bits
+    jsl obj_collision
     
-    jsl player_main         ;adds direction bits based on dpad and moves
+    jsl player_main
     jsl scroll_main
     jsl scroll_bg2
     
-    jsl fae_testspawn                   ;test fae not real
-    jsl fae_spritedrawingtest           ;see above
+    jsl fae_top
     
-    jsl oam_cleanbuffer
-    jsl oam_constructhibuffer
+    ;jsl fae_spritedrawingtest           ;test fae not real
+    
+    jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
+    jsl oam_constructhibuffer           ;construct the real (two bits per sprite) oam hi table from the byte table (one byte per sprite)
     
     rtl
     
@@ -35,7 +34,6 @@ gameplay: {
     .shadow: {
         ;stripped down gameplay to allow player to move during text
         ;but does not allow for collision
-        
         
         stz w_player_direction
         stz w_scroll_direction

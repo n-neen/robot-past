@@ -226,21 +226,38 @@ oam: {
         sta w_oam_lo_buffer,x
         inx
         inx
-        cpx #$0200
+        cpx #$0200          ;uhh is that right or no?
         bmi -
         
         rtl
     }
     
+    .cleanhibytebuffer: {
+        phk
+        plb
+        
+        ldx #!oam_hi_byte_buffer_size
+        
+        -
+        stz w_oam_hi_bytebuffer,x
+        dex
+        dex
+        bpl -
+        
+        rtl
+    }
+    
     .constructhibuffer: {
-        ;unimplemented, untested
-        ;debuggering nao
+        ;todo: clear both oam high buffers every frame
         
         phx
         phy
         php
         
-        ldx #$001f*4
+        phk
+        plb
+        
+        ldx #!oam_hi_byte_buffer_size
         ldy #$001f
         
         sep #$20            ;%00000000

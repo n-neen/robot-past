@@ -13,6 +13,9 @@ incsrc "./src/ram_labels.asm"
 ;===========================================================================================
 
 
+
+;================================= code banks =======================================
+
 org $808000                             ;main system bank
     incsrc "./src/boot.asm"
     incsrc "./src/main.asm"
@@ -26,9 +29,16 @@ org $808000                             ;main system bank
     incsrc "./src/color_cycling.asm"    ;broken, unfinished
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
-    incsrc "./src/fae.asm"
     
     print "80 end: ", pc
+    
+org $818000
+    incsrc "./src/fae/fae.asm"
+    incsrc "./src/fae/test.asm"
+    ;incsrc "./data/inc/sprites/spritemaps.asm"
+    print "81 end: ", pc
+    
+;================================= data banks =======================================
     
 org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
@@ -62,7 +72,7 @@ org $c60000
     print "c6 end: ", pc
     
 org $c70000
-    incsrc "./data/spritemap/spritemaps.asm"
+    incsrc "./data/inc/c7.asm"
     print "c7 end: ", pc
     
     ;pad the rom

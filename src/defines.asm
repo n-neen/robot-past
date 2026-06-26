@@ -72,7 +72,11 @@
 !player_y_subvelocity           =   $0800
 !player_y_velocity              =   $0000
 
-!player_max_speed               =   0002
+!player_max_speed               =   0003
+
+;================================ oam
+
+!oam_hi_byte_buffer_size        =   $001f*4
 
 ;================================ messagebox
 

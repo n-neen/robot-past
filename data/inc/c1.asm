@@ -48,18 +48,6 @@ black:
     dw $0000
 
 
-light: {
-    .pal:   incbin "./data/pal/light.pal"
-    .gfx:   incbin "./data/gfx/light.gfx"
-    .map:   incbin "./data/map/light.map"
-    
-    
-    .props:
-        ;gameplay aspects of this scene
-        dw $0000
-}
-
-
 bloodlotus: {
     .pal:   incbin "./data/pal/blood.pal"
     .gfx:   incbin "./data/gfx/blood.gfx"
@@ -70,7 +58,6 @@ bloodlotus: {
         ;gameplay aspects of this scene
         dw $ffff
 }
-
 
 ;===========================================================================================
 ;========================================= BG3 =============================================

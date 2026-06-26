@@ -77,6 +77,7 @@ w: {
     .dmasize            : skip 2
     
     .controller         : skip 2
+    .controller2        : skip 2
     .programstate       : skip 2
     
     .prestate           : skip 2        ;not sure if using this
@@ -236,7 +237,7 @@ w: {
     
     .fae: {
         !fae_count      =   $0018
-        ;print "fae start: ", pc
+        print "fae start: ", pc
         ..id            : skip 2*!fae_count+2
         ..x             : skip 2*!fae_count+2
         ..subx          : skip 2*!fae_count+2
@@ -245,7 +246,10 @@ w: {
         ..spritemapptr  : skip 2*!fae_count+2
         ..touchptr      : skip 2*!fae_count+2
         ..mainptr       : skip 2*!fae_count+2
-        ;print "fae end:   ", pc
+        ..initptr       : skip 2*!fae_count+2
+        ..xsize         : skip 2*!fae_count+2
+        ..ysize         : skip 2*!fae_count+2
+        print "fae end:   ", pc
     }
     
     .hdma: {                           ;w_hdma

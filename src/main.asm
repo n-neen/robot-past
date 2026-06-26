@@ -407,6 +407,7 @@ introhandler: {
 loadgame: {
     jsr disablenmi
     jsr screenoff
+    sei
     
     jsl load_scene
     
@@ -464,6 +465,8 @@ loadgame: {
     
     jsl load_collisionmap
     
+    jsl fae_clearall                    ;test below spawns fae manually
+    
     jsl obj_spawnall
     jsl obj_runinit
     jsl obj_drawall
@@ -471,9 +474,19 @@ loadgame: {
     jsl player_main
     jsl scroll_main
     
-    jsl fae_testspawn                   ;test fae not real
-    jsl fae_spritedrawingtest           ;see above
+    ;jsl fae_spritedrawingtest           ;test fae not real
     
+    {
+        ldx #(!fae_count*2)-8
+        
+        lda #fae_test
+        
+        jsl fae_spawn
+        
+    }
+    
+    jsl oam_cleanbuffer
+    jsl oam_constructhibuffer
     jsl oam_uploadbuffer
     
     jsr enablenmi
