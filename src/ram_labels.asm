@@ -94,7 +94,7 @@ w: {
     }
     
     .player: {
-        ;print pc
+        print "player start ", pc
         ..x                 : skip 2
         ..subx              : skip 2
         ..y                 : skip 2
@@ -123,6 +123,8 @@ w: {
         
         ..collisiontype     : skip 2
         ..tileindex         : skip 2    ;15a
+        
+        print "player end   ", pc
     }
     
     .level: {
@@ -140,8 +142,8 @@ w: {
         
         ..objlist           : skip 2
         ..objlistindex      : skip 2
-        
         ..collisionmap_ptr  : skip 2
+        ..faelist_ptr       : skip 2
     }
     
     .scroll: {
@@ -249,6 +251,9 @@ w: {
         ..initptr       : skip 2*!fae_count+2
         ..xsize         : skip 2*!fae_count+2
         ..ysize         : skip 2*!fae_count+2
+        ..var1          : skip 2*!fae_count+2
+        ..var2          : skip 2*!fae_count+2
+        ..var3          : skip 2*!fae_count+2
         print "fae end:   ", pc
     }
     

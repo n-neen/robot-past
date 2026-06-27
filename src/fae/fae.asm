@@ -218,26 +218,68 @@ fae: {
     }
     
     
+    .spawnall: {
+        ;used in routine
+        ;p_6 = hold fae list + index
+        
+        
+        phb
+        phx
+        phy
+        
+        pea.w bank(faelist)<<8                  ;db = faelist bank (hirom most likely)
+        plb
+        plb
+        
+        lda.l w_level_faelist_ptr                 ;y = fae list pointer
+        tay
+        
+        ..nextfae
+        
+        lda $0000,y                             ;a = fae id
+        cmp #$ffff
+        beq ..return                            ;list terminator
+        
+        phb
+        phy
+        jsl fae_spawn
+        ply
+        plb
+        
+        tya
+        clc
+        adc #!fae_list_entry_length
+        tay
+        
+        bra ..nextfae
+        
+        ..return
+        ply
+        plx
+        plb
+        rtl
+    }
+    
+    
     .spawn: {
         ;arguments:
         ;x = fae index
+        ;y = fae list ptr
         ;a = fae id (pointer to header)
         
         ;used in routine:
         ;p_4 = used to hold fae id temporarily
         
-        phx
-        phb
+        ;assumes db = faelist bank
         
-        phk
-        plb
+        phx
         
         sta p_4             ;p_4 = A = fae id, from call
         
         ldx #!fae_count*2
         
         -
-        lda w_fae_id,x
+        lda.l w_fae_id,x
         beq ..slotfound
         dex
         dex
@@ -246,9 +288,30 @@ fae: {
         
         ..slotfound:
         
+        ;y = pointer to fae list entry
+        
+        lda $0002,y
+        sta.l w_fae_x,x
+        
+        lda $0004,y
+        sta.l w_fae_y,x
+        
+        lda $0006,y
+        sta.l w_fae_var1,x
+        
+        lda $0008,y
+        sta.l w_fae_var2,x
+        
+        lda $000a,y
+        sta.l w_fae_var3,x
+        
         lda p_4
-        sta w_fae_id,x
+        sta.l w_fae_id,x
         tay                 ;y = pointer to fae header
+        
+        pea.w bank(fae)<<8  ;db = fae bank
+        plb
+        plb
         
         lda $0000,y
         sta w_fae_mainptr,x
@@ -274,7 +337,6 @@ fae: {
         ;this could return with x = $fffe if no slots found
         ;would need to get rid of phx/plx, or do txy or something and use y
         ;not sure i care about detercting this at the moment, but could
-        plb
         plx
         rtl
     }

@@ -126,6 +126,9 @@ scenetransition: {
     lda $000c,x
     sta.l w_level_collisionmap_ptr
     
+    lda $000e,x
+    sta.l w_level_faelist_ptr
+    
     plb
     rts
     
@@ -476,14 +479,17 @@ loadgame: {
     
     ;jsl fae_spritedrawingtest           ;test fae not real
     
-    {
-        ldx #(!fae_count*2)-8
-        
-        lda #fae_test
-        
-        jsl fae_spawn
-        
-    }
+    ;{
+    ;    ldx #(!fae_count*2)-8
+    ;    
+    ;    lda #fae_test
+    ;    
+    ;    jsl fae_spawn
+    ;    
+    ;}
+    
+    jsl fae_spawnall
+    jsl fae_top
     
     jsl oam_cleanbuffer
     jsl oam_constructhibuffer

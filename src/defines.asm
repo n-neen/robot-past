@@ -111,6 +111,10 @@
 !controller_r                         =       $0010
 
 
+;fae
+
+!fae_list_entry_length      =   datasize(faelist_definitionstart)
+
 
 ;================================= module bank constants ===================================
 

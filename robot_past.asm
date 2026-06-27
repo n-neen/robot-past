@@ -35,7 +35,6 @@ org $808000                             ;main system bank
 org $818000
     incsrc "./src/fae/fae.asm"
     incsrc "./src/fae/test.asm"
-    ;incsrc "./data/inc/sprites/spritemaps.asm"
     print "81 end: ", pc
     
 ;================================= data banks =======================================
@@ -45,6 +44,7 @@ org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/objlists.asm"
     incsrc "./data/inc/collision_maps.asm"  ;probably move this into bulk data section
     incsrc "./data/inc/strings.asm"
+    incsrc "./data/inc/faelist.asm"
     print "c0 end: ", pc
     
 org $c10000

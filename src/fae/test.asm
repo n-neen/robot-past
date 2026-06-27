@@ -52,11 +52,11 @@
     }
     
     ..init: {
-        lda #$0080
-        sta w_fae_x,x
+        ;lda #$0080
+        ;sta w_fae_x,x
         
-        lda #$0180
-        sta w_fae_y,x
+        ;lda #$0180
+        ;sta w_fae_y,x
         rts
     }
     
