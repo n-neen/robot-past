@@ -416,7 +416,7 @@ loadgame: {
     
     stz w_hdma_enable
     
-    jsl obj_clearall
+    jsl obj_clearall                ;why is this up here? hmm
     
     ;initialize scroll
     stz w_scroll_direction
@@ -468,8 +468,6 @@ loadgame: {
     
     jsl load_collisionmap
     
-    jsl fae_clearall                    ;test below spawns fae manually
-    
     jsl obj_spawnall
     jsl obj_runinit
     jsl obj_drawall
@@ -477,17 +475,7 @@ loadgame: {
     jsl player_main
     jsl scroll_main
     
-    ;jsl fae_spritedrawingtest           ;test fae not real
-    
-    ;{
-    ;    ldx #(!fae_count*2)-8
-    ;    
-    ;    lda #fae_test
-    ;    
-    ;    jsl fae_spawn
-    ;    
-    ;}
-    
+    jsl fae_clearall
     jsl fae_spawnall
     jsl fae_top
     

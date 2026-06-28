@@ -365,14 +365,11 @@ waitfornmi: {
     sep #$20
     lda #$01
     sta w_nmiflag
+    
+    ;lda #$08                   ;uncomment to show cpu, sm style
+    ;sta $2100
+    
     rep #$20
-    
-    ;lda !showcpuflag
-    ;beq +
-    ;jsr debug_showcpu
-    ;+
-    
-    jsr showcpu
     
     .waitloop: {
         lda w_nmiflag

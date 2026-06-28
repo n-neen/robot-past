@@ -42,9 +42,8 @@ org $818000
 org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
-    incsrc "./data/inc/collision_maps.asm"  ;probably move this into bulk data section
-    incsrc "./data/inc/strings.asm"
     incsrc "./data/inc/faelist.asm"
+    incsrc "./data/inc/strings.asm"
     print "c0 end: ", pc
     
 org $c10000
@@ -75,11 +74,44 @@ org $c70000
     incsrc "./data/inc/c7.asm"
     print "c7 end: ", pc
     
+org $c80000
+    incsrc "./data/inc/collision_maps.asm"
+    print "c8 end: ", pc
+    
+org $c90000
+    ;
+    print "c9 end: ", pc
+    
+org $ca0000
+    ;
+    print "ca end: ", pc
+    
+org $cb0000
+    ;
+    print "cb end: ", pc
+    
+org $cc0000
+    ;
+    print "cc end: ", pc
+    
+org $cd0000
+    ;
+    print "cd end: ", pc
+    
+org $ce0000
+    ;
+    print "ce end: ", pc
+    
+org $cf0000
+    ;
+    print "cf end: ", pc
+    
+    
     ;pad the rom
     ;checksum will not calculate correctly if we don't have a whole bank
     ;at the end of the rom
     
-org $c7ffff
+org $cfffff
     db $00
 
 ;===========================================================================================
@@ -93,7 +125,7 @@ org $c0ffc0                             ;game header
     db "robot past           "          ;cartridge name
     db $31                              ;fastrom, lorom
     db $02                              ;rom + ram + sram
-    db $09                              ;rom size = 512k
+    db $0a                              ;rom size = 1mb
     db $00                              ;sram size 0
     db $00                              ;country code
     db $ff                              ;developer code

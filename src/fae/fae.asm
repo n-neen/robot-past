@@ -7,6 +7,7 @@ fae: {
         ;argument:
         ;p_0 = long pointer to spritemap
         ;x = fae index
+        ;clobbers y
         
         ;used inroutine:
         ;p_4 = sprite counter
@@ -15,9 +16,7 @@ fae: {
         ;p_a = extra x bit
         ;p_c = just put this value down for a sec to recheck its psr bits
         
-        phb
         phx
-        phy
         
         pei (p_1)               ;db = spritemap bank
         plb
@@ -38,10 +37,9 @@ fae: {
         ldx p_0                 ;x = spritemap ptr
         ldy w_oam_index         ;y = oam entry point
         
-        ;sep #$20
-        
         lda $0000,x
-        sta p_4
+        and #$00ff
+        sta p_4                 ;number of sprites
         inx
         
         ..nextsprite
@@ -53,8 +51,16 @@ fae: {
         {
             lda $0000,x                     ;add camera position to fae's
             and #$00ff
+            
+            xba                             ;check low byte sign
+            xba
+            bpl +
+            
+            ora #$ff00                      ;sign extend if needed
+            
+            +
             clc                             ;object position
-            adc p_6
+            adc p_6                         ;sep/rep is cheaper than sign extending
             sta p_c
             
             cmp #$0100
@@ -81,9 +87,16 @@ fae: {
         {
             lda $0001,x
             and #$00ff
+            
+            xba                             ;check low byte sign
+            xba
+            bpl +
+            
+            ora #$ff00                      ;sign extend
+            
+            +
             clc
             adc p_8
-            sta $32
             
             cmp #$00f0                      ;down offscreen case
             bpl ..skip                      ;if far enough offscreen, stop entirely
@@ -151,11 +164,18 @@ fae: {
         
         rep #$20
         
-        ply
         plx
-        plb
-        rtl
+        rts
+        
+        .long: {
+            phb
+            jsr fae_addspritemap
+            plb
+            rtl
+        }
     }
+    
+    
     
     
     .top: {
@@ -183,7 +203,7 @@ fae: {
         lda w_fae_spritemapptr,x
         beq +
         sta p_0
-        jsl fae_addspritemap
+        jsr fae_addspritemap
         +
         dex
         dex
@@ -377,6 +397,9 @@ fae: {
         stz w_fae_initptr,x
         stz w_fae_xsize,x
         stz w_fae_ysize,x
+        stz w_fae_var1,x
+        stz w_fae_var2,x
+        stz w_fae_var3,x
         
         rts
     }

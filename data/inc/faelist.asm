@@ -19,9 +19,9 @@ faelist: {
     
     .room1:
                         ;type       x      y      var1   var2   var3
-        %fae_list_entry (fae_test, $0080, $0080, $0000, $0000, $0000)
-        %fae_list_entry (fae_test, $0090, $0090, $0000, $0000, $0000)
-        %fae_list_entry (fae_test, $00b0, $00b0, $0000, $0000, $0000)
+        %fae_list_entry (fae_test, $0080, $0080, $0001, $0000, $0000)
+        %fae_list_entry (fae_test, $0090, $0090, $0002, $0000, $0000)
+        %fae_list_entry (fae_test, $00b0, $00b0, $0003, $0000, $0000)
         dw $ffff
         
     .room2:
