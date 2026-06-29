@@ -22,6 +22,7 @@ org $808000                             ;main system bank
     incsrc "./src/gameplay.asm"
     incsrc "./src/interrupts.asm"
     incsrc "./src/dma.asm"
+    incsrc "./src/oam.asm"
     incsrc "./src/hdma.asm"             ;broken, unfinished
     incsrc "./src/scroll.asm"
     incsrc "./src/loading.asm"
@@ -35,6 +36,7 @@ org $808000                             ;main system bank
 org $818000
     incsrc "./src/fae/fae.asm"
     incsrc "./src/fae/test.asm"
+    incsrc "./src/fae/arrow.asm"
     print "81 end: ", pc
     
 ;================================= data banks =======================================

@@ -6,7 +6,7 @@ objects to write:
 
 
 RLE compression for tilemaps
-
+    wrote decompression first. need to write python for compression
     
 hdma handler
     -hdma object system with preinstrucions, etc

@@ -1,12 +1,29 @@
 ;top level label is "fae"
 
+;ram reference
+
+;w_fae_id
+;w_fae_x
+;w_fae_subx
+;w_fae_y
+;w_fae_suby
+;w_fae_spritemapptr
+;w_fae_touchptr
+;w_fae_mainptr
+;w_fae_initptr
+;w_fae_xsize
+;w_fae_ysize
+;w_fae_var1
+;w_fae_var2
+;w_fae_var3
 
 .template: {
     dw ..main
     dw ..touch
     dw ..init
     dw ..spritemap
-    
+    dw $0030    ;x size
+    dw $0030    ;y size
     
     ..main: {
         ;runs once per frame
@@ -25,5 +42,7 @@
     
     ..spritemap: {
         db 0
+        ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
+        db $00, $00, $6a, %00111101, $02
     }
 }

@@ -7,7 +7,6 @@ fae: {
         ;argument:
         ;p_0 = long pointer to spritemap
         ;x = fae index
-        ;clobbers y
         
         ;used inroutine:
         ;p_4 = sprite counter
@@ -17,6 +16,7 @@ fae: {
         ;p_c = just put this value down for a sec to recheck its psr bits
         
         phx
+        phy
         
         pei (p_1)               ;db = spritemap bank
         plb
@@ -164,6 +164,7 @@ fae: {
         
         rep #$20
         
+        ply
         plx
         rts
         
