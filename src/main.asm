@@ -56,6 +56,7 @@ pre: {
 
 scenetransition: {
     ;populate scene area of memory
+    ;typically call this then immediately call load_scene
     
     ;arguments:
     ;x = scene pointer in scenedef bank
@@ -298,6 +299,9 @@ setup: {
     stz w_hdma_enable
     stz w_glow_enable
     
+    jsl hud_init
+    jsl hud_test
+    
     lda #!fade_bitmask_default
     sta w_fadebitmask
     
@@ -412,11 +416,9 @@ loadgame: {
     jsr screenoff
     sei
     
-    jsl load_scene
+    jsl load_scene                  ;depends on a call to scenetransition having been done
     
     stz w_hdma_enable
-    
-    jsl obj_clearall                ;why is this up here? hmm
     
     ;initialize scroll
     stz w_scroll_direction
@@ -433,6 +435,7 @@ loadgame: {
     lda #!scroll_rightbound_default
     sta w_scroll_rightbound
     
+    ;initialize message tilemap
     jsr layer3off
     jsl msg_cleartilemap
     lda #$0001
@@ -468,6 +471,7 @@ loadgame: {
     
     jsl load_collisionmap
     
+    jsl obj_clearall
     jsl obj_spawnall
     jsl obj_runinit
     jsl obj_drawall

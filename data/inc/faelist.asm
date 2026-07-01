@@ -10,8 +10,8 @@ faelist: {
     
     .definitionstart:
         ;this is used in defines.asm to determine the length of each entry
-                        ;type       x      y      var1   var2   var3
-        %fae_list_entry (fae_test, $0080, $0080, $0000, $0000, $0000)
+                        ;type    x      y      var1   var2   var3
+        %fae_list_entry ($0123, $4567, $89ab, $cdef, $0123, $4567)
     .definitionend:
     
 ;========================================== fae lists ======================================

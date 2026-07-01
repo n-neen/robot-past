@@ -9,8 +9,12 @@ RLE compression for tilemaps
     wrote decompression first. need to write python for compression
     
 hdma handler
-    -hdma object system with preinstrucions, etc
+    hdma object system with preinstrucions, etc
+    half written, kinda works. indirect doesn't work
 
+hud
+    use sprites
 
 color cycling system
-    -color cycling objects
+    color cycling objects
+    half written, doesn't work. crashes. addressing mode problem in instruction lists, oops

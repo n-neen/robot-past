@@ -676,8 +676,7 @@ player: {
     
     
     .draw: {
-        ;just wrote, not yet debugged
-        ;whole routine is sep #$20 except where indented
+        ;no offscreen handling
         
         phb
         phx
@@ -686,7 +685,7 @@ player: {
         phk
         plb
         
-        ldx #$0000                              ;this is the oam index being initialized
+        ldx w_oam_index
         
         lda w_nmicounter
         bit #$0007

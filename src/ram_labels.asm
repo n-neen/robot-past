@@ -237,6 +237,13 @@ w: {
         ..hi_bytebuffer : skip 128      ;use these bytes to construct the real table
     }
     
+    .hud: {
+        ;uhhh
+        ;make a text buffer? 32 chars per line, 2 lines
+        !hud_buffer_size    =   $0064
+        ..buffer:       : skip !hud_buffer_size
+    }
+    
     .fae: {
         !fae_count      =   $0018
         print "fae start: ", pc

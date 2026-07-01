@@ -384,18 +384,19 @@ load: {
         
         sep #$20
         {
-            lda w_subscreenlayers
+            ;lda w_subscreenlayers
+            ;ora #%00000010
+            ;sta w_subscreenlayers
+            
+            lda w_mainscreenlayers
             ora #%00000010
-            sta w_subscreenlayers
+            sta w_mainscreenlayers
             
-            ;lda #%00000000
-            ;sta w_mainscreenlayers
+            ;lda #%10110011
+            ;sta w_colormathlayers
             
-            lda #%10110011
-            sta w_colormathlayers
-            
-            lda #%00000010
-            sta w_colormathlogic
+            ;lda #%00000010
+            ;sta w_colormathlogic
         }
         rep #$20
         

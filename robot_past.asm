@@ -30,6 +30,7 @@ org $808000                             ;main system bank
     incsrc "./src/color_cycling.asm"    ;broken, unfinished
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
+    incsrc "./src/hud.asm"
     
     print "80 end: ", pc
     
@@ -125,7 +126,7 @@ org $cfffff
 
 org $c0ffc0                             ;game header
     db "robot past           "          ;cartridge name
-    db $31                              ;fastrom, lorom
+    db $31                              ;fastrom, hirom
     db $02                              ;rom + ram + sram
     db $0a                              ;rom size = 1mb
     db $00                              ;sram size 0

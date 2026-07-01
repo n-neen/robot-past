@@ -11,19 +11,21 @@ gameplay: {
     stz w_player_direction
     stz w_scroll_direction
     stz w_player_collisiontype          ;not really used currently
+    stz w_oam_index
     
     jsl oam_cleanhibytebuffer
+    
+    jsl hud_draw
     
     jsl obj_runmain
     jsl obj_collision
     
     jsl player_main
     jsl scroll_main
-    jsl scroll_bg2
+    ;jsl scroll_bg2
     
     jsl fae_top
     
-    ;jsl fae_spritedrawingtest           ;test fae not real
     
     jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
     jsl oam_constructhibuffer           ;construct the real (two bits per sprite) oam hi table from the byte table (one byte per sprite)

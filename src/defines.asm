@@ -83,6 +83,8 @@
 !msg_newline    = $0a                       ;used in messagebox.asm
 !msg_end        = $00                       ;and in strings.asm
 
+;================================ hud
+!hud_end        = $ff
 
 ;================================ object
 

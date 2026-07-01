@@ -41,7 +41,7 @@
     }
     
     ..spritemap: {
-        db 0
+        db 01
         ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
         db $00, $00, $6a, %00111101, $02
     }

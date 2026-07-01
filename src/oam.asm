@@ -1,4 +1,27 @@
 oam: {
+    ;oam buffer happens like this:
+    ;hud gets drawn
+    ;player gets drawn
+    ;fae get drawn
+    
+    ;call oam_cleanbuffer, which starts at the w_oam_index that was last left
+    ;by sprite drawing routines and writes $e0e0 to the remainder of the buffer
+    ;the above happens any time after all drawing routines in game logic have been run,
+    ;so usually the end of the game logic.
+    
+    ;but at the start of the frame is when the hi byte buffer needs to be cleared though
+    ;because all the drawing routines need to be able to write to it
+    
+    ;so it goes like this:
+    
+    ;start of gameplay logic
+    ;jsl oam_cleanhibytebuffer
+    ;bunch of stuff, including all the spritemap drawing routines
+    ;then
+    ;jsl oam_cleanbuffer
+    ;jsl oam_constructhibuffer
+    ;then, in vblank, upload the buffer
+    
     .uploadbuffer: {
         ;runs in vblank
         
