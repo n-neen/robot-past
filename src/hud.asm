@@ -1,7 +1,4 @@
-;need:
-    ;sprite drawing routine for fixed-to screen, so super easy
-    ;string to spritemap routine
-    ;bcd routine for writing hp to hud 
+
 
 hud: {
     .draw: {
@@ -9,6 +6,8 @@ hud: {
         plb
         
         phb
+        phx
+        phy
         
         ldx #$0000
         ldy w_oam_index
@@ -47,11 +46,14 @@ hud: {
             cpx #$0064
             bmi ..nextletter
             
+            ..end:
         }
-        ..end
+        rep #$20
+        
         sty w_oam_index
         
-        rep #$20
+        ply
+        plx
         plb
         rtl
     }

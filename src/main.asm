@@ -291,7 +291,7 @@ setup: {
     
     ;load graphics, palette, tilemap
     
-    stz w_prestate
+    stz w_oam_index
     
     jsl hdma_clearall
     jsl glow_clearall
@@ -418,7 +418,12 @@ loadgame: {
     
     jsl load_scene                  ;depends on a call to scenetransition having been done
     
-    stz w_hdma_enable
+    ;stz w_hdma_enable
+    
+    stz w_oam_index
+    jsl oam_cleanbuffer
+    
+    jsl hud_draw
     
     ;initialize scroll
     stz w_scroll_direction

@@ -19,7 +19,7 @@ player: {
         sta w_player_ysize
         
         ;jsr player_olddraw             ;test sprite not real
-        jsr player_draw
+        ;jsr player_draw                ;don't think this is necessary anymore
         
         rtl
     }
@@ -148,8 +148,8 @@ player: {
         sta w_player_y_onscreen
         
         ;then draw
+        
         jsr player_draw
-        ;jsr player_olddraw
         
         rtl
     }
@@ -677,6 +677,7 @@ player: {
     
     .draw: {
         ;no offscreen handling
+        print pc
         
         phb
         phx
@@ -715,6 +716,7 @@ player: {
         tay                                     ;y = ptr to spritemap
         
         lda $0000,y
+        and #$00ff
         sta p_0                                 ;number of sprites to draw
         iny                                     ;y = pointer to first spritemap
         
