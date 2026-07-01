@@ -677,7 +677,6 @@ player: {
     
     .draw: {
         ;no offscreen handling
-        print pc
         
         phb
         phx

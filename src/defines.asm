@@ -84,7 +84,12 @@
 !msg_end        = $00                       ;and in strings.asm
 
 ;================================ hud
-!hud_end        = $ff
+!hud_end                    = $ff
+!hud_first_row_y_pos        = $10
+!hud_second_row_y_pos       = $18
+
+!hud_row_length             = $0020
+!hud_ascii_offset           = $20
 
 ;================================ object
 
@@ -113,7 +118,7 @@
 !controller_r                         =       $0010
 
 
-;fae
+;================================ fae
 
 !fae_list_entry_length      =   datasize(faelist_definitionstart)
 
@@ -141,9 +146,9 @@
 !bg2tiles           =       $0000
 !bg3tiles           =       $4000
 
-!bg1tilemap         =       $5000
-!bg2tilemap         =       $6000
-!bg3tilemap         =       $6400
+!bg1tilemap         =       $4800       ;5000
+!bg2tilemap         =       $5800       ;6000
+!bg3tilemap         =       $5c00       ;6400
 
 !spritegfx          =       $6000
 

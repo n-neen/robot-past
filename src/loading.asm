@@ -286,7 +286,7 @@ load: {
         lda.w #((playersprite_gfx)>>16)+0
         sta w_dmasrcbank
         
-        lda #!spritegfx+$c00
+        lda #!spritegfx
         sta w_dmabaseaddr
         
         jsl dma_vramtransfur

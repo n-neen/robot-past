@@ -6,7 +6,7 @@
 
 playersprite: {
     .gfx:
-        incbin "./data/gfx/sprites/player.gfx"
+        incbin "./data/gfx/sprites/sprites.gfx"
     
     .pal:
         incbin "./data/pal/sprites/sprites.pal"

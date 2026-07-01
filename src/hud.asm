@@ -2,12 +2,12 @@
 
 hud: {
     .draw: {
-        phk
-        plb
-        
         phb
         phx
         phy
+        
+        phk
+        plb
         
         ldx #$0000
         ldy w_oam_index
@@ -17,17 +17,26 @@ hud: {
             ..nextletter
             ;do this first since if the tile is blank we bail
             lda w_hud_buffer,x          ;tile index
-            cmp #$ff
+            cmp.b #!hud_end
             beq ..end
             sec 
-            sbc #$20                    ;align ascii with tiles
+            sbc.b #!hud_ascii_offset    ;align ascii with tiles
             beq ..skip
             sta w_oam_lo_buffer+2,y
             
             lda #%00111111              ;properties:
             sta w_oam_lo_buffer+3,y     ;palette 7, high priority, second page
             
-            lda #$00
+            cpx #!hud_row_length
+            bpl ..secondrow
+            
+            lda.b #!hud_first_row_y_pos
+            bra ..firstrow
+            
+            ..secondrow:
+            lda.b #!hud_second_row_y_pos
+            
+            ..firstrow:
             sta w_oam_lo_buffer+1,y     ;temp, just do one row for now [y position]
             
             txa                         ;buffer index * 8 = pixels along row we are
@@ -43,7 +52,7 @@ hud: {
             
             ..skip
             inx
-            cpx #$0064
+            cpx #!hud_row_length*2
             bmi ..nextletter
             
             ..end:
@@ -109,7 +118,8 @@ hud: {
         rtl
         
         ..string: {
-            db "life pointz: 42069 lol", !hud_end
+            db "life: 27              robot past"
+            db "hud second row", !hud_end
         }
     }
 }

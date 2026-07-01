@@ -177,8 +177,6 @@ fae: {
     }
     
     
-    
-    
     .top: {
         ;run main routines
         ;handle collision
@@ -193,6 +191,7 @@ fae: {
         
         rtl
     }
+    
     
     .drawall: {
         lda #bank(fae)
@@ -212,6 +211,7 @@ fae: {
         
         rts
     }
+    
     
     .collision: {
         ;todo
