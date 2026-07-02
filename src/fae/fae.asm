@@ -212,12 +212,87 @@ fae: {
         rts
     }
     
-    
-    .collision: {
-        ;todo
+    .collisionhudtest: {
+        ;just prints the word on the hud
+        ;there's a test harness at gameplay_hudwordtest
+        ;that serves to clear this word occasionally
+        
+        lda.l fae_collisionhudtest_word
+        sta w_hud_buffer+10
+        
+        lda.l fae_collisionhudtest_word+2
+        sta w_hud_buffer+12
+        
+        lda w_player_yspeed
+        eor #$ffff
+        inc
+        sta w_player_yspeed
+        
+        lda w_player_xspeed
+        eor #$ffff
+        inc
+        sta w_player_xspeed
         
         rts
+        
+        ..word:
+            db "hit!"
     }
+    
+    .collision: {
+        ldx #!fae_count*2
+        
+        -
+        lda w_fae_touchptr,x
+        beq +
+        jsr fae_collision_check
+        bcc +
+        jsr (w_fae_touchptr,x)
+        jsr fae_collisionhudtest
+        +
+        dex
+        dex
+        bpl -
+        
+        rts
+        
+        ..check: {
+            ;x = fae index
+            
+            lda w_fae_x,x
+            clc
+            adc w_fae_xsize,x
+            cmp w_player_hitboxleft
+            bmi +
+            
+            lda w_fae_x,x
+            sec
+            sbc w_fae_xsize,x
+            cmp w_player_hitboxright
+            bpl +
+            
+            lda w_fae_y,x
+            sec
+            sbc w_fae_ysize,x
+            cmp w_player_hitboxtop
+            bpl +
+            
+            lda w_fae_y,x
+            clc
+            adc w_fae_ysize,x
+            cmp w_player_hitboxbottom
+            bmi +
+            
+            sec     ;collision
+            rts
+            
+            +
+            clc     ;no collision
+            rts
+        }
+    }
+    
+    
     
     
     .runmainroutines: {

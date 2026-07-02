@@ -7,22 +7,39 @@ gameplay: {
     ;this bug seems to be permanently gone but
     ;i can't recall actually understanding how it worked
     ;or deliberately fixing it
+    phk
+    plb
     
     stz w_player_direction
     stz w_scroll_direction
     stz w_player_collisiontype          ;not really used currently
     stz w_oam_index
     
+    
     jsl oam_cleanhibytebuffer
     
     jsl hud_draw
     
-    jsl obj_runmain
-    jsl obj_collision
-    
     jsl player_main
     jsl scroll_main
     ;jsl scroll_bg2
+    
+    jsl obj_runmain
+    jsl obj_collision
+    
+    .hudwordtest: {
+        ;test
+        ;clear the hud area so the fae collision test result
+        ;can be seen
+        
+        lda w_nmicounter
+        bit #$005f
+        bne +
+        lda #$2020
+        sta w_hud_buffer+10
+        sta w_hud_buffer+12
+        +
+    }
     
     jsl fae_top
     

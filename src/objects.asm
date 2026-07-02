@@ -217,8 +217,10 @@ obj: {
     .collision: {
         ;check all objects for collision with player
         
-        jsl player_calchitbox
+        ;jsl player_calchitbox
+        ;going to call this higher up in main gameplay now that fae need it too
         ;w_player_hitbox vars now populated for the below
+        phx
         
         ldx #!obj_count*2   ;for each object that exists
         
@@ -237,6 +239,7 @@ obj: {
         dex
         bpl -
         
+        plx
         rtl
         
         ..check: {

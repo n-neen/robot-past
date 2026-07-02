@@ -22,8 +22,8 @@
     dw ..touch
     dw ..init
     dw ..spritemap
-    dw $0030    ;x size
-    dw $0030    ;y size
+    dw $0010    ;x size
+    dw $0010    ;y size
     
     ..main: {
         phx

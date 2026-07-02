@@ -26,11 +26,6 @@ player: {
     
     
     .calchitbox: {
-        phb
-        
-        phk
-        plb
-        
         lda w_player_x              ;player x - x size = left bound
         sec
         sbc w_player_xsize
@@ -51,8 +46,7 @@ player: {
         sbc w_player_ysize
         sta w_player_hitboxtop
         
-        plb
-        rtl
+        rts
     }
     
     
@@ -134,6 +128,8 @@ player: {
         
         lda w_player_direction
         jsr player_move             ;move in the directions of remaining direction bits
+        
+        jsr player_calchitbox       ;this used to be in obj collision
         
         ;locate player on screen
         

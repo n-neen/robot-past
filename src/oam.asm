@@ -93,7 +93,7 @@ oam: {
         
         phx
         phy
-        php
+        phb
         
         phk
         plb
@@ -145,8 +145,9 @@ oam: {
             
             bpl -
         }
+        rep #$20
         
-        plp
+        plb
         ply
         plx
         rtl
