@@ -24,8 +24,8 @@ hud: {
             beq ..skip
             sta w_oam_lo_buffer+2,y
             
-            lda #%00111111              ;properties:
-            sta w_oam_lo_buffer+3,y     ;palette 7, high priority, second page
+            lda #%00111110              ;properties:
+            sta w_oam_lo_buffer+3,y     ;palette 7, high priority, first page
             
             cpx #!hud_row_length
             bpl ..secondrow

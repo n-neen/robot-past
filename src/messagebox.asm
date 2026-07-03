@@ -135,6 +135,7 @@ msg: {
         
         rtl
     }
+
     
     
     .upload: {
@@ -153,6 +154,111 @@ msg: {
         jsl dma_vramtransfur
         
         rtl
+    }
+    
+    
+    .scroll: {
+        ..main: {
+            phk
+            plb
+            
+            jsr msg_scroll_input
+            
+            rtl
+        }
+        
+        ..input: {
+            lda w_controller
+            and #(!controller_up|!controller_dn)
+            
+            bit #!controller_up
+            beq +
+            {
+                ;if up pressed
+                pha
+                jsr msg_scroll_up
+                pla
+            }
+            +
+            
+            bit #!controller_dn
+            beq +
+            {
+                ;if down pressed
+                pha
+                jsr msg_scroll_down
+                pla
+            }
+            +
+            
+            rts
+        }
+        
+        
+        ..up: {
+            lda w_bg3yscroll
+            dec
+            and #$00ff
+            sta w_bg3yscroll
+            
+            ldx #$2022
+            stx p_0
+            jsr msg_scroll_write
+            
+            rts
+        }
+        
+        
+        ..down: {
+            lda w_bg3yscroll
+            inc
+            and #$00ff
+            sta w_bg3yscroll
+            
+            ldx #$2000
+            stx p_0
+            jsr msg_scroll_write
+            
+            rts
+        }
+        
+        ..write: {
+            bit #$0007
+            bne +
+            dec
+            dec
+            
+            asl
+            asl
+            ;and #$07e0
+            asl
+            clc
+            adc #$000e
+            
+            cmp #$0800
+            bmi ++
+            sec
+            sbc #$07e0
+            ++
+            tax
+            ;no idea how this works but i think i stumbled into a solution
+            
+            lda p_0
+            ldy #$001f
+            -
+            sta w_msgbuffer,x
+            dex
+            dex
+            dey
+            bpl -
+            
+            lda #$0800
+            sta w_msg_size
+            sta w_msg_uploadflag
+            
+            +
+            rts
+        }
     }
     
 }

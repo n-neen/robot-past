@@ -1,10 +1,11 @@
 
 boot: {
-    sei
     clc
     xce             ;enable native mode
     jml .setbank    ;set bank
     .setbank:
+    
+    sei             ;disable irq
     
     sep #$20
     lda #$01
@@ -145,7 +146,7 @@ init: {
         lda.b #%00000000|(!bg2tilemapshifted<<2)
         sta $2108
         
-        lda.b #%00000010|(!bg3tilemapshifted<<2)
+        lda.b #%00000000|(!bg3tilemapshifted<<2)        ;one screen of bg3
         sta $2109
         
         lda.b #%00001001    ;drawing mode: 1 with bg3 priority

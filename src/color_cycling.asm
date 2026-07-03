@@ -5,6 +5,7 @@
 ;===========================================================================================
 
 ;unimplemented, untested
+;i think this is broken as shit
 
 ;local defines
     !glow_loop  =  $8001

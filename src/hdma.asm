@@ -36,6 +36,9 @@
 
 
 
+;this kinda doesn't work. i forgt what exactly
+;maybe indirect is broken
+
 
 hdma: {
     .nmihandler: {

@@ -7,8 +7,8 @@
     dw ..init
     dw ..spritemap
     
-    dw $0010    ;x size
-    dw $0010    ;y size
+    dw $001e    ;x size
+    dw $001e    ;y size
     
     ..main: {
         ;runs once per frame
@@ -81,6 +81,17 @@
     }
     
     ..touch: {
+        
+        lda w_player_yspeed
+        eor #$ffff
+        inc
+        sta w_player_yspeed
+        
+        lda w_player_xspeed
+        eor #$ffff
+        inc
+        sta w_player_xspeed
+        
         rts
     }
     

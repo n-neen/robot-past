@@ -80,9 +80,9 @@ properties: {
     }
     
     .city: {                        ;intro 4
-        dw !state_loadscene
-        dw str_intro4
-        db $04
+        dw !state_loadscene         ;program state to enter
+        dw str_intro4               ;text string pointer
+        db $00                      ;starting line for text
         dw $0000                    ;hdma object to spawn and run
     }
     

@@ -262,13 +262,12 @@ load: {
     }
     
     .playerpal: {
-        ;copies two sprite lines
-        ;to the last two sprite palettes
+        ;copies sprite palettes only
         
-        ldx #$0040
+        ldx #$0100
         -
         lda.l playersprite_pal,x
-        sta.l w_cgrambuffer+$01c0,x
+        sta.l w_cgrambuffer+$0100,x
         dex
         dex
         bpl -
@@ -339,6 +338,7 @@ load: {
         ;copy from rom to buffer
         
         phb
+        phx
         
         pea.w (($ff0000&bg3data)>>8)+0
         plb
@@ -353,6 +353,7 @@ load: {
         dex
         bpl -
         
+        plx
         plb
         rtl
     }

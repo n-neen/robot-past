@@ -47,7 +47,7 @@ org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/objlists.asm"
     incsrc "./data/inc/faelist.asm"
     incsrc "./data/inc/strings.asm"
-    print "c0 end: ", pc
+    print "c0 end: ", pc, " scene definitions"
     
 org $c10000
     incsrc "./data/inc/c1.asm"
@@ -79,7 +79,7 @@ org $c70000
     
 org $c80000
     incsrc "./data/inc/collision_maps.asm"
-    print "c8 end: ", pc
+    print "c8 end: ", pc, " collision maps"
     
 org $c90000
     ;

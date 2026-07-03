@@ -62,27 +62,37 @@ str: {
     }
 
     .intro4: {
-        db "intro text 4"
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db "intro text 4.1"
+        db "intro text 4.0", !msg_newline
+        db "intro text 4.1", !msg_newline
+        db "intro text 4.2", !msg_newline
+        db "intro text 4.3", !msg_newline
+        db "intro text 4.4", !msg_newline
+        db "intro text 4.5", !msg_newline
+        db "intro text 4.6", !msg_newline
+        db "intro text 4.7", !msg_newline
+        db "intro text 4.8", !msg_newline
+        db "intro text 4.9", !msg_newline
+        db "intro text 4.10", !msg_newline
+        db "intro text 4.11", !msg_newline
+        db "intro text 4.12", !msg_newline
+        db "intro text 4.13", !msg_newline
+        db "intro text 4.14", !msg_newline
+        db "intro text 4.15", !msg_newline
+        db "intro text 4.16", !msg_newline
+        db "intro text 4.17", !msg_newline
+        db "intro text 4.18", !msg_newline
+        db "intro text 4.19", !msg_newline
+        db "intro text 4.20", !msg_newline
+        db "intro text 4.21", !msg_newline
+        db "intro text 4.22", !msg_newline
+        db "intro text 4.23", !msg_newline
+        db "intro text 4.24", !msg_newline
+        db "intro text 4.25", !msg_newline
+        db "intro text 4.25", !msg_newline
+        db "intro text 4.26", !msg_newline
+        db "intro text 4.27", !msg_newline
+        db "intro text 4.28", !msg_newline
+        db "intro text 4.29", !msg_newline
         db !msg_end
     }
 

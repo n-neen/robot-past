@@ -119,7 +119,7 @@ player: {
         plb
         
         jsr player_input            ;get input. adds direction bits to w_player_direction
-        jsr player_hitboxsize       ;make hitbox bigger if moving
+        ;jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_locateontile     ;translate player pixel position into tile index
         jsr player_collision        ;removes direction bits from w_player_direction (is what i would say if this worked)
@@ -336,10 +336,12 @@ player: {
         ;asl
         ;tax
         
+        ;print hex(w_player_tileindex)
+        
         lda w_player_tileindex
-        and #$00ff
         tax
         lda.l l_level_collision,x
+        and #$00ff
         asl
         tax
         
@@ -605,6 +607,7 @@ player: {
     }
     
     .olddraw: {
+        ;not used anymore
         sep #$20
         
         ldx #$0000
@@ -758,14 +761,6 @@ player: {
         plx
         plb
         rts
-        
-        ..animationlist_vert: {
-            db $c0, $c1, $c2, $c3, $c4, $c5, $c6, $c7, $c8
-        }
-        
-        ..animationlist_horz: {
-            db $d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8
-        }
     }
     
     .spritemaplist: {

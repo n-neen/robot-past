@@ -17,12 +17,11 @@ fae: {
         
         phx
         phy
+        phb
         
         pei (p_1)               ;db = spritemap bank
         plb
         plb
-        
-        stz p_a
         
         lda w_fae_x,x
         sec
@@ -164,23 +163,21 @@ fae: {
         
         rep #$20
         
+        plb
         ply
         plx
         rts
         
         .long: {
-            phb
             jsr fae_addspritemap
-            plb
             rtl
         }
     }
     
     
     .top: {
-        ;run main routines
-        ;handle collision
-        ;draw
+        ;===================================== FAE TOP =====================================
+        ;high-level fae routine called from main gameplay
         
         phk
         plb
@@ -222,16 +219,6 @@ fae: {
         
         lda.l fae_collisionhudtest_word+2
         sta w_hud_buffer+12
-        
-        lda w_player_yspeed
-        eor #$ffff
-        inc
-        sta w_player_yspeed
-        
-        lda w_player_xspeed
-        eor #$ffff
-        inc
-        sta w_player_xspeed
         
         rts
         
@@ -291,8 +278,6 @@ fae: {
             rts
         }
     }
-    
-    
     
     
     .runmainroutines: {

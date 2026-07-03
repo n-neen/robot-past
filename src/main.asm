@@ -2,14 +2,6 @@ main: {
     phk
     plb
     
-    ;lda w_prestate
-    ;beq +
-    ;asl
-    ;tax
-    ;
-    ;jsr (main_prestatetable,x)
-    ;
-    ;+
     lda w_programstate
     asl
     tax
@@ -20,11 +12,6 @@ main: {
     
     jmp main
     
-    .prestatetable: {
-        dw pre_none         ;0: none yet
-        dw pre_msg          ;1
-    }
-    
     .table: {
         dw setup                    ;0
         dw introhandler             ;1
@@ -33,23 +20,6 @@ main: {
         dw loadgame                 ;4
         dw loadnongameplayscene     ;5
         dw nongameplayhandler       ;6
-    }
-}
-
-
-pre: {
-    ;unimplemented
-    
-    .none: {
-        ;todo
-        
-        rts
-    }
-    
-    .msg: {
-        jsl msg_display
-        
-        rts
     }
 }
 
@@ -319,12 +289,16 @@ setup: {
     
     ;temp test not real
     
+    
     jsl load_bg3colortobuffer       ;bg3 palette
-    jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer
-    jsl load_bg3tilemapupload       ;upload buffer
+    ;jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer        ;uhh just clear it?! lol
+    ;jsl load_bg3tilemapupload       ;upload buffer
     jsl load_bg3tilesupload         ;bg3 tiles to vram
     jsl load_playerpal
     jsl load_playergfx
+    
+    lda #$01ff
+    sta w_bg3yscroll
     
     jsl obj_clearall
     
@@ -351,14 +325,14 @@ gameplayvector: {
 
 
 introhandler: {
-    lda w_scene_hdmaobj
-    beq +
-    lda #$0001
-    sta w_hdma_enable
-    bra ++
-    +
-    stz w_hdma_enable
-    ++
+    ;lda w_scene_hdmaobj
+    ;beq +
+    ;lda #$0001
+    ;sta w_hdma_enable
+    ;bra ++
+    ;+
+    ;stz w_hdma_enable
+    ;++
     
     lda w_scene_timer
     bne +
@@ -375,8 +349,10 @@ introhandler: {
     }
     +
     
+    jsl msg_scroll_main
     
     lda w_controller
+    bit #!controller_st
     beq .return
     {
         lda w_testsceneindex

@@ -34,11 +34,12 @@ p: {
     .e  : skip 1
     .f  : skip 1
 }
+;$10-1f aren't represented here, oopz
 
 ;======================================= direct page =======================================
 
 d: {
-    org $20
+    org $20 ;why does this even exist? who knows!
     
     .hcounter   :   skip 2
     .vcounter   :   skip 2
@@ -188,6 +189,7 @@ w: {
         ..start         :   skip 2
         ..ptr           :   skip 2
         ..index         :   skip 2
+        ..scrolldir     :   skip 2
     }
     
     .obj: {
