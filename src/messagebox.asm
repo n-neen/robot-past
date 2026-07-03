@@ -223,6 +223,10 @@ msg: {
         }
         
         ..write: {
+            lda w_bg3yscroll
+            sec
+            sbc #$0007
+            
             bit #$0007
             bne +
             dec
@@ -230,17 +234,18 @@ msg: {
             
             asl
             asl
-            ;and #$07e0
             asl
             clc
-            adc #$000e
+            adc #$004e
             
             cmp #$0800
             bmi ++
             sec
-            sbc #$07e0
+            sbc #$0800
             ++
             tax
+            stx $40
+            
             ;no idea how this works but i think i stumbled into a solution
             
             lda p_0
