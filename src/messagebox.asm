@@ -244,7 +244,7 @@ msg: {
             sbc #$0800
             ++
             tax
-            stx $40
+            stx $40     ;debug for watching
             
             ;no idea how this works but i think i stumbled into a solution
             
