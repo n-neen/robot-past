@@ -18,3 +18,10 @@ hud
 color cycling system
     color cycling objects
     half written, doesn't work. crashes. addressing mode problem in instruction lists, oops
+    
+    
+state "loadscene" and routine "load_scene" need to be renamed
+state "loadscene" might actually just be used for loading the intro scene now, oops
+;so maybe the change is easy
+    call it "load intro scene"
+    change label, and associated define for state

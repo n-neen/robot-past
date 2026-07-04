@@ -31,7 +31,6 @@ org $808000                             ;main system bank
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     incsrc "./src/hud.asm"
-    
     print "80 end: ", pc, " main system bank"
     
 org $818000
@@ -47,7 +46,7 @@ org $818000
 org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
-    incsrc "./data/inc/faelist.asm"
+    incsrc "./data/inc/faelists.asm"
     incsrc "./data/inc/strings.asm"
     print "c0 end: ", pc, " scenedef, obj/fae lists, strings"
     

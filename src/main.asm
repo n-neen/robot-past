@@ -1,3 +1,12 @@
+;===========================================================================================
+;====================================  M A I N  ============================================
+;===========================================================================================
+;
+;this file contains main, and all top-level states, except those which only have a vector
+;here, like main gameplay, which is in its own file. also contains some important
+;system routines like fadein, fadeout
+;
+
 main: {
     phk
     plb
@@ -15,21 +24,24 @@ main: {
     .table: {
         dw setup                    ;0
         dw introhandler             ;1
-        dw loadscene                ;2
-        dw gameplayvector           ;3
+        dw loadscene                ;2 state wrapper for load_scene
+        dw gameplayvector           ;3              in loading.asm... yeah it's bad
         dw loadgame                 ;4
         dw loadnongameplayscene     ;5
         dw nongameplayhandler       ;6
     }
 }
 
+;===========================================================================================
+;========================= B E G I N   S C E N E   T R A N S I T I O N =====================
+;===========================================================================================
+;populate scene area of memory
+;typically call this then immediately call load_scene
+    
 
 scenetransition: {
-    ;populate scene area of memory
-    ;typically call this then immediately call load_scene
-    
     ;arguments:
-    ;x = scene pointer in scenedef bank
+    ;x = scene pointer to scene header in scenedef bank
     
     phk
     plb
@@ -38,7 +50,7 @@ scenetransition: {
     
     phb
     
-    pea.w (($ff0000&scenedef)>>8)+0         ;db = scene def bank
+    pea.w bank(scenedef)<<8                 ;db = scene def bank
     plb
     plb
     
@@ -67,7 +79,8 @@ scenetransition: {
     lda $000d,x
     sta.l w_scene_gameprops
     
-    tax
+    tax     ;x = pointer to gameplay properties, if it's a gameplay room
+            ;otherwise, it's a dialogue scene properties list
     
     ;scene dialogue/gameplay properties
     
@@ -127,6 +140,9 @@ scenetransition: {
     }
 }
 
+;===========================================================================================
+;=================== STATE 7:   L O A D N O N G A M E P L A Y S C E N E ====================
+;===========================================================================================
 
 loadnongameplayscene: {
     jsr waitfornmi
@@ -157,18 +173,11 @@ loadnongameplayscene: {
     rts
 }
 
-
-spritesoff: {
-    sep #$20
-    
-    lda w_mainscreenlayers
-    and #%11101111
-    sta w_mainscreenlayers
-    
-    rep #$20
-    rts
-}
-
+;===========================================================================================
+;======================= STATE 6:    N O N G A M E P L A Y H A N D L E R ===================
+;===========================================================================================
+;handles dialogue scenes which aren't intro scenes
+;goes from gameplay back to gameplay
 
 nongameplayhandler: {
     lda w_scene_timer
@@ -199,6 +208,16 @@ nongameplayhandler: {
 }
 
 
+;===========================================================================================
+;=============================== STATE 2:   L O A D S C E N E ==============================
+;===========================================================================================
+;call scenetransition first, then change state to this.
+;the routine that actually handles loading the associates graphics and tilemaps, etc
+;is called load_scene, which is bad naming and i need to figure out how to fix this
+
+;actually this one seems to only be used for loading the intro.... so i guess we rename it
+
+
 loadscene: {
     jsr waitfornmi
     jsr screenoff
@@ -221,42 +240,14 @@ loadscene: {
     rts
 }
 
+;===========================================================================================
+;================================== STATE 0:   S E T U P ===================================
+;===========================================================================================
 
-layer3on: {
-    sep #$20
-    lda w_mainscreenlayers
-    ora #%00000100
-    sta w_mainscreenlayers
-    rep #$20
-    
-    rts
-    
-    .long: {
-        jsr layer3on
-        rtl
-    }
-}
-
-
-layer3off: {
-    sep #$20
-    lda w_mainscreenlayers
-    and #%11111011
-    sta w_mainscreenlayers
-    rep #$20
-    
-    rts
-    
-    .long: {
-        jsr layer3off
-        rtl
-    }
-}
-
+;first state that is called
+;initial setup for loading graphics, tilemaps
 
 setup: {
-    ;initial setup for loading graphics, tilemaps
-    
     sei
     
     jsr waitfornmi
@@ -318,6 +309,13 @@ setup: {
     rts
 }
 
+;===========================================================================================
+;=============================== STATE 3:   G A M E P L A Y=================================
+;===========================================================================================
+
+;high level gameplay
+;see gameplay.asm
+
 
 gameplayvector: {
     
@@ -325,6 +323,10 @@ gameplayvector: {
     
     rts
 }
+
+;===========================================================================================
+;=========================== STATE 1:    I N T R O H A N D L E R ===========================
+;===========================================================================================
 
 
 introhandler: {
@@ -389,6 +391,16 @@ introhandler: {
     }
 }
 
+
+;===========================================================================================
+;================================ STATE 4:   L O A D G A M E ===============================
+;===========================================================================================
+
+;set up gameplay
+;relies on the scene area of memory being populated by a call to
+;'scenetransition' having been done, probably immediately prior
+;is used for setting up gameplay for the first time and also
+;for doing room transitions between two gameplay rooms
 
 loadgame: {
     jsr disablenmi
@@ -483,6 +495,57 @@ loadgame: {
     
     rts
 }
+
+;===========================================================================================
+;==================== routines for turning layers on and off ===============================
+;===========================================================================================
+
+spritesoff: {
+    sep #$20
+    
+    lda w_mainscreenlayers
+    and #%11101111
+    sta w_mainscreenlayers
+    
+    rep #$20
+    rts
+}
+
+
+layer3on: {
+    sep #$20
+    lda w_mainscreenlayers
+    ora #%00000100
+    sta w_mainscreenlayers
+    rep #$20
+    
+    rts
+    
+    .long: {
+        jsr layer3on
+        rtl
+    }
+}
+
+
+layer3off: {
+    sep #$20
+    lda w_mainscreenlayers
+    and #%11111011
+    sta w_mainscreenlayers
+    rep #$20
+    
+    rts
+    
+    .long: {
+        jsr layer3off
+        rtl
+    }
+}
+
+;===========================================================================================
+;============================= fade in and out routines ====================================
+;===========================================================================================
 
 
 fadeout: {
