@@ -78,16 +78,52 @@ hud: {
         plb
         
         sep #$20
-        
-        ldx #!hud_buffer_size
-        lda #$20                ;ascii blank letter
-        
-        -
-        sta w_hud_buffer,x
-        dex
-        bpl -
-        
+        {
+            ldx #!hud_buffer_size
+            lda #$20                ;ascii blank letter
+            
+            -
+            sta w_hud_buffer,x
+            dex
+            bpl -
+        }
         rep #$20
+        
+        plx
+        plb
+        rtl
+    }
+    
+    .writeroomstring: {
+        phb
+        phx
+        phy
+        
+        pea.w bank(str)<<8
+        plb
+        plb
+        
+        lda.l w_level_hudstring
+        clc
+        adc #!hud_room_string_length
+        tay
+        
+        sep #$20
+        {
+            ldx #!hud_room_string_length
+            
+            -
+            lda $0000,y
+            sta.l w_hud_buffer+22,x
+            
+            dey
+            dex
+            bpl -
+            
+        }
+        rep #$20
+        
+        ply
         plx
         plb
         rtl
@@ -118,7 +154,7 @@ hud: {
         rtl
         
         ..string: {
-            db "life: 27              robot past"
+            db "life: 27                        "
             db "hud second row", !hud_end
         }
     }

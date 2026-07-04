@@ -91,6 +91,8 @@
 !hud_row_length             = $0020
 !hud_ascii_offset           = $20
 
+!hud_room_string_length     = $0009
+
 ;================================ object
 
 !obj_count      =   $001f

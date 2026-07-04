@@ -82,7 +82,7 @@ properties: {
     .city: {                        ;intro 4
         dw !state_loadscene         ;program state to enter
         dw str_intro4               ;text string pointer
-        db $00                      ;starting line for text
+        db $04                      ;starting line for text
         dw $0000                    ;hdma object to spawn and run
     }
     
@@ -110,6 +110,7 @@ properties: {
         dw objlist_room1                ;object list pointer        ;a
         dw collisionmap_room1           ;unimplemented              ;c
         dw faelist_room1                ;list of fae for the room   ;e
+        dw str_hudstring_room1          ;string to print on hud     ;$10
     }
     
     .room2: {
@@ -119,6 +120,7 @@ properties: {
         dw objlist_room2                ;object list pointer
         dw collisionmap_room2           ;unimplemented
         dw faelist_room2                ;
+        dw str_hudstring_room2          ;string to print on hud     ;$10
     }
     
     .icecave1: {
@@ -128,6 +130,7 @@ properties: {
         dw objlist_icecave1             ;object list pointer
         dw collisionmap_icecave1        ;unimplemented
         dw faelist_icecave1             ;
+        dw str_hudstring_icecave1       ;string to print on hud     ;$10
     }
     
     

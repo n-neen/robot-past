@@ -145,6 +145,8 @@ w: {
         ..objlistindex      : skip 2
         ..collisionmap_ptr  : skip 2
         ..faelist_ptr       : skip 2
+        
+        ..hudstring         : skip 2
     }
     
     .scroll: {

@@ -100,6 +100,9 @@ scenetransition: {
     lda $000e,x
     sta.l w_level_faelist_ptr
     
+    lda $0010,x
+    sta.l w_level_hudstring
+    
     plb
     rts
     
@@ -398,8 +401,7 @@ loadgame: {
     
     stz w_oam_index
     jsl oam_cleanbuffer
-    
-    jsl hud_draw
+    jsl oam_cleanhibytebuffer
     
     ;initialize scroll
     stz w_scroll_direction
@@ -425,6 +427,9 @@ loadgame: {
     sta w_msg_size
     
     jsl player_init
+    
+    jsl hud_writeroomstring
+    jsl hud_draw
     
     sep #$20
     {
