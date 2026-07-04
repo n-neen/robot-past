@@ -8,7 +8,7 @@
 
 !state_setup            =   $0000
 !state_introhandler     =   $0001
-!state_loadscene        =   $0002
+!state_loadintroscene   =   $0002
 !state_gameplay         =   $0003
 !state_loadgame         =   $0004
 !state_loadnongame      =   $0005

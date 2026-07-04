@@ -22,13 +22,16 @@ main: {
     jmp main
     
     .table: {
-        dw setup                    ;0
-        dw introhandler             ;1
-        dw loadscene                ;2 state wrapper for load_scene
-        dw gameplayvector           ;3              in loading.asm... yeah it's bad
-        dw loadgame                 ;4
-        dw loadnongameplayscene     ;5
-        dw nongameplayhandler       ;6
+        ;don't forget to make a corresponding define in defines.asm
+        ;!state_[name]
+        
+        dw setup                    ;0      ;initial program setup after boot.asm happens
+        dw introhandler             ;1      ;loads dialog scenes in order when button pressed
+        dw loadintroscene           ;2      ;load the individual scenes for above
+        dw gameplayvector           ;3      ;playing the game, top level routine in gameplay.asm
+        dw loadgame                 ;4      ;set up gameplay initially, and also for room transitions
+        dw loadnongameplayscene     ;5      ;load dialog scenes that come from gameplay and return to gameplay
+        dw nongameplayhandler       ;6      ;handle running the above after loading
     }
 }
 
@@ -37,6 +40,15 @@ main: {
 ;===========================================================================================
 ;populate scene area of memory
 ;typically call this then immediately call load_scene
+
+;there are three types of scenes:
+;
+;=gameplay scenes, also called rooms
+;
+;=two types of dialog/text scenes:
+; -intro scenes
+; -nongameplay scenes, which are called from gameplay rooms and return to gameplay rooms
+    ;such as through the dialogtrigger object
     
 
 scenetransition: {
@@ -87,8 +99,8 @@ scenetransition: {
     lda $0000,x
     sta.l w_scene_mode
     
-    cmp #!state_loadscene
-    beq .notgameplay
+    cmp #!state_loadgame        ;if not gameplay, go to nongameplay
+    bne .notgameplay
     
     .gameplay:                  ;else, gameplay
     
@@ -143,6 +155,8 @@ scenetransition: {
 ;===========================================================================================
 ;=================== STATE 7:   L O A D N O N G A M E P L A Y S C E N E ====================
 ;===========================================================================================
+;assumes that a call to scenetransition has been done
+
 
 loadnongameplayscene: {
     jsr waitfornmi
@@ -178,6 +192,7 @@ loadnongameplayscene: {
 ;===========================================================================================
 ;handles dialogue scenes which aren't intro scenes
 ;goes from gameplay back to gameplay
+;assumes w_nextscene has been set to the room we are going to return to
 
 nongameplayhandler: {
     lda w_scene_timer
@@ -209,16 +224,12 @@ nongameplayhandler: {
 
 
 ;===========================================================================================
-;=============================== STATE 2:   L O A D S C E N E ==============================
+;========================== STATE 2:   L O A D I N T R O S C E N E =========================
 ;===========================================================================================
 ;call scenetransition first, then change state to this.
-;the routine that actually handles loading the associates graphics and tilemaps, etc
-;is called load_scene, which is bad naming and i need to figure out how to fix this
-
-;actually this one seems to only be used for loading the intro.... so i guess we rename it
 
 
-loadscene: {
+loadintroscene: {
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
@@ -278,15 +289,13 @@ setup: {
     lda #!camera_speed_default
     sta w_scroll_cameraspeed
     
-    ldx.w #scenedef_meetsisters
-    jsr scenetransition         ;testing, populate pointers in scene ram
-    
-    ;temp test not real
+    ldx.w #scenedef_meetsisters             ;initial intro scene pointer
+    jsr scenetransition
     
     
     jsl load_bg3colortobuffer       ;bg3 palette
-    ;jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer        ;uhh just clear it?! lol
-    ;jsl load_bg3tilemapupload       ;upload buffer
+    ;jsl load_bg3tilemaptobuffer    ;tilemap copy to buffer
+    ;jsl load_bg3tilemapupload      ;upload buffer
     jsl load_bg3tilesupload         ;bg3 tiles to vram
     jsl load_playerpal
     jsl load_playergfx
@@ -303,7 +312,7 @@ setup: {
     jsr waitfornmi
     jsr screenon
     
-    lda #!state_loadscene       ;program state = load scene
+    lda #!state_loadintroscene      ;program state = load text scene (for intro)
     sta w_programstate
     
     rts

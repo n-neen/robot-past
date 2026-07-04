@@ -59,41 +59,41 @@ properties: {
 ; ============================ dialogue scenes (nongameplay) ===============================
     
     .meetsisters: {                 ;intro 1
-        dw !state_loadscene         ;program state to enter
+        dw !state_loadintroscene    ;program state to enter
         dw str_intro1               ;text string pointer
         db $08                      ;starting line for text
         dw hdma_testobject_inidisp  ;hdma object to spawn and run
     }
     
     .bloodlotus: {                  ;intro 2
-        dw !state_loadscene
+        dw !state_loadintroscene
         dw str_intro2
         db $16
         dw $0000                    ;hdma object to spawn and run
     }
     
     .flamecircle: {                 ;intro 3
-        dw !state_loadscene
+        dw !state_loadintroscene
         dw str_intro3
         db $18
         dw $0000                    ;hdma object to spawn and run
     }
     
     .city: {                        ;intro 4
-        dw !state_loadscene         ;program state to enter
+        dw !state_loadintroscene    ;program state to enter
         dw str_intro4               ;text string pointer
         db $04                      ;starting line for text
         dw $0000                    ;hdma object to spawn and run
     }
     
     .leveltest: {                   ;unused
-        dw !state_loadgame
+        dw !state_loadintroscene
         db $10
         dw $0000                    ;hdma object to spawn and run
     }
     
     .entrance: {
-        dw !state_loadscene         ;not actually used for dialog scenes
+        dw !state_loadnongame
         dw str_entrance
         db $0a                      ;starting line
         dw $0000                    ;hdma object to spawn and run
@@ -137,6 +137,6 @@ properties: {
     
 ; ============================== unused scene properties ===================================
     .light: {
-        dw !state_loadscene
+        dw !state_loadintroscene
     }
 }

@@ -64,7 +64,7 @@
         jsr scenetransition         ;populate scene area of memory
         
         lda w_scene_mode            ;transition to program state
-        sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
+        sta w_programstate          ;indicated by scene data
         
         jsl fadeout_long
         
@@ -218,12 +218,12 @@
         lda w_obj_var2,x            ;string ptr
         sta w_scene_strptr
         
-        lda w_obj_var1,x            ;
+        lda w_obj_var1,x            ;next scene to go to after text is over
         sta w_nextscene
         
-        lda #!state_loadnongame     ;transition to program state
-        sta w_scene_mode
-        sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
+        ;lda #!state_loadnongame
+        lda w_scene_mode            ;transition to program state
+        sta w_programstate          ;indicated by scene data
         
         jsl fadeout_long
         
