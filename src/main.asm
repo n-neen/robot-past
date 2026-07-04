@@ -92,7 +92,7 @@ scenetransition: {
     sta.l w_level_playerstarty
     
     lda $000a,x
-    sta.l w_level_objlist
+    sta.l w_level_objlist_ptr
     
     lda $000c,x
     sta.l w_level_collisionmap_ptr
@@ -101,7 +101,7 @@ scenetransition: {
     sta.l w_level_faelist_ptr
     
     lda $0010,x
-    sta.l w_level_hudstring
+    sta.l w_level_hudstring_ptr
     
     plb
     rts
@@ -355,7 +355,7 @@ introhandler: {
     jsl msg_scroll_main
     
     lda w_controller
-    bit #!controller_st
+    bit #!controller_no_dpad
     beq .return
     {
         lda w_testsceneindex

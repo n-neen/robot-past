@@ -316,7 +316,7 @@ obj: {
         ldx #!obj_count*2               ;for x = 2*obj slots
         {
             -
-            lda.l w_level_objlist
+            lda.l w_level_objlist_ptr
             clc
             adc.l w_level_objlistindex  ;objlist + index = what we are currently looking at
             tay

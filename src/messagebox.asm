@@ -162,6 +162,14 @@ msg: {
             phk
             plb
             
+            ;maybe this wrapping doesn't make sense right now
+            ;but eventually we'll need a state machine here
+            ;for wait, scroll up, and end scrolling
+            ;(and it won't use the controller anymore)
+            ;this scrolling routine can't really handle more than one pixel per frame speed
+            ;(i tested two and three pixels per frame and it broke)
+            ;i think, anyway. it could probably handle less, if you write the speed/subspeed
+            
             jsr msg_scroll_input
             
             rtl
@@ -201,7 +209,7 @@ msg: {
             and #$00ff
             sta w_bg3yscroll
             
-            ldx #$2022
+            ldx #$3863              ;tile to fill rows with while scrolling up
             stx p_0
             jsr msg_scroll_write
             
@@ -215,7 +223,7 @@ msg: {
             and #$00ff
             sta w_bg3yscroll
             
-            ldx #$2000
+            ldx #$2000              ;high priority nothin
             stx p_0
             jsr msg_scroll_write
             
@@ -223,30 +231,30 @@ msg: {
         }
         
         ..write: {
-            lda w_bg3yscroll
+            ;p_0 = word for filling rows
+            
+            lda w_bg3yscroll        ;load tiles in advance of the scroll to keep it offscreen
             sec
             sbc #$0007
             
-            bit #$0007
+            bit #$0007              ;only load rows when scroll mod 8
             bne +
             dec
             dec
             
-            asl
+            asl                     ;some kinda math
             asl
             asl
             clc
             adc #$004e
             
-            cmp #$0800
+            cmp #$0800              ;wrap when > $800
             bmi ++
             sec
             sbc #$0800
             ++
             tax
-            stx $40     ;debug for watching
-            
-            ;no idea how this works but i think i stumbled into a solution
+            stx $40                 ;debug for watching
             
             lda p_0
             ldy #$001f

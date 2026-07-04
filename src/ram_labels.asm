@@ -141,12 +141,12 @@ w: {
         ..playerstartx      : skip 2
         ..playerstarty      : skip 2
         
-        ..objlist           : skip 2
+        ..objlist_ptr       : skip 2
         ..objlistindex      : skip 2
         ..collisionmap_ptr  : skip 2
         ..faelist_ptr       : skip 2
         
-        ..hudstring         : skip 2
+        ..hudstring_ptr     : skip 2
     }
     
     .scroll: {

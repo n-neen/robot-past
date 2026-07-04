@@ -32,13 +32,13 @@ org $808000                             ;main system bank
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     incsrc "./src/hud.asm"
     
-    print "80 end: ", pc
+    print "80 end: ", pc, " main system bank"
     
 org $818000
     incsrc "./src/fae/fae.asm"
     incsrc "./src/fae/test.asm"
     incsrc "./src/fae/arrow.asm"
-    print "81 end: ", pc
+    print "81 end: ", pc, " fae code, spritemaps"
     
 ;================================= data banks =======================================
     
@@ -47,7 +47,7 @@ org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/objlists.asm"
     incsrc "./data/inc/faelist.asm"
     incsrc "./data/inc/strings.asm"
-    print "c0 end: ", pc, " scene definitions"
+    print "c0 end: ", pc, " scenedef, obj/fae lists, strings"
     
 org $c10000
     incsrc "./data/inc/c1.asm"

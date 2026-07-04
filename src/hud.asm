@@ -95,6 +95,9 @@ hud: {
     }
     
     .writeroomstring: {
+        ;currently fixed at 10 (decimal) characters
+        
+        
         phb
         phx
         phy
@@ -103,7 +106,7 @@ hud: {
         plb
         plb
         
-        lda.l w_level_hudstring
+        lda.l w_level_hudstring_ptr
         clc
         adc #!hud_room_string_length
         tay

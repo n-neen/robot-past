@@ -119,6 +119,7 @@
 !controller_l                         =       $0020
 !controller_r                         =       $0010
 
+!controller_no_dpad                   =       (!controller_st|!controller_sl|!controller_b|!controller_a|!controller_x|!controller_y|!controller_l|!controller_r)
 
 ;================================ fae
 
