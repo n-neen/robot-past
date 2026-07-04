@@ -182,8 +182,8 @@ fae: {
         phk
         plb
         
-        jsr fae_runmainroutines         ;let fae manipulate their spritemaps!
         jsr fae_collision               ;let collision delete them
+        jsr fae_runmainroutines         ;let fae manipulate their spritemaps!
         jsr fae_drawall                 ;them draw
         
         rtl

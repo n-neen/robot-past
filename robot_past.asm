@@ -36,8 +36,10 @@ org $808000                             ;main system bank
     
 org $818000
     incsrc "./src/fae/fae.asm"
+    incsrc "./src/fae/common.asm"
     incsrc "./src/fae/test.asm"
     incsrc "./src/fae/arrow.asm"
+    incsrc "./src/fae/explosion.asm"
     print "81 end: ", pc, " fae code, spritemaps"
     
 ;================================= data banks =======================================

@@ -2,10 +2,10 @@
 
 
 .test: {
-    dw ..main
-    dw ..touch
-    dw ..init
-    dw ..spritemap
+    dw ..main                   ;main routine
+    dw fae_common_explode       ;touch routine
+    dw ..init                   ;init routine
+    dw ..spritemap              ;spritemap
     
     dw $001e    ;x size
     dw $001e    ;y size
@@ -81,16 +81,7 @@
     }
     
     ..touch: {
-        
-        lda w_player_yspeed
-        eor #$ffff
-        inc
-        sta w_player_yspeed
-        
-        lda w_player_xspeed
-        eor #$ffff
-        inc
-        sta w_player_xspeed
+        ;not used, see pointers at top of file
         
         rts
     }
