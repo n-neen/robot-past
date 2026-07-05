@@ -1,9 +1,9 @@
 
 errhandle: {
+    ;brk, cop vector point here
     jml errhandle
 }
 
-;none of the irq stuff is currently used 6.22.2026
 
 irq: {
     rep #$30
@@ -12,13 +12,13 @@ irq: {
     phx
     phy
     
+    jml .setbank
+    .setbank:
+    
     phk
     plb
     
     lda $4211               ;acknowledge interrupt
-    
-    jml .setbank            ;maybe not necessary if this is short enough
-    .setbank:
     
     lda w_irq_command
     beq +
@@ -26,8 +26,10 @@ irq: {
     asl
     tax
     jsr (irq_commandlist,x)
+    jsr irq_settarget
     
     +
+    rep #$30
     ply
     plx
     pla
@@ -36,16 +38,41 @@ irq: {
     
     .commandlist: {
         dw $0000            ;0
-        dw irq_playerline   ;1
+        dw irq_hudstart     ;1
+        dw irq_hudend       ;2
     }
     
-    .settarget: {
-        ;maybe we don't need this
-        ;the only interrupt we're writing has a variable v target!
+    .enable: {
+        sep #$20
         
         phk
         plb
         
+        lda w_nmitimen
+        ora #%00110000
+        sta w_nmitimen
+        sta $4200
+        
+        rep #$20
+        rts
+    }
+    
+    .disable: {
+        sep #$20
+        
+        phk
+        plb
+        
+        lda w_nmitimen
+        and #%11001111
+        sta w_nmitimen
+        sta $4200
+        
+        rep #$20
+        rts
+    }
+    
+    .settarget: {
         phx
         
         lda w_irq_command
@@ -62,15 +89,47 @@ irq: {
         rts
         
         ..htable: {
-            dw $0000    ;0
-            dw $0040    ;1
+            dw $0000    ;0 null command
+            dw $00a8    ;1 hud start
+            dw $00a8    ;2 hud end
         }
         
         ..vtable: {
-            dw $0000    ;0
-            dw $0080    ;1
+            dw $0000                    ;0 null command
+            dw !hud_first_row_y_pos-1   ;1 hud start
+            dw !hud_second_row_y_pos+9  ;2 hud end
         }
     }
+    
+    .hudstart: {
+        sep #$20
+        
+        lda #%11101111
+        sta $2132
+        
+        lda.b #!irq_command_hud_end
+        sta w_irq_command
+        
+        rep #$20
+        
+        rts
+    }
+    
+    
+    .hudend: {
+        sep #$20
+        
+        lda #%11100000
+        sta $2132
+        
+        lda.b #!irq_command_hud_start
+        sta w_irq_command
+        
+        rep #$20
+        
+        rts
+    }
+    
     
     .playerlinebuildcolorlist: {
         php
@@ -341,7 +400,9 @@ colorbufferupload: {
 readcontroller: {
     php
     sep #$20
-    lda #$81            ;enable controller read
+    lda w_nmitimen
+    ora #$81
+    ;lda #$81            ;enable controller read
     sta $4200
     waitforread:
     lda $4212
@@ -441,9 +502,17 @@ screenoff: {        ;enable forced blank
 }
 
 
-disablenmi: {
+enablenmi: {
     sep #$20
-    stz $4200
+    
+    phk
+    plb
+    
+    lda w_nmitimen
+    ora #%10000000
+    sta $4200
+    sta w_nmitimen
+    
     rep #$20
     rts
     
@@ -454,10 +523,17 @@ disablenmi: {
 }
 
 
-enablenmi: {
+disablenmi: {
     sep #$20
-    lda #$80
+    
+    phk
+    plb
+    
+    lda w_nmitimen
+    and #%01111111
     sta $4200
+    sta w_nmitimen
+    
     rep #$20
     rts
     

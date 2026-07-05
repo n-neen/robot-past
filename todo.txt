@@ -25,3 +25,14 @@ state "loadscene" might actually just be used for loading the intro scene now, o
 ;so maybe the change is easy
     call it "load intro scene"
     change label, and associated define for state
+;;;i thin kthe above is now solved
+
+
+
+write irq for blanking main screen layers (1 and 2, maybe sprites) for under the hud?
+    start on line 16
+    end on line 33
+    ;probably h-dot $a0 or so for both
+    ;this works now but doesn't work during fade-in, might be annoying to debrug
+    
+    

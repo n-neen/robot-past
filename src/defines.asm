@@ -93,6 +93,11 @@
 
 !hud_room_string_length     = $0009
 
+;================================ irq
+
+!irq_command_hud_start      = $01
+!irq_command_hud_end        = $02
+
 ;================================ object
 
 !obj_count      =   $001f

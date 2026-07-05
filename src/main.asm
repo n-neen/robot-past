@@ -6,6 +6,7 @@
 ;here, like main gameplay, which is in its own file. also contains some important
 ;system routines like fadein, fadeout
 ;
+;there are some assumptions made that main.asm and interrupts.asm will be in the same bank!
 
 main: {
     phk
@@ -159,6 +160,7 @@ scenetransition: {
 
 
 loadnongameplayscene: {
+    sei
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
@@ -195,6 +197,7 @@ loadnongameplayscene: {
 ;assumes w_nextscene has been set to the room we are going to return to
 
 nongameplayhandler: {
+    sei
     lda w_scene_timer
     bne +
     stz w_bg3yscroll
@@ -230,6 +233,7 @@ nongameplayhandler: {
 
 
 loadintroscene: {
+    sei
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
@@ -347,6 +351,8 @@ introhandler: {
     ;+
     ;stz w_hdma_enable
     ;++
+    
+    sei
     
     lda w_scene_timer
     bne +
@@ -493,6 +499,12 @@ loadgame: {
     jsl oam_cleanbuffer
     jsl oam_constructhibuffer
     jsl oam_uploadbuffer
+    
+    lda #$0001
+    sta w_irq_command
+    jsr irq_settarget
+    jsr irq_enable
+    cli
     
     jsr enablenmi
     jsr waitfornmi

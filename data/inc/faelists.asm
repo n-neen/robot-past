@@ -17,21 +17,28 @@ faelist: {
 ;========================================== fae lists ======================================
     
     
-    .room1:
+    .room1: {
                         ;type       x      y      var1   var2   var3
         %fae_list_entry (fae_test, $0080, $0080, $0001, $0000, $0000)
         %fae_list_entry (fae_test, $0090, $0090, $0002, $0000, $0000)
         %fae_list_entry (fae_test, $00b0, $00b0, $0003, $0000, $0000)
         dw $ffff
-        
-    .room2:
+    }
+    
+    .room2: {
                         ;type        x      y      var1   var2   var3
         %fae_list_entry (fae_test,  $0180, $0080, $0000, $0000, $0000)
         %fae_list_entry (fae_arrow, $0180, $0040, $0000, $0000, $0000)
         dw $ffff
-        
-    .icecave1:
+    }
+    
+    .icecave1: {
                         ;type       x      y      var1   var2   var3
         %fae_list_entry (fae_test, $0180, $0180, $0000, $0000, $0000)
         dw $ffff
+    }
+    
+    .town: {
+        dw $ffff
+    }
 }

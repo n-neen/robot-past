@@ -2,6 +2,12 @@ gameplay: {
     phk
     plb
     
+    ;lda #$0001
+    ;sta w_irq_command
+    ;jsr irq_settarget
+    ;jsr irq_enable
+    ;cli
+    
     stz w_player_direction
     stz w_scroll_direction
     stz w_player_collisiontype          ;not really used currently

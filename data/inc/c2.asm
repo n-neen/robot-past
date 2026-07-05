@@ -26,10 +26,10 @@ meetsisters: {
 }
 
 
-leveltest: {
-    .pal:   incbin "./data/pal/leveltest.pal"
-    .gfx:   incbin "./data/gfx/leveltest.gfx"
-    .map:   incbin "./data/map/leveltest.map"
+town: {
+    .pal:   incbin "./data/pal/town.pal"
+    .gfx:   incbin "./data/gfx/town.gfx"
+    .map:   incbin "./data/map/town.map"
     
     
     .props:

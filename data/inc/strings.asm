@@ -9,22 +9,26 @@
 
 str: {
     .hudstring: {
+        ;length is currently mandated by !hud_room_string_length
         ..room1:        db "room1     "
         ..room2:        db "room2     "
         ..icecave1:     db "ice cave 1"
+        ..town:         db "town      "
     }
     
     .testtext: {
+        db !msg_newline
+        db !msg_newline
         db "        an act of love"
         db !msg_newline
         db !msg_newline
-        db "         remains at last"
+        db "          remains at last"
         db !msg_newline
         db !msg_newline
-        db "          preserved above"
+        db "            preserved above"
         db !msg_newline
         db !msg_newline
-        db "           from robot past"
+        db "              from robot past"
         
         db !msg_end
     }

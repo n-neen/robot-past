@@ -16,8 +16,10 @@ objlist: {
     
     .room1: {
                          ;type,      x    y    var1,  var2,  var3
-        %obj_list_entry (obj_door,  $30, $32, $0234, $0000, scenedef_room2)
-        %obj_list_entry (obj_solid, $10, $10, $0000, $0000, $0000)
+        %obj_list_entry (obj_door,  $32, $32, $0234, $0000, scenedef_room2)
+        %obj_list_entry (obj_door,  $10, $32, $0234, $0000, scenedef_town)
+        %obj_list_entry (obj_door,  $32, $10, $0234, $0000, scenedef_icecave1)
+        ;%obj_list_entry (obj_solid, $10, $10, $0000, $0000, $0000)
         dw $ffff    ;terminator
     }
     
@@ -32,6 +34,11 @@ objlist: {
     
     .icecave1: {
         %obj_list_entry (obj_door,          $1a, $13, $0234, $0223,        scenedef_room1)
+        dw $ffff
+    }
+    
+    .town: {
+        %obj_list_entry (obj_door,  $08, $08, $0234, $0000, scenedef_room2)
         dw $ffff
     }
 }

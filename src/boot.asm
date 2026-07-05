@@ -152,7 +152,12 @@ init: {
         lda.b #%00001001    ;drawing mode: 1 with bg3 priority
         sta $2105
         
-        lda #%00000000      ;color math layers
+        lda #%00000010
+        sta w_colormathlogic
+        sta $2130
+        
+        lda #%10110001      ;color math layers: backdrop, layer 1, sprites, subtractive mode
+        sta w_colormathlayers
         sta $2131
     
         lda #%00000001

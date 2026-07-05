@@ -21,7 +21,6 @@ scenedef: {
 ;contains common data for nongameplay, dialogue scenes; and gameplay rooms
     
     ;unused
-    .leveltest:         %scenedefentry(leveltest)       ;room
     .light:             %scenedefentry(light)           ;text
     
     ;intro text scenes
@@ -36,6 +35,7 @@ scenedef: {
     ;gameplay rooms
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
+    .town:              %scenedefentry(town)
     
     .icecave1:                      ;have to do this to reuse graphics :/
         dl icecave1                 ;long pointer to the scene data ;0
@@ -48,7 +48,7 @@ scenedef: {
 }
 
 ;===========================================================================================
-;========================================= scene properties ================================
+;==================================== scene properties =====================================
 ;===========================================================================================
 
 properties: {
@@ -86,12 +86,6 @@ properties: {
         dw $0000                    ;hdma object to spawn and run
     }
     
-    .leveltest: {                   ;unused
-        dw !state_loadintroscene
-        db $10
-        dw $0000                    ;hdma object to spawn and run
-    }
-    
     .entrance: {
         dw !state_loadnongame
         dw str_entrance
@@ -121,6 +115,16 @@ properties: {
         dw collisionmap_room2           ;unimplemented
         dw faelist_room2                ;
         dw str_hudstring_room2          ;string to print on hud     ;$10
+    }
+    
+    .town: {
+        dw !state_loadgame
+        dw $0080, $0080                 ;starting camera position x,y
+        dw $0100, $0100                 ;starting player position x,y
+        dw objlist_town                 ;object list pointer
+        dw collisionmap_town            ;unimplemented
+        dw faelist_town                 ;
+        dw str_hudstring_town           ;string to print on hud     ;$10
     }
     
     .icecave1: {
