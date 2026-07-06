@@ -14,6 +14,7 @@ hdma handler
 
 hud
     use sprites
+    all good, uses a buffer w/ ascii
 
 color cycling system
     color cycling objects
@@ -26,6 +27,7 @@ state "loadscene" might actually just be used for loading the intro scene now, o
     call it "load intro scene"
     change label, and associated define for state
 ;;;i thin kthe above is now solved
+yeah it is, what do u mean u think
 
 
 
@@ -34,5 +36,5 @@ write irq for blanking main screen layers (1 and 2, maybe sprites) for under the
     end on line 33
     ;probably h-dot $a0 or so for both
     ;this works now but doesn't work during fade-in, might be annoying to debrug
-    
+        ;changed to use color math instead of screen brightness. all done now
     

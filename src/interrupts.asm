@@ -25,9 +25,10 @@ irq: {
     
     asl
     tax
-    jsr (irq_commandlist,x)
-    jsr irq_settarget
-    
+    jsr (irq_commandlist,x) ;run interrupt command
+    jsr irq_settarget       ;set next interrupt target based on command.
+                            ;commands should return with w_irq_command 
+                            ;set to the next irq command index
     +
     rep #$30
     ply
@@ -37,12 +38,15 @@ irq: {
     rti
     
     .commandlist: {
+        ;irq command pointer list
         dw $0000            ;0
         dw irq_hudstart     ;1
         dw irq_hudend       ;2
     }
     
     .enable: {
+        ;notably does not cli
+        
         sep #$20
         
         phk
@@ -58,6 +62,8 @@ irq: {
     }
     
     .disable: {
+        ;notably does not sei
+        
         sep #$20
         
         phk
@@ -73,6 +79,11 @@ irq: {
     }
     
     .settarget: {
+        ;sets h-dot (h) and scanline (v) targets for next interrupt
+        ;based on w_irq_command
+        ;it is expected that every irq will set the w_irq_command
+        ;for the next irq that is desired
+        
         phx
         
         lda w_irq_command
@@ -102,6 +113,8 @@ irq: {
     }
     
     .hudstart: {
+        ;irq command 1
+        
         sep #$20
         
         lda #%11101111
@@ -117,6 +130,8 @@ irq: {
     
     
     .hudend: {
+        ;irq command 2
+        
         sep #$20
         
         lda #%11100000
@@ -129,6 +144,12 @@ irq: {
         
         rts
     }
+    
+    
+    ;player character cgblast line irq stuff is all deprecated
+    ;and unlikely to ever be used
+    ;mainly because it only ever worked properly on mesen
+    ;console tests failed to work as expected
     
     
     .playerlinebuildcolorlist: {
@@ -181,7 +202,7 @@ irq: {
         }
         rep #$20
         
-        lda #!irq_playerline
+        ;lda #!irq_playerline
         sta w_irq_command
         
         rts

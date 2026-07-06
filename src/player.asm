@@ -561,14 +561,9 @@ player: {
         beq ..nox
         {
             ;if x pressed
-            
             pha
             
-            sep #$20
-            {
-                ;uhhhhhhhhhhhhhhh
-            }
-            rep #$20
+            jsl shot_spawntest
             
             pla
         }
@@ -600,7 +595,17 @@ player: {
         }
         ..noa:
         
-        
+        bit #!controller_l
+        beq ..nol
+        {
+            ;if l pressed
+            pha
+            
+            jsl shot_clearall
+            
+            pla
+        }
+        ..nol:
         
         
         rts

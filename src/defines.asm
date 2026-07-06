@@ -14,9 +14,6 @@
 !state_loadnongame      =   $0005
 !state_nongamehandler   =   $0006
 
-!irq_none           =   $0000
-!irq_playerline     =   $0001
-
 
 ;pre-state
 ;currently not used

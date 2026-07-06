@@ -496,6 +496,8 @@ loadgame: {
     jsl fae_spawnall
     jsl fae_top
     
+    jsl shot_clearall
+    
     jsl oam_cleanbuffer
     jsl oam_constructhibuffer
     jsl oam_uploadbuffer

@@ -267,6 +267,20 @@ w: {
         print "fae end:   ", pc
     }
     
+    .shot: {
+        !shot_count     =   $0010
+        ..id            : skip 2*!shot_count+2
+        ..x             : skip 2*!shot_count+2
+        ..y             : skip 2*!shot_count+2
+        ..subx          : skip 2*!shot_count+2
+        ..suby          : skip 2*!shot_count+2
+        ..xspeed        : skip 2*!shot_count+2
+        ..xsubspeed     : skip 2*!shot_count+2
+        ..yspeed        : skip 2*!shot_count+2
+        ..ysubspeed     : skip 2*!shot_count+2
+        ..spritemap_ptr : skip 2*!shot_count+2
+    }
+    
     .hdma: {                           ;w_hdma
         ;object independent
         ..channels  : skip 2

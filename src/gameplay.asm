@@ -38,6 +38,8 @@ gameplay: {
         +
     }
     
+    jsl shot_top
+    
     jsl fae_top
     
     jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
