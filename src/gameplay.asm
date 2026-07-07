@@ -2,11 +2,7 @@ gameplay: {
     phk
     plb
     
-    ;lda #$0001
-    ;sta w_irq_command
-    ;jsr irq_settarget
-    ;jsr irq_enable
-    ;cli
+    jsl hud_handleglow
     
     stz w_player_direction
     stz w_scroll_direction
@@ -60,4 +56,6 @@ gameplay: {
         
         rtl
     }
+    
+    
 }

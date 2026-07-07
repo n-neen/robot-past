@@ -132,6 +132,68 @@ hud: {
         rtl
     }
     
+    
+    .handleglow: {
+        phk
+        plb
+        
+        lda w_hud_glow
+        beq +
+        
+        lda w_nmicounter
+        and #$003e
+        tax
+        
+        sep #$20
+        
+        lda hud_handleglow_triangletable,x
+        ora #%00100000
+        sta w_hud_colortint_r
+        
+        lda hud_handleglow_triangletable+2,x
+        ora #%01000000
+        sta w_hud_colortint_g
+        
+        lda hud_handleglow_triangletable+12,x
+        ora #%10000000
+        sta w_hud_colortint_b
+        
+        rep #$20
+        rtl
+        
+        +
+        sep #$20
+        
+        lda #%00101111
+        sta w_hud_colortint_r
+        
+        lda #%01001111
+        sta w_hud_colortint_g
+        
+        lda #%10001111
+        sta w_hud_colortint_b
+        
+        rep #$20
+        rtl
+        
+        ..triangletable: {   ;$3e entries... plus some 0 cause i'm off by one i guess
+                            ;oh and then double it, too, why not
+            db $01,$02,$03,$04,$05,$06,$07,$08,$09,$0a,$0b,$0c,$0d,$0e,$0f,
+               $11,$12,$13,$14,$15,$16,$17,$18,$19,$1a,$1b,$1c,$1d,$1e,$1f,
+               $1f,$1e,$1d,$1c,$1b,$1a,$19,$18,$17,$16,$15,$14,$13,$12,$11,
+               $0f,$0e,$0d,$0c,$0b,$0a,$09,$08,$07,$06,$05,$04,$03,$02,$01
+            db $00, $00, $00
+            
+            db $01,$02,$03,$04,$05,$06,$07,$08,$09,$0a,$0b,$0c,$0d,$0e,$0f,
+               $11,$12,$13,$14,$15,$16,$17,$18,$19,$1a,$1b,$1c,$1d,$1e,$1f,
+               $1f,$1e,$1d,$1c,$1b,$1a,$19,$18,$17,$16,$15,$14,$13,$12,$11,
+               $0f,$0e,$0d,$0c,$0b,$0a,$09,$08,$07,$06,$05,$04,$03,$02,$01
+            db $00, $00, $00
+               
+        }
+    }
+    
+    
     .test: {
         phb
         phx

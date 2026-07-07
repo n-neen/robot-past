@@ -563,7 +563,8 @@ player: {
             ;if x pressed
             pha
             
-            jsl shot_spawntest
+            lda #shot_bubble
+            jsl shot_spawn
             
             pla
         }
@@ -607,6 +608,30 @@ player: {
         }
         ..nol:
         
+        bit #!controller_st
+        beq ..nost
+        {
+            ;if start pressed
+            pha
+            
+            lda #$0001
+            sta w_hud_glow          ;turn on hud glow
+            
+            pla
+        }
+        ..nost:
+        
+        bit #!controller_sl
+        beq ..nosl
+        {
+            ;if select pressed
+            pha
+            
+            stz w_hud_glow          ;turn on hud glow
+            
+            pla
+        }
+        ..nosl:
         
         rts
     }

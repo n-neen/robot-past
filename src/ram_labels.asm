@@ -245,6 +245,11 @@ w: {
         ;make a text buffer? 32 chars per line, 2 lines
         !hud_buffer_size    =   $0064
         ..buffer:       : skip !hud_buffer_size
+        ..glow          : skip 2
+        ..colortint:
+            ...r        : skip 1
+            ...g        : skip 1
+            ...b        : skip 1
     }
     
     .fae: {
@@ -279,6 +284,11 @@ w: {
         ..yspeed        : skip 2*!shot_count+2
         ..ysubspeed     : skip 2*!shot_count+2
         ..spritemap_ptr : skip 2*!shot_count+2
+        ..xsize         : skip 2*!shot_count+2
+        ..ysize         : skip 2*!shot_count+2
+        ..basespeed     : skip 2*!shot_count+2
+        ..mainptr       : skip 2*!shot_count+2
+        ..initptr       : skip 2*!shot_count+2
     }
     
     .hdma: {                           ;w_hdma

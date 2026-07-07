@@ -117,7 +117,13 @@ irq: {
         
         sep #$20
         
-        lda #%11101111
+        lda w_hud_colortint_r
+        sta $2132
+        
+        lda w_hud_colortint_g
+        sta $2132
+        
+        lda w_hud_colortint_b
         sta $2132
         
         lda.b #!irq_command_hud_end

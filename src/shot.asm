@@ -1,10 +1,29 @@
 shot: {
     .top: {
+        jsr shot_runmain
         jsr shot_moveall
         jsr shot_cullall
         jsr shot_drawall
         
         rtl
+    }
+    
+    .runmain: {
+        ;i guess you could use this for animations
+        
+        ldx #!shot_count*2
+        
+        -
+        lda w_shot_mainptr,x
+        beq +
+        jsr (w_shot_mainptr,x)
+        +
+        dex
+        dex
+        bpl -
+        
+        
+        rts
     }
     
     .draw: {
@@ -189,52 +208,133 @@ shot: {
         rts
     }
     
-    .spawntest: {
+    .bubble: {
+        dw $0010                        ;xsize
+        dw $0010                        ;ysize
+        dw $0001                        ;base speed
+        dw shot_bubble_main             ;main ptr
+        dw shot_bubble_init             ;init ptr
+        dw shot_bubble_spritemap        ;spritemap ptr
+        
+        ..init: {
+            rts
+        }
+        
+        ..main: {
+            rts
+        }
+        
+        ..spritemap: {
+            db 01
+            ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
+            db $00, $00, $62, %00111110, $02
+        }
+    }
+    
+    
+    .spawn: {
+        ;a = shot header ptr
+        
         phx
+        phy
+        phb
+        
+        sta p_0                     ;shot header ptr
         
         jsr shot_findslot
+        
         ;x = shot index
         bmi ..noslotavailable
         
-        lda #shot_testspritemap
+        phk
+        plb
+        
+        lda p_0
+        tay
+        
         sta w_shot_id,x
         
-        lda #shot_testspritemap
+        lda $0000,y
+        sta w_shot_xsize,x
+        
+        lda $0002,y
+        sta w_shot_ysize,x
+        
+        lda $0004,y
+        sta w_shot_basespeed,x
+        
+        lda $0006,y
+        sta w_shot_mainptr,x
+        
+        lda $0008,y
+        sta w_shot_initptr,x
+        
+        lda $000a,y
         sta w_shot_spritemap_ptr,x
         
+        ;instance data
+        
         lda w_player_x
+        sec
+        sbc #$0004
         sta w_shot_x,x
         
         lda w_player_subx
         sta w_shot_subx,x
         
         lda w_player_y
+        sec
+        sbc #$0004
         sta w_shot_y,x
         
         lda w_player_suby
         sta w_shot_suby,x
         
         lda w_player_xspeed
-        asl
         sta w_shot_xspeed,x
         
         lda w_player_xsubspeed
         sta w_shot_xsubspeed,x
         
         lda w_player_yspeed
-        asl
         sta w_shot_yspeed,x
         
         lda w_player_ysubspeed
         sta w_shot_ysubspeed,x
         
+        jsr (w_shot_initptr,x)
+        
         ..noslotavailable
+        plb
+        ply
         plx
         rtl
     }
     
     .move: {
         ;x = shot index
+        
+        ;need to write a thing for w_shot_basespeed
+        ;to change sign based on the sign of w_shot_xspeed/yspeed
+        ;probably do that right here
+        
+        ;doesn't currently work, but y
+        
+        ;lda w_shot_xspeed,x
+        ;bpl +
+        ;lda w_shot_basespeed,x
+        ;eor #$ffff
+        ;inc
+        ;sta p_0                     ;inverted x base speed
+        ;+
+        ;
+        ;lda w_shot_yspeed,x
+        ;bpl +
+        ;lda w_shot_basespeed,x
+        ;eor #$ffff
+        ;inc
+        ;sta p_2                     ;inverted y base speed
+        ;+
         
         lda w_shot_subx,x
         clc
@@ -243,6 +343,8 @@ shot: {
         
         lda w_shot_x,x
         adc w_shot_xspeed,x
+        ;clc
+        ;adc p_0
         sta w_shot_x,x
         
         lda w_shot_suby,x
@@ -252,6 +354,8 @@ shot: {
         
         lda w_shot_y,x
         adc w_shot_yspeed,x
+        ;clc
+        ;adc p_2
         sta w_shot_y,x
         
         rts
@@ -275,11 +379,6 @@ shot: {
         rts
     }
     
-    .testspritemap: {
-        db 01
-        ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-        db $00, $00, $62, %00111110, $02
-    }
     
     .clearall: {
         phk

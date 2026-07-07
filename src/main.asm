@@ -422,9 +422,15 @@ loadgame: {
     jsr screenoff
     sei
     
+    phk
+    plb
+    
     jsl load_scene                  ;depends on a call to scenetransition having been done
     
     ;stz w_hdma_enable
+    
+    stz w_hud_glow
+    jsl hud_handleglow
     
     stz w_oam_index
     jsl oam_cleanbuffer

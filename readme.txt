@@ -25,6 +25,6 @@ Y: slow movement
 L: clear all shots
 R: nothing
 
-start: nothing
-select: nothing
+start: start the hud glowing for some reason
+select: stops the above
 
