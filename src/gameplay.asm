@@ -2,7 +2,10 @@ gameplay: {
     phk
     plb
     
-    jsl hud_handleglow
+    jsl hud_handleglow                  ;this set up parameters for an interrupt that
+                                        ;happens on scanline 8, so needs to happen early
+                                        ;in the game logic. unless you're ok with this 
+                                        ;having data from last frame (maybe fine)
     
     stz w_player_direction
     stz w_scroll_direction

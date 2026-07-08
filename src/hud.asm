@@ -97,7 +97,6 @@ hud: {
     .writeroomstring: {
         ;currently fixed at 10 (decimal) characters
         
-        
         phb
         phx
         phy
@@ -134,35 +133,53 @@ hud: {
     
     
     .handleglow: {
-        phk
-        plb
+        ;assumes db
+        phx
         
         lda w_hud_glow
-        beq +
+        beq ..noglow
         
-        lda w_nmicounter
-        and #$003e
+        sep #$30
+        
+        lda w_nmicounter            ;x = low byte of nmicounter << 2
+        asl
+        ;asl
+        adc w_nmicounter+1
         tax
         
-        sep #$20
+        clc
+        adc #$40                    ;p_0 = x + $40
+        sta p_0
         
-        lda hud_handleglow_triangletable,x
+        sec
+        sbc #$80                    ;p_2 = x - $40
+        sta p_2
+        
+        lda hud_handleglow_sinetable,x
         ora #%00100000
         sta w_hud_colortint_r
         
-        lda hud_handleglow_triangletable+2,x
+        ldx p_0
+        lda hud_handleglow_sinetable,x
         ora #%01000000
         sta w_hud_colortint_g
         
-        lda hud_handleglow_triangletable+12,x
+        ldx p_2
+        lda hud_handleglow_sinetable,x
         ora #%10000000
         sta w_hud_colortint_b
         
-        rep #$20
+        rep #$30
+        plx
         rtl
         
-        +
+        ..noglow:
         sep #$20
+        
+        ;default color: grey
+        ;still split into r,g,g because of how the interrupt is written
+        ;could write two interrupts to save a tiny amount of time
+        ;in the non-glow case. but who cares?
         
         lda #%00101111
         sta w_hud_colortint_r
@@ -174,22 +191,42 @@ hud: {
         sta w_hud_colortint_b
         
         rep #$20
+        plx
         rtl
         
-        ..triangletable: {   ;$3e entries... plus some 0 cause i'm off by one i guess
-                            ;oh and then double it, too, why not
-            db $01,$02,$03,$04,$05,$06,$07,$08,$09,$0a,$0b,$0c,$0d,$0e,$0f,
-               $11,$12,$13,$14,$15,$16,$17,$18,$19,$1a,$1b,$1c,$1d,$1e,$1f,
-               $1f,$1e,$1d,$1c,$1b,$1a,$19,$18,$17,$16,$15,$14,$13,$12,$11,
-               $0f,$0e,$0d,$0c,$0b,$0a,$09,$08,$07,$06,$05,$04,$03,$02,$01
-            db $00, $00, $00
-            
-            db $01,$02,$03,$04,$05,$06,$07,$08,$09,$0a,$0b,$0c,$0d,$0e,$0f,
-               $11,$12,$13,$14,$15,$16,$17,$18,$19,$1a,$1b,$1c,$1d,$1e,$1f,
-               $1f,$1e,$1d,$1c,$1b,$1a,$19,$18,$17,$16,$15,$14,$13,$12,$11,
-               $0f,$0e,$0d,$0c,$0b,$0a,$09,$08,$07,$06,$05,$04,$03,$02,$01
-            db $00, $00, $00
-               
+        ..sinetable: {
+         db $10, $10, $10, $11, $11, $11, $12, $12,
+            $13, $13, $13, $14, $14, $14, $15, $15,
+            $15, $16, $16, $16, $17, $17, $17, $18,
+            $18, $18, $19, $19, $19, $1a, $1a, $1a,
+            $1a, $1b, $1b, $1b, $1b, $1c, $1c, $1c,
+            $1c, $1d, $1d, $1d, $1d, $1d, $1e, $1e,
+            $1e, $1e, $1e, $1e, $1e, $1e, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1e, $1e, $1e, $1e, $1e,
+            $1e, $1e, $1e, $1d, $1d, $1d, $1d, $1d,
+            $1c, $1c, $1c, $1c, $1b, $1b, $1b, $1b,
+            $1a, $1a, $1a, $1a, $19, $19, $19, $18,
+            $18, $18, $17, $17, $17, $16, $16, $16,
+            $15, $15, $15, $14, $14, $14, $13, $13,
+            $13, $12, $12, $11, $11, $11, $10, $10,
+            $10, $0f, $0f, $0e, $0e, $0e, $0d, $0d,
+            $0c, $0c, $0c, $0b, $0b, $0b, $0a, $0a,
+            $0a, $09, $09, $09, $08, $08, $08, $07,
+            $07, $07, $06, $06, $06, $05, $05, $05,
+            $05, $04, $04, $04, $04, $03, $03, $03,
+            $03, $02, $02, $02, $02, $02, $01, $01,
+            $01, $01, $01, $01, $01, $01, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $01, $01, $01, $01, $01,
+            $01, $01, $01, $02, $02, $02, $02, $02,
+            $03, $03, $03, $03, $04, $04, $04, $04,
+            $05, $05, $05, $05, $06, $06, $06, $07,
+            $07, $07, $08, $08, $08, $09, $09, $09,
+            $0a, $0a, $0a, $0b, $0b, $0b, $0c, $0c,
+            $0c, $0d, $0d, $0e, $0e, $0e, $0f, $0f
         }
     }
     
