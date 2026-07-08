@@ -3,7 +3,8 @@
 
 .test: {
     dw ..main                   ;main routine
-    dw fae_common_explode       ;touch routine
+    ;dw fae_common_explode       ;touch routine
+    dw fae_common_normalhit     ;touch routine
     dw ..init                   ;init routine
     dw ..spritemap              ;spritemap
     

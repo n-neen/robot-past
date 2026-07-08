@@ -227,6 +227,9 @@ fae: {
     }
     
     .collision: {
+        lda w_player_iframes
+        bne ..nocollision
+        
         ldx #!fae_count*2
         
         -
@@ -241,6 +244,7 @@ fae: {
         dex
         bpl -
         
+        ..nocollision
         rts
         
         ..check: {

@@ -141,19 +141,20 @@ hud: {
         
         sep #$30
         
-        lda w_nmicounter            ;x = low byte of nmicounter << 2
+        lda w_nmicounter
         asl
-        ;asl
+        asl
         adc w_nmicounter+1
-        tax
+        tax                             ;x = table index for red
         
+        asl
         clc
-        adc #$40                    ;p_0 = x + $40
-        sta p_0
+        adc #$80
+        sta p_0                         ;p_0 = table index for green
         
         sec
-        sbc #$80                    ;p_2 = x - $40
-        sta p_2
+        sbc #$c0
+        sta p_2                         ;p_2 = table index for blue
         
         lda hud_handleglow_sinetable,x
         ora #%00100000

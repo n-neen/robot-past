@@ -125,6 +125,9 @@ w: {
         ..collisiontype     : skip 2
         ..tileindex         : skip 2    ;15a
         
+        ..iframes           : skip 2
+        ..hp                : skip 2
+        
         print "player end   ", pc
     }
     

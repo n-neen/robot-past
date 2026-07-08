@@ -18,6 +18,11 @@ player: {
         lda #!player_ysize_default
         sta w_player_ysize
         
+        stz w_player_iframes
+        
+        lda #$0080
+        sta w_player_hp
+        
         ;jsr player_olddraw             ;test sprite not real
         ;jsr player_draw                ;don't think this is necessary anymore
         
@@ -112,6 +117,15 @@ player: {
         rts
     }
     
+    .tickiframes: {
+        lda w_player_iframes
+        beq +
+        dec
+        sta w_player_iframes
+        
+        +
+        rts
+    }
     
     
     .main: {
@@ -121,6 +135,7 @@ player: {
         jsr player_input            ;get input. adds direction bits to w_player_direction
         ;jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
+        jsr player_tickiframes      ;count iframes down to 0
         jsr player_locateontile     ;translate player pixel position into tile index
         jsr player_collision        ;removes direction bits from w_player_direction (is what i would say if this worked)
         jsr player_applyvelocity    ;use subspeed and speed to affect player position
@@ -714,6 +729,13 @@ player: {
         phk
         plb
         
+        lda w_player_iframes        ;if iframes = 0, continue
+        beq +                       ;if iframes > 0
+        lda w_nmicounter            ;and nmicounter %1,
+        bit #$0001                  ;skip drawing
+        bne ..skip
+        
+        +
         ldx w_oam_index
         
         lda w_nmicounter
@@ -784,6 +806,8 @@ player: {
         bne ..nextsprite
         
         stx w_oam_index
+        
+        ..skip
         
         rep #$20
         

@@ -28,8 +28,7 @@ gameplay: {
         ;clear the hud area so the fae collision test result
         ;can be seen
         
-        lda w_nmicounter
-        bit #$005f
+        lda w_player_iframes
         bne +
         lda #$2020
         sta w_hud_buffer+10

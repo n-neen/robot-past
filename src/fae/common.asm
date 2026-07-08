@@ -28,7 +28,40 @@
     }
     
     
+    ..normalhit: {
+        ;touch reaction
+        
+        lda #$00c0
+        sta w_player_iframes
+        
+        ;write some structure to "how much contact damage and enemy does"
+        
+        ;lda w_player_hp
+        ;sec
+        ;sec w_fae_contactdamage,x
+        ;sta w_player_hp
+        
+        ;or
+        
+        ;phx
+        ;lda w_fae_id,x
+        ;tax
+        ;lda.l (bank(fae)<<16)+!contactdamage,x     ;!contactdamage is how far into the header it is
+        ;sta p_0
+        ;lda w_player_hp
+        ;sec
+        ;sbc p_0
+        ;sta w_player_hp
+        ;plx
+        ;
+        
+        
+        rts
+    }
+    
+    
     ..bounce: {
+        ;touch reaction
         lda w_player_yspeed
         eor #$ffff
         inc
