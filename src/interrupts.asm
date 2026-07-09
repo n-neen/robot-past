@@ -294,7 +294,6 @@ nmi: {
     beq .lag
     
     ;nmi stuf goez here
-    ;todo: ppu register buffers
     
     jsr colorbufferupload
     jsr nmippuregisters

@@ -71,6 +71,8 @@
 
 !player_max_speed               =   0003
 
+!player_frames_default          =   $00c0
+
 ;================================ oam
 
 !oam_hi_byte_buffer_size        =   $001f*4

@@ -491,7 +491,8 @@ player: {
         rts
     }
     
-    
+
+;======================================= INPUT =============================================
     .input: {
         lda w_controller
         
@@ -648,6 +649,19 @@ player: {
         }
         ..nosl:
         
+        bit #!controller_r
+        beq ..nor
+        {
+            ;if select pressed
+            pha
+            
+            jsr player_invertpalette
+            
+            pla
+        }
+        ..nor:
+        
+        
         rts
     }
     
@@ -714,6 +728,26 @@ player: {
         ..animationlist_horz: {
             db $d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8
         }
+    }
+    
+    
+    .invertpalette: {
+        lda w_nmicounter
+        bit #$0003
+        bne +
+        
+        ldx #$0020
+        
+        -
+        lda.l w_cgrambuffer+$1e0,x
+        eor #$7fff
+        sta.l w_cgrambuffer+$1e0,x
+        dex
+        dex
+        bpl -
+        
+        +
+        rts
     }
     
     

@@ -2,8 +2,6 @@
 
 .common:
     ..explode: {
-        ;only currently tested calling this from touch reaction
-        ;but it could maybe be called from main too?
         ;eventually we'll have shot reactions and that's the main place it'll go
         
         ;changes the fae's identity, main routine to that of the explosion
@@ -28,11 +26,14 @@
     }
     
     
-    ..normalhit: {
+    ..giveiframes: {
         ;touch reaction
+        ;x = fae index
         
-        lda #$00c0
+        lda #!player_frames_default
         sta w_player_iframes
+        
+        jmp fae_common_bounce
         
         ;write some structure to "how much contact damage and enemy does"
         
@@ -60,17 +61,49 @@
     }
     
     
+    ..stop: {
+        ;touch reaction
+        ;x = fae index
+        
+        stz w_player_yspeed
+        stz w_player_ysubspeed
+        
+        stz w_player_xspeed
+        stz w_player_xsubspeed
+        
+        rts
+    }
+    
+    
     ..bounce: {
         ;touch reaction
+        ;x = fae index
+        ;kinda just inverts speeds but also slow down a bit
+        
         lda w_player_yspeed
+        bmi +
+        dec
+        bra ++
+        +
+        inc
+        ++
         eor #$ffff
         inc
         sta w_player_yspeed
+        stz w_player_ysubspeed
+        
         
         lda w_player_xspeed
+        bmi +
+        dec
+        bra ++
+        +
+        inc
+        ++
         eor #$ffff
         inc
         sta w_player_xspeed
+        stz w_player_xsubspeed
         
         rts
     }
