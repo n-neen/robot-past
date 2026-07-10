@@ -331,6 +331,84 @@ bg3upload: {
 }
 
 
+vramqueue: {
+    .handle: {
+        ;unimplemented, unfinished
+        
+        
+        ;7 byte entries
+        ;dddd, ssss, 4321c0
+        ;dest  size  long ptr to source
+        
+        ;still need routines for adding entries amd deleting them
+        
+        lda w_vram_queue_index
+        ;this is the index of the /next/ entry so need to back up one entry
+        beq +
+        
+        -
+        sec
+        sbc #$0007
+        beq +
+        
+        tax
+        -
+        lda $00,x
+        sta w_dmabaseaddr
+        
+        lda $02,x
+        sta w_dmasize
+        
+        lda $04,x
+        sta w_dmasrcptr
+        
+        lda $06,x
+        and #$00ff
+        sta w_dmasrcbank
+        
+        jsl dma_vramtransfur
+        
+        lda w_vram_queue_index
+        sec
+        sbc #$0007
+        bne -
+        beq +
+        
+        bra -
+        
+        +
+        rts
+    }
+    
+    .add: {
+        ;arguments:
+        ;a   = size
+        ;x   = vram destination
+        ;p_0 = long pointer to data
+        
+        ;todo
+        
+        clc
+        adc #$0007
+        rtl
+    }
+    
+    .clear: {
+        ldx #!vram_queue_size*7
+        
+        stz w_vram_queue_index
+        
+        -
+        stz w_vram_queue,x
+        dex
+        dex
+        bpl -
+        
+        rtl
+    }
+}
+
+
 nmippuregisters: {
     sep #$20
     {

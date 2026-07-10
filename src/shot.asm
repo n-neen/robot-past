@@ -58,6 +58,7 @@ shot: {
         sta p_2                     ;y position on screen
         
         lda w_shot_pal,x
+        and #$00ff
         sta p_8
         
         lda w_shot_spritemap_ptr,x
@@ -344,39 +345,6 @@ shot: {
         rts
     }
     
-    .bubble: {
-        dw $0010                        ;xsize
-        dw $0010                        ;ysize
-        dw $0001                        ;base speed
-        dw shot_bubble_main             ;main ptr
-        dw shot_bubble_init             ;init ptr
-        dw shot_bubble_spritemap        ;spritemap ptr
-        
-        ..init: {
-            rts
-        }
-        
-        ..main: {
-            sep #$20
-            {
-                lda w_shot_counter,x
-                inc
-                sta w_shot_counter,x
-                and #%00000100
-                lsr
-                sta w_shot_pal,x
-            }
-            rep #$20
-            rts
-        }
-        
-        ..spritemap: {
-            db 01
-            ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $62, %00111110, $02
-        }
-    }
-    
     
     .spawn: {
         ;a = shot header ptr
@@ -554,6 +522,11 @@ shot: {
         stz w_shot_yspeed,x
         stz w_shot_ysubspeed,x
         stz w_shot_spritemap_ptr,x
+        stz w_shot_xsize,x
+        stz w_shot_ysize,x
+        stz w_shot_basespeed,x
+        stz w_shot_mainptr,x
+        stz w_shot_initptr,x
         stz w_shot_pal,x
         stz w_shot_counter,x
         

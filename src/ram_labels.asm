@@ -34,14 +34,15 @@ p: {
     .e  : skip 1
     .f  : skip 1
 }
-;$10-1f aren't represented here, oopz
 
 ;======================================= direct page =======================================
 
 d: {
-    org $20 ;why does this even exist? who knows!
+    org $10
     
-    .hcounter   :   skip 2
+    ;todo: move ppu register buffers into here
+    
+    .hcounter   :   skip 2      ;these should be deprecated
     .vcounter   :   skip 2
 }
 
@@ -295,7 +296,7 @@ w: {
         ..basespeed     : skip 2*!shot_count+2
         ..mainptr       : skip 2*!shot_count+2
         ..initptr       : skip 2*!shot_count+2
-        ..pal           : skip 2*!shot_count+2
+        ..pal           : skip 2*!shot_count+2      ;high byte is free
         ..counter       : skip 2*!shot_count+2
     }
     
@@ -330,6 +331,13 @@ w: {
         ..list              : skip 2*!glow_objects_count+2
         ..liststart         : skip 2*!glow_objects_count+2
         ..colorindexstart   : skip 2*!glow_objects_count+2
+    }
+    
+    .vram: {
+        ;7 bytes entries
+        !vram_queue_size    =   $0008
+        ..queue     :   skip 7*!vram_queue_size
+        ...index     :   skip 2
     }
     
     print "work ram end:   ", pc

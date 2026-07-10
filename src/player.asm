@@ -660,7 +660,11 @@ player: {
             ;if select pressed
             pha
             
+            lda w_nmicounter
+            bit #$0007
+            beq +
             jsr player_invertpalette
+            +
             
             pla
         }
