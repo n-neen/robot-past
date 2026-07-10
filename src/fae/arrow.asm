@@ -21,6 +21,7 @@
     dw ..main
     dw ..touch
     dw ..init
+    dw ..shot
     dw ..spritemap
     dw $0010    ;x size
     dw $0010    ;y size
@@ -96,6 +97,10 @@
         ;runs when collision is detected
         rts
     }
+    
+    ..shot: {
+        rts
+    }   
     
     ..spritemap: {
         ...left:

@@ -190,6 +190,13 @@ fae: {
     }
     
     
+    .runshot: {
+        jsr (w_fae_shotptr,x)
+        
+        rtl
+    }
+    
+    
     .drawall: {
         lda #bank(fae)
         sta p_2
@@ -408,13 +415,17 @@ fae: {
         sta w_fae_initptr,x
         
         lda $0006,y
-        sta w_fae_spritemapptr,x
+        sta w_fae_shotptr,x
         
         lda $0008,y
-        sta w_fae_xsize,x
+        sta w_fae_spritemapptr,x
         
         lda $000a,y
+        sta w_fae_xsize,x
+        
+        lda $000c,y
         sta w_fae_ysize,x
+        
         
         jsr (w_fae_initptr,x)
         

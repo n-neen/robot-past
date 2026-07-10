@@ -17,6 +17,8 @@
         
         stz w_fae_touchptr,x
         
+        stz w_fae_shotptr,x
+        
         lda #datasize(fae_explosion_spritemaplist)/2
         sta w_fae_var1,x
         

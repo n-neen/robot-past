@@ -11,6 +11,7 @@
 ;w_fae_touchptr
 ;w_fae_mainptr
 ;w_fae_initptr
+;w_fae_shotptr
 ;w_fae_xsize
 ;w_fae_ysize
 ;w_fae_var1
@@ -21,6 +22,7 @@
     dw ..main
     dw ..touch
     dw ..init
+    dw ..shot
     dw ..spritemap
     dw $0030    ;x size
     dw $0030    ;y size
@@ -37,6 +39,12 @@
     
     ..touch: {
         ;runs when collision is detected
+        rts
+    }
+    
+    ..shot: {
+        ;runs when shot
+        ;runs repeatedly until something else happens btw
         rts
     }
     

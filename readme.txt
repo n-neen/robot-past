@@ -23,7 +23,7 @@ X: shoot
 Y: slow movement
 
 L: clear all shots
-R: nothing
+R: invert sprite palette 7
 
 start: start the hud glowing for some reason
 select: stops the above

@@ -266,6 +266,7 @@ w: {
         ..suby          : skip 2*!fae_count+2
         ..spritemapptr  : skip 2*!fae_count+2
         ..touchptr      : skip 2*!fae_count+2
+        ..shotptr       : skip 2*!fae_count+2
         ..mainptr       : skip 2*!fae_count+2
         ..initptr       : skip 2*!fae_count+2
         ..xsize         : skip 2*!fae_count+2

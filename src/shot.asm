@@ -1,8 +1,12 @@
 shot: {
     .top: {
+        phk
+        plb
+        
         jsr shot_runmain
         jsr shot_moveall
         jsr shot_cullall
+        jsr shot_collision
         jsr shot_drawall
         
         rtl
@@ -205,6 +209,132 @@ shot: {
         
         ..slotfound:
         ;returns x = available shot index
+        rts
+    }
+    
+    .collision: {
+        phx
+        
+        ldx #!shot_count*2
+        
+        {   ;for each shot,
+            -
+            lda w_shot_id,x     ;for every shot that exists, check every fae that exists for collision
+            beq +
+            phx
+            txy                 ;in the inner loop, y = shot index
+            jsr shot_collision_checkfae
+            plx
+            +
+            dex
+            dex
+            bpl -
+        }
+        
+        plx
+        rts
+        
+        ..checkfae: {
+            ;y = shot index
+            
+            ;for each fae,
+            ldx #!fae_count*2
+            
+            -
+            lda w_fae_id,x
+            beq +
+            {
+                ;arguments:
+                ;x = fae index
+                ;y = shot index
+                
+                ;p_0 = left bound
+                ;p_2 = right bound
+                ;p_4 = bottom bound
+                ;p_6 = top bound
+                
+                ;calc shot hitbox
+                
+                lda w_shot_x,y              ;shot x - x size = left bound
+                sec
+                sbc w_shot_xsize,y
+                sta p_0                     ;in p_0
+                
+                lda w_shot_x,y              ;shot x + x size = right bound
+                clc
+                adc w_shot_xsize,y          ;in p_2
+                sta p_2
+                
+                lda w_shot_y,y              ;shot y + y size = bottom bound
+                clc
+                adc w_shot_ysize,y
+                sta p_4                     ;in p_4
+                
+                lda w_shot_y,y              ;shot y + y size = top bound
+                sec
+                sbc w_shot_ysize,y
+                sta p_6                     ;in p_6
+                
+                ;
+                ;
+                ;
+                
+                lda w_fae_x,x
+                clc
+                adc w_fae_xsize,x
+                cmp p_0
+                bmi +
+                
+                lda w_fae_x,x
+                sec
+                sbc w_fae_xsize,x
+                cmp p_2
+                bpl +
+                
+                lda w_fae_y,x
+                sec
+                sbc w_fae_ysize,x
+                cmp p_4
+                bpl +
+                
+                lda w_fae_y,x
+                clc
+                adc w_fae_ysize,x
+                cmp p_6
+                bmi +
+                
+                lda w_fae_shotptr,x
+                beq +
+                jsl fae_runshot
+                
+                +
+                ;no collision
+            
+            
+            }
+            +
+            dex
+            dex
+            bpl -
+            
+            rts
+        }
+    }
+    
+    .hit: {
+        ;x = fae index
+        ;y = shot index
+        
+        ;maybe don't need this. inlined it above
+        ;i guess for optimization
+        
+        phx
+        phy
+        
+        jsr (w_fae_shotptr,x)
+        
+        ply
+        plx
         rts
     }
     

@@ -5,6 +5,7 @@
     dw ..main                   ;main routine
     dw fae_common_giveiframes   ;touch routine
     dw ..init                   ;init routine
+    dw fae_common_explode       ;shot routine
     dw ..spritemap              ;spritemap
     
     dw $001e    ;x size
@@ -68,6 +69,11 @@
         }
         +
         
+        rts
+    }
+    
+    ..shot: {
+        ;
         rts
     }
     

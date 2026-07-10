@@ -5,6 +5,12 @@ objects to write:
     ^(make room smaller or larger)
 
 
+clean up boot code
+    ;clear all $4200-4300 registers sanely
+    keep nmi off until right before first call to main
+    or maybe keep it off until after state 0 runs? dunno
+
+
 RLE compression for tilemaps
     wrote decompression first. need to write python for compression
     

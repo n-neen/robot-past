@@ -18,12 +18,13 @@
 ;w_fae_var3
 
 .explosion: {
-    dw ..main
-    dw ..touch
-    dw ..init
-    dw ..spritemap
-    dw $0030    ;x size
-    dw $0030    ;y size
+    dw ..main               ;main routine
+    dw ..touch              ;touch routine
+    dw ..init               ;init routine
+    dw ..shot               ;shot routine
+    dw ..spritemap          ;spritemap
+    dw $0030                ;x size
+    dw $0030                ;y size
     
     ..main: {
         ;runs once per frame
@@ -68,6 +69,11 @@
         rts
     }
     
+    ..shot: {
+        ;runs when hit by a shot
+        rts
+    }
+    
     ..spritemaplist: {
         dw fae_explosion_spritemap_0
         dw fae_explosion_spritemap_1
@@ -81,26 +87,26 @@
         ...0
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a0, %00111110, $02
+            db $00, $00, $64, %00111110, $02
         ...1
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a2, %00111100, $02
+            db $00, $00, $66, %00111100, $02
         ...2
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a4, %00111110, $02
+            db $00, $00, $68, %00111110, $02
         ...3
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a6, %00111100, $02
+            db $00, $00, $6a, %00111100, $02
         ...4
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a8, %00111110, $02
+            db $00, $00, $6c, %00111110, $02
         ...5
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $aa, %00111100, $02
+            db $00, $00, $6e, %00111100, $02
     }
 }

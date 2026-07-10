@@ -94,15 +94,26 @@ init: {
         rep #$30
         
         
-        ldx #$000a
--       stz $4200,x         ;clear registers $4200-$420b... wait, does this ruin the above?
-        dex : dex
-        bne - 
+        stz $4201
+        stz $4203
+        stz $4205
+        stz $4207
+        stz $4209
+        stz $420b
+ 
         
-        ldx #$0082          ;clear registers $2101-2183
---      stz $2101,x
+        ldx #$0010          ;clear registers $2101-2182
+        -
+        stz $2101,x
+        stz $2111,x
+        stz $2121,x
+        stz $2131,x
+        stz $2141,x
+        stz $2151,x
+        stz $2161,x
+        stz $2171,x
         dex : dex
-        bne --
+        bpl -
         
         sep #$20
         
