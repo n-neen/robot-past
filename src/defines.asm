@@ -73,6 +73,9 @@
 
 !player_frames_default          =   $00c0
 
+!player_shot_allowed_bitmask    =   $0007       ;BIT tested with w_nmicounter
+                                                            ;maybe timer is better?
+
 ;================================ oam
 
 !oam_hi_byte_buffer_size        =   $001f*4

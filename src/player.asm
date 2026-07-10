@@ -579,9 +579,14 @@ player: {
             ;if x pressed
             pha
             
+            lda w_nmicounter
+            bit #!player_shot_allowed_bitmask
+            bne +
+            
             lda #shot_bubble
             jsl shot_spawn
             
+            +
             pla
         }
         ..nox:

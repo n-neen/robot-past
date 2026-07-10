@@ -230,30 +230,31 @@ w: {
         ..var2          :   skip 2*!obj_count+2
         ..var3          :   skip 2*!obj_count+2
         
-        ..screenupdates :   skip 2
-        ..drawindex     :   skip 2
-        ..index         :   skip 2
+        ..screenupdates :   skip 2  ;the first four bits control screen updates in vblank
+        ..drawindex     :   skip 2  ;
+        ..index         :   skip 2  ;
         print "obj end:   ", pc
     }
     
     .oam: {
-        ;print "oam buffer: ", pc
+        print "oam buffer: ", pc
         ..index         : skip 2
-        ..lo_buffer     : skip 512
-        ..hi_buffer     : skip 32
+        ..lo_buffer     : skip 512      ;lo_buffer and hi_buffer get uploaded
+        ..hi_buffer     : skip 32       ;
         ..hi_bytebuffer : skip 128      ;use these bytes to construct the real table
+        ;if oam overflows it will clobber the next thing
     }
     
     .hud: {
         ;uhhh
         ;make a text buffer? 32 chars per line, 2 lines
-        !hud_buffer_size    =   $0064
+        !hud_buffer_size    =   $0040
         ..buffer:       : skip !hud_buffer_size
-        ..glow          : skip 2
+        ..glow          : skip 2        ;boolean, zero or nonzero
         ..colortint:
-            ...r        : skip 1
-            ...g        : skip 1
-            ...b        : skip 1
+            ...r        : skip 1        ;5 bits for $2132
+            ...g        : skip 1        ;5 bits for $2132
+            ...b        : skip 1        ;5 bits for $2132
     }
     
     .fae: {
@@ -278,7 +279,7 @@ w: {
     }
     
     .shot: {
-        !shot_count     =   $0010
+        !shot_count     =   $0008
         ..id            : skip 2*!shot_count+2
         ..x             : skip 2*!shot_count+2
         ..y             : skip 2*!shot_count+2
@@ -294,6 +295,8 @@ w: {
         ..basespeed     : skip 2*!shot_count+2
         ..mainptr       : skip 2*!shot_count+2
         ..initptr       : skip 2*!shot_count+2
+        ..pal           : skip 2*!shot_count+2
+        ..counter       : skip 2*!shot_count+2
     }
     
     .hdma: {                           ;w_hdma

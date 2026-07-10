@@ -8,8 +8,13 @@ boot: {
     sei             ;disable irq
     
     sep #$20
-    lda #$01
-    sta $420d       ;enable fastrom
+    {
+        lda #$01
+        sta $420d       ;enable fastrom
+        
+        lda #$8f
+        sta $2100       ;enable forced blank
+    }
     rep #$30
     
     ldx #$1fff
@@ -85,22 +90,12 @@ init: {
         phk
         plb                 ;set db
         
-        sep #$30
-        lda #$8f
-        sta $2100           ;enable forced blank
-        lda #$01
-        sta $4200           ;enable joypad autoread
-        sta w_nmitimen      ;buffer
-        rep #$30
-        
-        
         stz $4201
         stz $4203
         stz $4205
         stz $4207
         stz $4209
         stz $420b
- 
         
         ldx #$0010          ;clear registers $2101-2182
         -
@@ -114,16 +109,6 @@ init: {
         stz $2171,x
         dex : dex
         bpl -
-        
-        sep #$20
-        
-        lda #%10110001      ;enable nmi, irq, and joypad auto-read
-        sta $4200
-        sta w_nmitimen
-        
-        sta $2100           ;enable forced blank
-        
-        rep #$20
         
     }
     
@@ -224,8 +209,17 @@ init: {
     stz.w w_programstate
     stz.w w_prestate
     
+    sep #$20
+    {
+        lda #%10110001      ;enable nmi, irq, and joypad auto-read
+        sta $4200
+        sta w_nmitimen
+    }
+    rep #$20
+    
     ;print pc, " decompression test"
     ;jsl decompressiontest
+    ;seems to work
     
 }
 

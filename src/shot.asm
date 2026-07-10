@@ -31,8 +31,6 @@ shot: {
     }
     
     .draw: {
-        ;just wrote, not debrugged yet
-        
         ;arguments:
         ;x = shot index
         
@@ -40,6 +38,7 @@ shot: {
         ;p_0 = x position on screen
         ;p_2 = y position on screen
         ;p_4 = number of sprites in spritemap to draw
+        ;p_8 = palette bits
         
         phb
         phx
@@ -57,6 +56,9 @@ shot: {
         sec
         sbc w_level_cameray
         sta p_2                     ;y position on screen
+        
+        lda w_shot_pal,x
+        sta p_8
         
         lda w_shot_spritemap_ptr,x
         tay                         ;y = spritemap pointer
@@ -89,6 +91,7 @@ shot: {
             sta.l w_oam_lo_buffer+2,x
             
             lda $0003,y             ;flips/properties
+            eor p_8
             sta.l w_oam_lo_buffer+3,x
             
             ;high table
@@ -213,6 +216,8 @@ shot: {
     }
     
     .collision: {
+        ;this nested for loop lags like hell
+        ;currently we have 16 shots as max, but maybe we could get away with 8 or fewer
         phx
         
         ldx #!shot_count*2
@@ -270,37 +275,37 @@ shot: {
                 adc w_shot_ysize,y
                 sta p_4                     ;in p_4
                 
-                lda w_shot_y,y              ;shot y + y size = top bound
+                lda w_shot_y,y              ;shot y - y size = top bound
                 sec
                 sbc w_shot_ysize,y
                 sta p_6                     ;in p_6
                 
                 ;
-                ;
+                ;calc fae hitbox
                 ;
                 
                 lda w_fae_x,x
                 clc
                 adc w_fae_xsize,x
-                cmp p_0
+                cmp p_0             ;shot left bound
                 bmi +
                 
                 lda w_fae_x,x
                 sec
                 sbc w_fae_xsize,x
-                cmp p_2
+                cmp p_2             ;shot right bound
                 bpl +
                 
                 lda w_fae_y,x
                 sec
                 sbc w_fae_ysize,x
-                cmp p_4
+                cmp p_4             ;shot bottom bound
                 bpl +
                 
                 lda w_fae_y,x
                 clc
                 adc w_fae_ysize,x
-                cmp p_6
+                cmp p_6             ;shot top bound
                 bmi +
                 
                 lda w_fae_shotptr,x
@@ -312,6 +317,7 @@ shot: {
             
             
             }
+            ;next x
             +
             dex
             dex
@@ -351,6 +357,16 @@ shot: {
         }
         
         ..main: {
+            sep #$20
+            {
+                lda w_shot_counter,x
+                inc
+                sta w_shot_counter,x
+                and #%00000100
+                lsr
+                sta w_shot_pal,x
+            }
+            rep #$20
             rts
         }
         
@@ -538,6 +554,8 @@ shot: {
         stz w_shot_yspeed,x
         stz w_shot_ysubspeed,x
         stz w_shot_spritemap_ptr,x
+        stz w_shot_pal,x
+        stz w_shot_counter,x
         
         rts
     }
