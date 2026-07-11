@@ -2,9 +2,12 @@
 ;======================================= PLAYER ============================================
 ;===========================================================================================
 
-;need sprite system
 
 player: {
+;======================================= INIT ==============================================
+;called from loadgame state. set up initial player state
+;player position is set in 'scenetransition' in main.asm
+
     .init: {
         lda w_level_playerstartx
         sta w_player_x
@@ -29,7 +32,8 @@ player: {
         rtl
     }
     
-    
+;===================================== CALCHITBOX ==========================================
+
     .calchitbox: {
         lda w_player_x              ;player x - x size = left bound
         sec
@@ -54,7 +58,12 @@ player: {
         rts
     }
     
-    
+;======================================= HITBOXSIZE ========================================
+;the call to this in player_main is currently commented out
+;added this based on a comment mysty made about doing something like this
+;for collision reasons. but i think what actually i should do is check ahead of the player
+;and not literally expand the hitbox. so, this is unlikely to be needed
+
     .hitboxsize: {
         lda w_player_direction
         beq +
@@ -77,14 +86,16 @@ player: {
         rts
     }
     
+;===================================== LOCATEONTILE ========================================
+;(player_y/8)*level_width+(player_x/8)
+
+;this returns a tile index into l_level_collision
+;to be used to do collision huh
+;if you wanted, could get tile x,y by saving these right-shifted values below
+
     .locateontile: {
         ;db=pb
         
-        ;(player_y/8)*level_width+(player_x/8)
-        
-        ;this returns a tile index into l_level_collision
-        ;to be used to do collision huh
-        ;if you wanted, could get tile x,y by saving these right-shifted values below
         
         lda w_player_x
         lsr
@@ -117,6 +128,10 @@ player: {
         rts
     }
     
+;========================================= TICKIFRAMES =====================================
+;count iframes down to 0
+;
+    
     .tickiframes: {
         lda w_player_iframes
         beq +
@@ -127,7 +142,12 @@ player: {
         rts
     }
     
-    
+;===========================================================================================
+;======================================= PLAYER_MAIN =======================================
+;===========================================================================================
+;high level player routine called from main gameplay
+;handles taking input, collision, movement, locating on screen and drawing
+;
     .main: {
         phk
         plb
@@ -164,7 +184,11 @@ player: {
         
         rtl
     }
-    
+
+;======================================= DECELERATE ========================================
+;if no direction bits are present, call player_move for the opposite direction
+;for which we have speed
+;e.g., if we have positive x speed (going right), call player_move for going left
     
     .decelerate: {
         lda w_player_direction
@@ -199,7 +223,9 @@ player: {
         rts
     }
     
-    
+;======================================= APPLYVELOCITY =====================================
+;subpixel and subspeed to subpixel and pixel 32 bit adds
+;
     .applyvelocity: {
         ..y
         
@@ -226,6 +252,10 @@ player: {
         rts
     }
     
+;============================================ MOVE =========================================
+;takes argument in A for direction bits (same as controller's dpad bits)
+;32 adds speed to velocity
+;
     
     .move: {
         ;A = direction bits
@@ -346,6 +376,12 @@ player: {
         }
     }
     
+;======================================= COLLISION =========================================
+;none of this is really implemented now
+;looks up the tile collision type and do jump table
+;collision maps currently not implemented 7.11.26
+;once they are, we need to actually write real collision types
+    
     .collision: {
         ;lda w_player_collisiontype
         ;asl
@@ -428,6 +464,10 @@ player: {
         }
     }
     
+;======================================== BOUNDSCHECK ===================================
+;very old hardcoded bounds check for the full room map
+;eventually, i want to have a tile object that can modify the bounds used here
+;crude ass walls
     
     .boundscheck: {
         ;todo: add level bounds to level metadata
@@ -493,6 +533,10 @@ player: {
     
 
 ;======================================= INPUT =============================================
+;read the controller's wram mirror
+;adds controller bits (which become direction bits at this point) to the player movement
+;
+;
     .input: {
         lda w_controller
         
@@ -674,6 +718,9 @@ player: {
         rts
     }
     
+;=========================================== OLDDRAW =======================================
+;should delete this. not used anymore. new draw is way better
+    
     .olddraw: {
         ;not used anymore
         sep #$20
@@ -739,6 +786,9 @@ player: {
         }
     }
     
+;========================================== INVERTPALETTE ==================================
+;invert every color of sprite palette 7 (in the color buffer)
+;
     
     .invertpalette: {
         lda w_nmicounter
@@ -760,11 +810,11 @@ player: {
     }
     
     
-    
+;======================================== PLAYER_DRAW ======================================
+;no offscreen handling
+;does have oam high table handling
     
     .draw: {
-        ;no offscreen handling
-        
         phb
         phx
         phy
@@ -885,6 +935,8 @@ player: {
     
     
     .spritemap: {
+        ;the player spritemaps ;p
+        
         ; xx yy tt pp hh
         ; ^  ^  ^  ^  ^
         ; x  ^  ^  ^  high table bits
