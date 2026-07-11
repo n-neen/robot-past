@@ -17,22 +17,29 @@
         
         sep #$20
         {
+            lda w_shot_globalcounter
+            inc
+            sta w_shot_globalcounter
+            and #%00000010
+            sta p_0
+            
             lda w_shot_counter,x
             inc
             sta w_shot_counter,x
             and #%00000100
-            ;lsr
             lsr
+            eor p_0
             sta w_shot_pal,x
         }
         rep #$20
         
-        lda w_nmicounter
+        lda w_shot_counter,x
         bit #$0007
         beq +
         
         lda w_shot_counter,x
-        and #$0006
+        and #$000c
+        lsr
         tay
         lda shot_bubble_spritemaplist,y
         sta w_shot_spritemap_ptr,x

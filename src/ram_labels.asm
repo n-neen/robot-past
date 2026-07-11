@@ -281,6 +281,8 @@ w: {
     
     .shot: {
         !shot_count     =   $0008
+        print "shot start: ", pc
+        ..globalcounter : skip 2
         ..id            : skip 2*!shot_count+2
         ..x             : skip 2*!shot_count+2
         ..y             : skip 2*!shot_count+2
@@ -298,6 +300,7 @@ w: {
         ..initptr       : skip 2*!shot_count+2
         ..pal           : skip 2*!shot_count+2      ;high byte is free
         ..counter       : skip 2*!shot_count+2
+        print "shot end:   ", pc
     }
     
     .hdma: {                           ;w_hdma
