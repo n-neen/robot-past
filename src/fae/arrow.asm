@@ -18,11 +18,11 @@
 ;w_fae_var3
 
 .arrow: {
-    dw ..main
-    dw ..touch
-    dw ..init
-    dw ..shot
-    dw ..spritemap
+    dw ..main                   ;main
+    dw fae_common_giveiframes   ;touch
+    dw ..init                   ;init
+    dw fae_common_explode       ;shot
+    dw ..spritemap              ;spritemap
     dw $0010    ;x size
     dw $0010    ;y size
     

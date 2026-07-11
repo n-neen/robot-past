@@ -38,8 +38,7 @@
         beq +
         
         lda w_shot_counter,x
-        and #$000c
-        lsr
+        and #$000e
         tay
         lda shot_bubble_spritemaplist,y
         sta w_shot_spritemap_ptr,x
@@ -54,25 +53,33 @@
         dw shot_bubble_spritemap_0,
            shot_bubble_spritemap_1,
            shot_bubble_spritemap_2,
-           shot_bubble_spritemap_3
+           shot_bubble_spritemap_3,
+           shot_bubble_spritemap_3,
+           shot_bubble_spritemap_2,
+           shot_bubble_spritemap_1,
+           shot_bubble_spritemap_0
     }
     
     ..spritemap: {
         ...0
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $62, %00111110, $02
+            ;db $04, $04, $6a, %10111110, $00
+            db $01, $00, $62, %00111110, $02
         ...1
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $60, %00111110, $02
+            ;db $04, $04, $6a, %01111110, $00
+            db $00, $01, $60, %00111110, $02
         ...2
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $62, %00111110, $02
+            ;db $04, $04, $6a, %11111110, $00
+            db $01, $01, $62, %00111110, $02
         ...3
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
+            ;db $04, $04, $6a, %00111110, $00
             db $00, $00, $80, %00111110, $02
     }
 }

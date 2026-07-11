@@ -71,6 +71,7 @@ shot: {
         plb
         
         lda $0000,y
+        and #$00ff
         sta p_4
         iny
         
@@ -312,6 +313,10 @@ shot: {
                 lda w_fae_shotptr,x
                 beq +
                 jsl fae_runshot
+                phx
+                tyx
+                jsr shot_clear
+                plx
                 
                 +
                 ;no collision

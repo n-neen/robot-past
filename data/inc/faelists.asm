@@ -25,6 +25,10 @@ faelist: {
         %fae_list_entry (fae_test, $00c0, $00c0, $0003, $0000, $0000)
         %fae_list_entry (fae_test, $00d0, $00c0, $0003, $0000, $0000)
         %fae_list_entry (fae_test, $00e0, $00c0, $0003, $0000, $0000)
+        %fae_list_entry (fae_test, $0120, $00c0, $0003, $0000, $0000)
+        %fae_list_entry (fae_test, $0130, $0100, $0003, $0000, $0000)
+        %fae_list_entry (fae_test, $0150, $0120, $0003, $0000, $0000)
+        %fae_list_entry (fae_test, $0170, $0130, $0003, $0000, $0000)
         dw $ffff
     }
     

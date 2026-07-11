@@ -531,7 +531,7 @@ waitfornmi: {
     lda #$01
     sta w_nmiflag
     
-    ;lda #$09                   ;uncomment to show cpu, sm style
+    ;lda #$05                   ;uncomment to show cpu, sm style
     ;sta $2100
     
     rep #$20
