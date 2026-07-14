@@ -97,38 +97,38 @@ w: {
     
     .player: {
         print "player start ", pc
-        ..x                 : skip 2
-        ..subx              : skip 2
-        ..y                 : skip 2
-        ..suby              : skip 2
+        ..x                     : skip 2
+        ..subx                  : skip 2
+        ..y                     : skip 2
+        ..suby                  : skip 2
         
-        ..xspeed            : skip 2
-        ..yspeed            : skip 2
-        ..xsubspeed         : skip 2
-        ..ysubspeed         : skip 2
+        ..xspeed                : skip 2
+        ..yspeed                : skip 2
+        ..xsubspeed             : skip 2
+        ..ysubspeed             : skip 2
         
-        ..x_onscreen        : skip 2
-        ..y_onscreen        : skip 2
+        ..x_onscreen            : skip 2
+        ..y_onscreen            : skip 2
         
-        ..direction         : skip 2
-        ..previousdirection : skip 2
+        ..direction             : skip 2
+        ..lastknowndirection    : skip 2
         
-        ..animationtimer    : skip 2
+        ..animationtimer        : skip 2
         
-        ..xsize             : skip 2
-        ..ysize             : skip 2
+        ..xsize                 : skip 2
+        ..ysize                 : skip 2
         
-        ..hitboxleft        : skip 2
-        ..hitboxright       : skip 2
-        ..hitboxtop         : skip 2
-        ..hitboxbottom      : skip 2
+        ..hitboxleft            : skip 2
+        ..hitboxright           : skip 2
+        ..hitboxtop             : skip 2
+        ..hitboxbottom          : skip 2
         
-        ..collisiontype     : skip 2
-        ..tileindex         : skip 2    ;15a
+        ..collisiontype         : skip 2
+        ..tileindex             : skip 2
         
-        ..iframes           : skip 2    ;boolean
-        ..hp                : skip 2
-        ..invertpalette     : skip 2    ;boolean
+        ..iframes               : skip 2    ;boolean
+        ..hp                    : skip 2
+        ..invertpalette         : skip 2    ;boolean
         
         print "player end   ", pc
     }
@@ -188,6 +188,7 @@ w: {
         ..strline       : skip 2
         ..timer         : skip 2
         ..hdmaobj       : skip 2        ;unused currently
+        ..scrolltextptr : skip 2        ;base pointer, use w_msg_scrollptr for base ptr+index=current ptr
     }
     
     .msg: {
@@ -196,7 +197,12 @@ w: {
         ..start         :   skip 2
         ..ptr           :   skip 2
         ..index         :   skip 2
+        
         ..scrolldir     :   skip 2
+        ..scrollptr     :   skip 2      ;base ptr+index
+        ..scrollindex   :   skip 2
+        
+        ..scrollpixels  :   skip 2
     }
     
     .obj: {

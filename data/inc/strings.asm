@@ -16,6 +16,36 @@ str: {
         ..town:         db "town      "
     }
     
+    .scrolltest: {
+        ;scrolling text commands
+        ;line to appear on : pointer to string
+        ;length is fixed at 32 characters right now
+        dw $0004, str_scrolltest_0
+        dw $0010, str_scrolltest_1
+        dw $0018, str_scrolltest_2
+        dw $0028, str_scrolltest_3
+        dw $0038, str_scrolltest_4
+        dw $0040, str_scrolltest_5
+        dw $0050, str_scrolltest_6
+        dw $00ff, str_scrolltest_7
+        dw $0123, str_scrolltest_8
+        dw $0150, str_scrolltest_9
+        dw $0200, str_scrolltest_10
+        dw $0000  ;end
+        
+        ..0:  db "words right here,               "
+        ..1:  db "different words...              "
+        ..2:  db "ooh, some other words           "
+        ..3:  db "ooh, some other words  3        "
+        ..4:  db "ooh, some other words  4        "
+        ..5:  db "ooh, some other words  5        "
+        ..6:  db "ooh, some other words  6        "
+        ..7:  db "ooh, some other words  7        "
+        ..8:  db "ooh, some other words  8        "
+        ..9:  db "ooh, some other words  9        "
+        ..10: db "ooh, some other words  10       "
+    }
+    
     .testtext: {
         db !msg_newline
         db !msg_newline

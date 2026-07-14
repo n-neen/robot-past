@@ -142,6 +142,19 @@ player: {
         rts
     }
     
+;================================ UPDATELASTKNOWNDIRECTION =================================
+;if direction = 0, don't update previous direction. otherwise, update previous direction
+;
+    .updatelastknowndirection: {
+        lda w_player_direction
+        beq +
+        
+        sta w_player_lastknowndirection
+        
+        +
+        rts
+    }
+    
 ;===========================================================================================
 ;======================================= PLAYER_MAIN =======================================
 ;===========================================================================================
@@ -157,6 +170,7 @@ player: {
         jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_tickiframes      ;count iframes down to 0
         jsr player_locateontile     ;translate player pixel position into tile index
+        jsr player_calchitbox       ;this used to be in obj collision
         jsr player_collision        ;removes direction bits from w_player_direction (is what i would say if this worked)
         jsr player_applyvelocity    ;use subspeed and speed to affect player position
         jsr player_decelerate       ;use the same to do the same (but inverse, if dpad not held)
@@ -164,7 +178,7 @@ player: {
         lda w_player_direction
         jsr player_move             ;move in the directions of remaining direction bits
         
-        jsr player_calchitbox       ;this used to be in obj collision
+        jsr player_updatelastknowndirection
         
         ;locate player on screen
         

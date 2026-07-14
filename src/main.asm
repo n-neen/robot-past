@@ -142,7 +142,10 @@ scenetransition: {
     sta.l w_scene_strline       ;what line to start text on
     
     lda $0005,x
-    sta.l w_scene_hdmaobj
+    sta.l w_scene_hdmaobj       ;not currently implemented
+    
+    lda $0007,x
+    sta.l w_scene_scrolltextptr ;ptr to scroll commands in strings.asm
     
     plb
     rts
@@ -176,6 +179,14 @@ loadnongameplayscene: {
     
     jsl load_scene
     
+    stz w_msg_scrollindex
+    stz w_msg_scrollpixels
+    
+    ;lda w_scene_scrolltextptr
+    ;beq +
+    ;jsl msg_scroll_init
+    ;+
+    
     lda #!state_nongamehandler
     sta w_programstate
     
@@ -206,6 +217,11 @@ nongameplayhandler: {
     ldy w_scene_strline
     jsl msg_display
     +
+    
+    ;lda w_scene_scrolltextptr
+    ;beq +
+    ;jsl msg_scroll_main
+    ;+
     
     lda w_controller
     beq +
@@ -241,6 +257,7 @@ loadintroscene: {
     stz w_hdma_enable
     stz w_glow_enable
     stz w_scene_timer
+    stz w_msg_scrollpixels
     
     jsl load_scene
     
@@ -307,6 +324,8 @@ setup: {
     lda #$01ff
     sta w_bg3yscroll
     
+    stz w_msg_scrollpixels
+    
     jsl obj_clearall
     
     ;ldy #glow_test
@@ -363,13 +382,15 @@ introhandler: {
         ldx w_scene_strptr
         ldy w_scene_strline
         jsl msg_display
-        
-        lda #$0001
-        sta w_scene_timer
     }
     +
     
+    inc w_scene_timer
+    
+    lda w_scene_scrolltextptr
+    beq +
     jsl msg_scroll_main
+    +
     
     lda w_controller
     bit #!controller_no_dpad

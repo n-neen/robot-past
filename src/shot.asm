@@ -430,30 +430,74 @@ shot: {
         rtl
     }
     
-    .move: {
+    .basespeedsign: {
         ;x = shot index
+        ;uses w_player_lastknowndirection to choose sign of w_shot_basespeed
+        ;puts base x speed in p_0
+        ;puts base y speed in p_2
         
-        ;need to write a thing for w_shot_basespeed
-        ;to change sign based on the sign of w_shot_xspeed/yspeed
-        ;probably do that right here
+        ;broken nonsense
         
-        ;doesn't currently work, but y
+        lda w_shot_basespeed,x
+        sta p_0
+        sta p_2
+        ;this will get overwritten with the sign inverted value
+        ;if necessary based on what happens below:
         
-        ;lda w_shot_xspeed,x
-        ;bpl +
-        ;lda w_shot_basespeed,x
-        ;eor #$ffff
-        ;inc
-        ;sta p_0                     ;inverted x base speed
-        ;+
-        ;
-        ;lda w_shot_yspeed,x
-        ;bpl +
-        ;lda w_shot_basespeed,x
-        ;eor #$ffff
-        ;inc
-        ;sta p_2                     ;inverted y base speed
-        ;+
+        lda w_player_lastknowndirection
+        bit #!controller_rt
+        beq ..nort
+        {
+            ;if direction bit for right present,
+            stz p_0
+        }
+        ..nort
+        
+        bit #!controller_lf
+        beq ..nolf
+        {
+            ;if direction bit for left present,
+            ;then base x speed is ngeative, invert sign
+            pha
+            lda w_shot_basespeed,x
+            eor #$ffff
+            inc
+            sta p_0
+            pla
+        }
+        ..nolf
+        
+        bit #!controller_up
+        beq ..noup
+        {
+            ;if direction bit for up present,
+            ;then base y speed is negative, invert sign
+            pha
+            lda w_shot_basespeed,x
+            eor #$ffff
+            inc
+            sta p_2
+            pla
+        }
+        ..noup    
+
+        bit #!controller_dn
+        beq ..nodn
+        {
+            ;if direction bit for down present,
+            stz p_2
+        }
+        ..nodn
+        
+        rts
+    }
+    
+    .move: {
+        ;x   = shot index
+        
+        ;jsr shot_basespeedsign
+        ;p_0 = base x speed
+        ;p_2 = base y speed
         
         lda w_shot_subx,x
         clc

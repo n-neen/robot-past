@@ -82,8 +82,10 @@
 
 ;================================ messagebox
 
-!msg_newline    = $0a                       ;used in messagebox.asm
-!msg_end        = $00                       ;and in strings.asm
+!msg_newline                = $0a       ;used in messagebox.asm
+!msg_end                    = $00       ;and in strings.asm
+!msg_scroll_entry_length    = $03       ;in stings.asm
+!scrolling_text_delay       = $0040
 
 ;================================ hud
 !hud_end                    = $ff
