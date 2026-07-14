@@ -254,7 +254,7 @@ msg: {
             ;x = index into w_msgbuffer
             ;y is free to use
             
-            print pc
+            ;print pc
             
             lda w_scene_scrolltextptr       ;check if this matches a prescribed line for writing
             sta p_0
@@ -280,18 +280,18 @@ msg: {
             lda [p_0],y
             sta p_0                         ;p_0 now long pointer to string
             
-            inx
+            inx                             ;off by one character somehow
             inx
             
             ldy #$0000
             -
             lda [p_0],y
             and #$00ff
-            beq ...next
+            beq ...finishline
             sec
             sbc #$0020
             ora #$2000
-            sta.l w_msgbuffer,x
+            sta w_msgbuffer,x
             ...next
             inx
             inx
@@ -311,16 +311,41 @@ msg: {
             
             inx
             inx
+
+            ldy #$0000
             
             lda #$2000
-            ldy #$0000
             -
-            sta.l w_msgbuffer,x
+            sta w_msgbuffer,x
             inx
             inx
             iny
             cpy #$0020
             bmi -
+            
+            rts
+            
+            ...finishline:
+            
+            ;y starts at 0 and goes towards $1f for the line anyway, so just leave it in tact
+            
+            inx
+            inx
+            dey
+            
+            lda #$2000
+            -
+            sta w_msgbuffer,x
+            inx
+            inx
+            iny
+            cpy #$0020
+            bmi -
+            
+            lda w_msg_scrollindex
+            clc
+            adc #$0004
+            sta w_msg_scrollindex
             
             rts
         }
@@ -333,7 +358,7 @@ msg: {
             
             lda w_bg3yscroll        ;load tiles in advance of the scroll to keep it offscreen
             sec
-            sbc #$000e
+            sbc #$0015              ;this subtract moves the seam further offscreen
             
             bit #$0007              ;only load rows when scroll mod 8
             bne +
@@ -347,12 +372,13 @@ msg: {
             adc #$004e
             
             cmp #$0800              ;wrap when > $800
-            bmi ++
+            bmi ...nowrap
+            ...wrap
             sec
             sbc #$0800
-            ++
+            ...nowrap
             tax
-            stx $40                 ;debug for watching
+            ;stx $40                 ;debug for watching
             
             {   ;this loop gets replaced with writing a line of text
                 jsr msg_scroll_writeline

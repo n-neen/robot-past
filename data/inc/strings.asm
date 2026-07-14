@@ -25,25 +25,25 @@ str: {
         dw $0018, str_scrolltest_2
         dw $0028, str_scrolltest_3
         dw $0038, str_scrolltest_4
-        dw $0040, str_scrolltest_5
+        dw $0041, str_scrolltest_5
         dw $0050, str_scrolltest_6
         dw $00ff, str_scrolltest_7
         dw $0123, str_scrolltest_8
         dw $0150, str_scrolltest_9
-        dw $0200, str_scrolltest_10
+        dw $0201, str_scrolltest_10
         dw $0000  ;end
         
-        ..0:  db "words right here,               "
-        ..1:  db "different words...              "
-        ..2:  db "ooh, some other words           "
-        ..3:  db "ooh, some other words  3        "
-        ..4:  db "ooh, some other words  4        "
-        ..5:  db "ooh, some other words  5        "
-        ..6:  db "ooh, some other words  6        "
-        ..7:  db "ooh, some other words  7        "
-        ..8:  db "ooh, some other words  8        "
-        ..9:  db "ooh, some other words  9        "
-        ..10: db "ooh, some other words  10       "
+        ..0:  db "0 words right here", !msg_end
+        ..1:  db "1 different words...   line $10", !msg_end
+        ..2:  db "2 once upon a tiem   line $18", !msg_end
+        ..3:  db "3 THERE WUZ A CAPITAL line $28", !msg_end
+        ..4:  db "4  SENTENCE OF WORDZ  LINE $38", !msg_end
+        ..5:  db "5  AND THEN UHH line $40", !msg_end
+        ..6:  db "6  i needed even more line $50", !msg_end
+        ..7:  db "7  because this needs line $ff", !msg_end
+        ..8:  db "8  to b infinitey wordline $123", !msg_end
+        ..9:  db "9  infintie words line $150", !msg_end
+        ..10: db "10 ok this is end line $201", !msg_end
     }
     
     .testtext: {
