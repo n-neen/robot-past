@@ -274,6 +274,11 @@ msg: {
             
             jsr (msg_scroll_nontextcommands,x)
             
+            lda w_msg_scrollindex       ;advance to next line:string pointer
+            clc
+            adc #$0004
+            sta w_msg_scrollindex
+            
             plb
             ply
             plx
@@ -319,10 +324,10 @@ msg: {
             lda #bank(str)
             sta p_2
             
-            lda [p_0],y
+            lda [p_0],y                             ;check for non-text command
             bpl +
-            jsr msg_scroll_handlenontextcommand
-            ;bcc + ;based on return of the above, do some branch
+            jsr msg_scroll_handlenontextcommand     ;run non-text command
+            bra ...clearline                        ;if we did, end the line
             +
             ora #$0001                      ;this prevents the bug with text lines that
             sta p_4                         ;are multiples of $20 not capable of being shown

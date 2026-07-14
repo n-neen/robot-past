@@ -21,6 +21,7 @@ str: {
         dw $0018, str_scrollingintro_1
         dw $0020, str_scrollingintro_2
         dw $0022, str_scrollingintro_3
+        dw $8000, $1234
         dw $0024, str_scrollingintro_4
         dw $0026, str_scrollingintro_5
         dw $0028, str_scrollingintro_6
