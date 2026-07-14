@@ -16,16 +16,24 @@ str: {
         ..town:         db "town      "
     }
     
+    .scrollingintro: {
+        dw $0010, str_scrollingintro_0
+        dw $0018, str_scrollingintro_1
+        dw $0000
+        
+        ..0: db "         ROBOT PAST", !msg_end
+        ..1: db "      a game by neen", !msg_end
+    }
+    
     .scrolltest: {
         ;scrolling text commands
         ;line to appear on : pointer to string
-        ;length is fixed at 32 characters right now
         dw $0004, str_scrolltest_0
         dw $0010, str_scrolltest_1
         dw $0018, str_scrolltest_2
         dw $0028, str_scrolltest_3
         dw $0038, str_scrolltest_4
-        dw $0041, str_scrolltest_5
+        dw $0040, str_scrolltest_5
         dw $0050, str_scrolltest_6
         dw $00ff, str_scrolltest_7
         dw $0123, str_scrolltest_8
@@ -47,6 +55,7 @@ str: {
     }
     
     .testtext: {
+        ;used in a text trigger object
         db !msg_newline
         db !msg_newline
         db "        an act of love"
@@ -64,6 +73,7 @@ str: {
     }
 
     .text2: {
+        ;used in a text trigger object
         db "text string 2"
         db !msg_newline
         db !msg_newline
@@ -127,6 +137,7 @@ str: {
     }
 
     .entrance: {
+        ;used in a dialogue trigger's dialog scene in ice cave intro
         db "             within"
         db !msg_newline
         db !msg_newline
@@ -140,6 +151,7 @@ str: {
     }
     
     .poem: {
+        ;not used
         db "a thought occurs and brings a scream"
         db !msg_newline
         db "out in the agony of returning to me"

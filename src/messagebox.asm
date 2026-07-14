@@ -162,18 +162,17 @@ msg: {
     
     .scroll: {
         ..main: {
+            ;this was a huge pain to write
+            ;line numbers that are multiples of $20 lines end up
+            ;in a section of w_msg_buffer that overflows into $7f
+            ;(the $40 bytes under $7fe000)
+            ;so you can either write a special case for this
+            ;or just don't use multiples of $20
+            ;actually, i added an ORA #$0001 that fixed this lol
+            
+            
             phk
             plb
-            
-            ;maybe this wrapping doesn't make sense right now
-            ;but eventually we'll need a state machine here
-            ;for wait, scroll up, and end scrolling
-            ;(and it won't use the controller anymore)
-            ;this scrolling routine can't really handle more than one pixel per frame speed
-            ;(i tested two and three pixels per frame and it broke)
-            ;i think, anyway. it could probably handle less, if you write the speed/subspeed
-            
-            ;jsr msg_scroll_input
             
             lda w_scene_timer
             cmp #!scrolling_text_delay
@@ -195,6 +194,7 @@ msg: {
         }
         
         ..input: {
+            ;not used anymore
             lda w_controller
             and #(!controller_up|!controller_dn)
             
@@ -223,6 +223,7 @@ msg: {
         
         
         ..up: {
+            ;not used anymore
             lda w_bg3yscroll
             dec
             and #$00ff
@@ -237,6 +238,7 @@ msg: {
         
         
         ..down: {
+            ;not used anymore
             lda w_bg3yscroll
             inc
             and #$00ff
@@ -254,13 +256,22 @@ msg: {
             ;x = index into w_msgbuffer
             ;y is free to use
             
+            ;p_0 = long pointer to line count:string
+            ;p_4 used to put value down to or $0001 it
+            
             ;print pc
+            
+            ldy w_msg_scrollindex
             
             lda w_scene_scrolltextptr       ;check if this matches a prescribed line for writing
             sta p_0
             
             lda #bank(str)
             sta p_2
+            
+            lda [p_0],y
+            ora #$0001                      ;this prevents the bug with text lines that
+            sta p_4                         ;are multiples of $20 not capable of being shown
             
             ldy w_msg_scrollindex
             
@@ -269,16 +280,17 @@ msg: {
             lsr
             lsr
             lsr                             ;(w_bg3yscroll+1)/8 = text line
-            cmp [p_0],y
+            ;cmp [p_0],y
+            cmp p_4                         ;
             bne ...clearline
             
             ;we have a line count match
             ;p_0 contains long pointer to the line count. string pointer is the word after that
             lda [p_0],y
-            inc p_0
+            inc p_0                         ;pointer+2 goes past the line count to the string pointer
             inc p_0
             lda [p_0],y
-            sta p_0                         ;p_0 now long pointer to string
+            sta p_0                         ;p_0 now long pointer to string (referenced)
             
             inx                             ;off by one character somehow
             inx
@@ -289,9 +301,9 @@ msg: {
             and #$00ff
             beq ...finishline
             sec
-            sbc #$0020
-            ora #$2000
-            sta w_msgbuffer,x
+            sbc #$0020                      ;align with ascii
+            ora #$2000                      ;add priority bit
+            sta.l w_msgbuffer,x
             ...next
             inx
             inx
@@ -299,7 +311,7 @@ msg: {
             cpy #$0020
             bne -
             
-            lda w_msg_scrollindex
+            lda w_msg_scrollindex       ;advance to next line:string pointer
             clc
             adc #$0004
             sta w_msg_scrollindex
@@ -342,7 +354,7 @@ msg: {
             cpy #$0020
             bmi -
             
-            lda w_msg_scrollindex
+            lda w_msg_scrollindex       ;advance to next line:string pointer
             clc
             adc #$0004
             sta w_msg_scrollindex
@@ -351,11 +363,6 @@ msg: {
         }
         
         ..seam: {
-            ;p_0 = word for filling rows
-            ;print hex(w_bg3yscroll)
-            
-            ;print pc
-            
             lda w_bg3yscroll        ;load tiles in advance of the scroll to keep it offscreen
             sec
             sbc #$0015              ;this subtract moves the seam further offscreen
@@ -378,20 +385,9 @@ msg: {
             sbc #$0800
             ...nowrap
             tax
-            ;stx $40                 ;debug for watching
-            
-            {   ;this loop gets replaced with writing a line of text
-                jsr msg_scroll_writeline
-                ;lda #$2045
-                ;ldy #$001f
-                ;-
-                ;sta w_msgbuffer,x
-                ;dex
-                ;dex
-                ;dey
-                ;bpl -
-            }
-            
+
+            jsr msg_scroll_writeline
+
             lda #$0800
             sta w_msg_size
             sta w_msg_uploadflag
