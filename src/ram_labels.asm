@@ -198,7 +198,7 @@ w: {
         ..ptr           :   skip 2
         ..index         :   skip 2
         
-        ..scrolldir     :   skip 2
+        ..scrollsubpos  :   skip 2
         ..scrollptr     :   skip 2      ;base ptr+index
         ..scrollindex   :   skip 2
         

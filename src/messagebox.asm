@@ -177,19 +177,66 @@ msg: {
             cmp #!scrolling_text_delay
             bmi +
             
-            lda w_bg3yscroll
-            inc
-            and #$00ff
-            sta w_bg3yscroll
-            
+            ;jsr msg_scroll_advance     ;broken
             lda w_msg_scrollpixels
             inc
             sta w_msg_scrollpixels
+            and #$00ff
+            sta w_bg3yscroll
             
             jsr msg_scroll_seam
             
             +
             rtl
+        }
+        
+        ..advance: {
+            ;subpixel implementation
+            ;this does not work at all
+            ;the scrolling is fine, but the loading seam does not function unless
+            ;we are going at exactly one pixel per frame of speed
+            ;which reaaaally sucks, but i am going to revert to that just so it works
+            ;surely someday i will fix this bug right?
+            ;rewrite this whole thing a fifth time?
+            
+            
+            phx
+            
+            ldx w_scene_gameprops
+            lda.l (bank(scenedef)<<16)+0|$0009,x
+            
+            ;format for speed.subspeed is fixed point:
+            ;one word, ssbb
+            ;where:
+            ;ss = speed
+            ;bb = subspeed
+            
+            stz p_4
+            
+            pha
+            and #$00ff
+            xba
+            ;subpixel speed
+            sta p_4
+            
+            pla
+            and #$ff00
+            xba
+            sta p_6
+            
+            lda w_msg_scrollsubpos
+            clc
+            adc p_4
+            sta w_msg_scrollsubpos
+            
+            lda w_msg_scrollpixels      ;add the carry/pixel speed
+            adc p_6
+            sta w_msg_scrollpixels
+            and #$00ff
+            sta w_bg3yscroll
+            
+            plx
+            rts
         }
         
         ..input: {
@@ -286,22 +333,30 @@ msg: {
         }
         
         ..nontextcommands: {
-            dw msg_scroll_nontextcommandtest1,
-               msg_scroll_nontextcommandtest2,
-               msg_scroll_nontextcommandtest3
+            dw msg_scroll_nontextcommandtest0,
+               msg_scroll_nontextcommandtest1,
+               msg_scroll_nontextcommandtest2
+        }
+        
+        ..nontextcommandtest0: {
+            ;A = command argument
+            ;x = command index if you cared about that (probably not)
+            
+            sta w_cgrambuffer   ;set backdrop color
+            
+            rts
         }
         
         ..nontextcommandtest1: {
             ;A = command argument
-            rts
+            
+            brk #$00        ;crash the program
+            
+            ;jml boot
+            ;rts
         }
         
         ..nontextcommandtest2: {
-            ;A = command argument
-            rts
-        }
-        
-        ..nontextcommandtest3: {
             ;A = command argument
             rts
         }
@@ -380,7 +435,7 @@ msg: {
             
             ...clearline:
             
-            inx
+            inx     ;why?
             inx
 
             ldy #$0000
@@ -400,9 +455,9 @@ msg: {
             
             ;y starts at 0 and goes towards $1f for the line anyway, so just leave it in tact
             
-            inx
-            inx
-            dey
+            ;inx
+            ;inx
+            ;dey
             
             lda #$2000
             -

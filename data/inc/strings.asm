@@ -16,82 +16,64 @@ str: {
         ..town:         db "town      "
     }
     
-    .scrollingintro: {
-        dw $0010, str_scrollingintro_0
-        dw $0018, str_scrollingintro_1
-        dw $0020, str_scrollingintro_2
-        dw $0022, str_scrollingintro_3
-        dw $8000, $1234
-        dw $0024, str_scrollingintro_4
-        dw $0026, str_scrollingintro_5
-        dw $0028, str_scrollingintro_6
-        dw $002a, str_scrollingintro_7
-        dw $002c, str_scrollingintro_8
-        dw $002e, str_scrollingintro_9
-        dw $0030, str_scrollingintro_10
-        dw $0032, str_scrollingintro_11
-        dw $0034, str_scrollingintro_12
-        dw $0036, str_scrollingintro_13
-        dw $0038, str_scrollingintro_14
-        dw $003a, str_scrollingintro_15
-        dw $003c, str_scrollingintro_16
-        dw $003e, str_scrollingintro_17
-        dw $0040, str_scrollingintro_18
-        dw $0042, str_scrollingintro_19
-        dw $0044, str_scrollingintro_20
-        dw $0046, str_scrollingintro_21
-        dw $0048, str_scrollingintro_22
-        dw $004a, str_scrollingintro_23
-        dw $004c, str_scrollingintro_24
-        dw $004e, str_scrollingintro_25
-        dw $0050, str_scrollingintro_26
-        dw $0052, str_scrollingintro_27
-        dw $0054, str_scrollingintro_28
-        dw $0056, str_scrollingintro_29
-        dw $0058, str_scrollingintro_30
-        dw $005a, str_scrollingintro_31
-        dw $005c, str_scrollingintro_32
-        dw $005e, str_scrollingintro_33
-        dw $0060, str_scrollingintro_34
-        dw $0062, str_scrollingintro_35
+    .credits: {
+        dw $0010, str_credits_0
+        dw $0014, str_credits_1
+        dw $0020, str_credits_2
+        dw $0024, str_credits_3
+        dw $0028, str_credits_4
+        dw $002c, str_credits_5
+        dw $0030, str_credits_6
+        dw $0034, str_credits_7
+        dw $0038, str_credits_8
+        dw $003c, str_credits_9
+        dw $0040, str_credits_10
+        dw $0044, str_credits_11
+        dw $0048, str_credits_12
+        dw $004c, str_credits_13
+        dw $0050, str_credits_14
+        dw $0054, str_credits_15
+        dw $006e, str_credits_16
+        dw $0070, str_credits_17
+        dw $0074, str_credits_18
+        dw $8001, $0000
         dw $0000
         
-        ..0:  db "         ROBOT PAST", !msg_end
-        ..1:  db "      a game by neen", !msg_end
-        ..2:  db "11111111111111111111111111111111", !msg_end
-        ..3:  db "22222222222222222222222222222222", !msg_end
-        ..4:  db "33333333333333333333333333333333", !msg_end
-        ..5:  db "44444444444444444444444444444444", !msg_end
-        ..6:  db "55555555555555555555555555555555", !msg_end
-        ..7:  db "66666666666666666666666666666666", !msg_end
-        ..8:  db "77777777777777777777777777777777", !msg_end
-        ..9:  db "88888888888888888888888888888888", !msg_end
-        ..10: db "99999999999999999999999999999999", !msg_end
-        ..11: db "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", !msg_end
-        ..12: db "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", !msg_end
-        ..13: db "cccccccccccccccccccccccccccccccc", !msg_end
-        ..14: db "dddddddddddddddddddddddddddddddd", !msg_end
-        ..15: db "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", !msg_end
-        ..16: db "ffffffffffffffffffffffffffffffff", !msg_end
-        ..17: db "01010101010101010101010101010101", !msg_end
-        ..18: db "02020202020202020202020202020202", !msg_end
-        ..19: db "03030303030303030303030303030303", !msg_end
-        ..20: db "04040404040404040404040404040404", !msg_end
-        ..21: db "05050505050505050505050505050505", !msg_end
-        ..22: db "06060606060606060606060606060606", !msg_end
-        ..23: db "07070707070707070707070707070707", !msg_end
-        ..24: db "08080808080808080808080808080808", !msg_end
-        ..25: db "09090909090909090909090909090909", !msg_end
-        ..26: db "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a", !msg_end
-        ..27: db "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", !msg_end
-        ..28: db "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c", !msg_end
-        ..29: db "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d", !msg_end
-        ..30: db "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e", !msg_end
-        ..31: db "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f", !msg_end
-        ..32: db "10101010101010101010101010101010", !msg_end
-        ..33: db "12121212121212121212121212121212", !msg_end
-        ..34: db "13131313131313131313131313131313", !msg_end
-        ..35: db "14141414141414141414141414141414", !msg_end
+        ..0:  db "           ROBOT PAST", !msg_end
+        ..1:  db "         a game by neen", !msg_end
+        ..2:  db "the process for making this game", !msg_end
+        ..3:  db "was a whirlwind of improvisation", !msg_end
+        ..4:  db "  ", !msg_end
+        ..5:  db "this game would not be possible", !msg_end
+        ..6:  db "without the support of several", !msg_end
+        ..7:  db "people, including:", !msg_end
+        ..8:  db "             Cera", !msg_end
+        ..9:  db "            RT-55J", !msg_end
+        ..10: db "             Dagit", !msg_end
+        ..11: db "            Alberto", !msg_end
+        ..12: db "               *", !msg_end
+        ..13: db "the people on metconst who", !msg_end
+        ..14: db "taught me a lot about assembly", !msg_end
+        ..15: db "               *", !msg_end
+        ..16: db "            the", !msg_end
+        ..17: db "                  end", !msg_end
+        ..18: db " ", !msg_end
+    }
+    
+    .scrollingintro: {
+        dw $0004, str_scrollingintro_0
+        dw $0008, str_scrollingintro_1
+        dw $0010, str_scrollingintro_2
+        dw $0020, str_scrollingintro_3
+        dw $0028, str_scrollingintro_4
+        dw $0000
+        
+        ..0:  db "     once         upon", !msg_end
+        ..1:  db "           a time", !msg_end
+        ..2:  db "uhhhhh there was", !msg_end
+        ..3:  db "             ...", !msg_end
+        ..4:  db "       a thing?", !msg_end
+        
     }
     
     .scrolltest: {

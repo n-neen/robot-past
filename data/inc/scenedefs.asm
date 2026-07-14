@@ -64,6 +64,7 @@ properties: {
         db $08                      ;starting line for text
         dw hdma_testobject_inidisp  ;hdma object to spawn and run
         dw str_scrollingintro       ;scrolling text commands (ptr to strings.asm)
+        dw $0010                    ;scrolling text speed
     }
     
     .bloodlotus: {                  ;intro 2
@@ -72,6 +73,7 @@ properties: {
         db $16
         dw $0000                    ;hdma object to spawn and run
         dw $0000                    ;scrolling text commands
+        dw $0080                    ;scrolling text speed
     }
     
     .flamecircle: {                 ;intro 3
@@ -80,6 +82,7 @@ properties: {
         db $18
         dw $0000                    ;hdma object to spawn and run
         dw $0000                    ;scrolling text commands
+        dw $0080                    ;scrolling text speed
     }
     
     .city: {                        ;intro 4
@@ -88,6 +91,7 @@ properties: {
         db $04                      ;starting line for text
         dw $0000                    ;hdma object to spawn and run
         dw $0000                    ;scrolling text commands
+        dw $0080                    ;scrolling text speed
     }
     
     .entrance: {
@@ -96,6 +100,7 @@ properties: {
         db $0a                      ;starting line
         dw $0000                    ;hdma object to spawn and run
         dw str_scrolltest           ;scrolling text commands
+        dw $0080                    ;scrolling text speed
     }
 
 
