@@ -170,7 +170,6 @@ msg: {
             ;or just don't use multiples of $20
             ;actually, i added an ORA #$0001 that fixed this lol
             
-            
             phk
             plb
             
@@ -251,6 +250,57 @@ msg: {
             rts
         }
         
+        ..handlenontextcommand: {
+            ;A = the contents of p_0 referenced as a pointer,
+            ;to the line count field of the scrolling text in strings.asm
+            ;if the $8000 bit is set, we get here, and treat it as a function command
+            
+            ;y = index into string list
+            
+            phx
+            phy
+            phb
+            
+            phk
+            plb
+            
+            and #$7fff
+            asl
+            tax
+            
+            iny
+            iny
+            lda [p_0],y
+            
+            jsr (msg_scroll_nontextcommands,x)
+            
+            plb
+            ply
+            plx
+            rts
+        }
+        
+        ..nontextcommands: {
+            dw msg_scroll_nontextcommandtest1,
+               msg_scroll_nontextcommandtest2,
+               msg_scroll_nontextcommandtest3
+        }
+        
+        ..nontextcommandtest1: {
+            ;A = command argument
+            rts
+        }
+        
+        ..nontextcommandtest2: {
+            ;A = command argument
+            rts
+        }
+        
+        ..nontextcommandtest3: {
+            ;A = command argument
+            rts
+        }
+        
         ..writeline: {
             ;w_bg3yscroll will be 1 less than having the $0008 bit
             ;x = index into w_msgbuffer
@@ -270,6 +320,10 @@ msg: {
             sta p_2
             
             lda [p_0],y
+            bpl +
+            jsr msg_scroll_handlenontextcommand
+            ;bcc + ;based on return of the above, do some branch
+            +
             ora #$0001                      ;this prevents the bug with text lines that
             sta p_4                         ;are multiples of $20 not capable of being shown
             

@@ -63,7 +63,7 @@ properties: {
         dw str_intro1               ;text string pointer
         db $08                      ;starting line for text
         dw hdma_testobject_inidisp  ;hdma object to spawn and run
-        dw str_scrolltest           ;scrolling text commands (ptr to strings.asm)
+        dw str_scrollingintro       ;scrolling text commands (ptr to strings.asm)
     }
     
     .bloodlotus: {                  ;intro 2
