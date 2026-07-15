@@ -32,6 +32,7 @@ org $808000                             ;main system bank
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     incsrc "./src/hud.asm"
     incsrc "./src/shot.asm"
+    incsrc "./src/shot/common.asm"
     incsrc "./src/shot/bubble.asm"
     print "80 end: ", pc, " main system bank"
     

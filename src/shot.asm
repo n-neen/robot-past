@@ -340,6 +340,9 @@ shot: {
         ;maybe don't need this. inlined it above
         ;i guess for optimization
         
+        ;oh also this jsr,x needs to be in the fae bank (currently $81)
+        ;so don't use this lmoa
+        
         phx
         phy
         
@@ -436,20 +439,15 @@ shot: {
         ;puts base x speed in p_0
         ;puts base y speed in p_2
         
-        ;broken nonsense
-        
-        lda w_shot_basespeed,x
-        sta p_0
-        sta p_2
-        ;this will get overwritten with the sign inverted value
-        ;if necessary based on what happens below:
-        
         lda w_player_lastknowndirection
         bit #!controller_rt
         beq ..nort
         {
             ;if direction bit for right present,
-            stz p_0
+            pha
+            lda w_shot_basespeed,x
+            sta p_0
+            pla
         }
         ..nort
         
@@ -485,7 +483,10 @@ shot: {
         beq ..nodn
         {
             ;if direction bit for down present,
-            stz p_2
+            pha
+            lda w_shot_basespeed,x
+            sta p_2
+            pla
         }
         ..nodn
         
@@ -494,6 +495,8 @@ shot: {
     
     .move: {
         ;x   = shot index
+        ;stz p_0
+        ;stz p_2
         
         ;jsr shot_basespeedsign
         ;p_0 = base x speed

@@ -5,11 +5,11 @@
     dw $0008                        ;ysize
     dw $0001                        ;base speed
     dw shot_bubble_main             ;main ptr
-    dw shot_bubble_init             ;init ptr
+    dw shot_common_init_basespeed   ;init ptr
     dw shot_bubble_spritemap        ;spritemap ptr
     
     ..init: {
-        rts
+        ;see shot/common.asm
     }
     
     ..main: {

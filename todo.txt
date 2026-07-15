@@ -4,6 +4,10 @@ objects to write:
     change physical bounds when touched
     ^(make room smaller or larger)
 
+write a system that does the following:
+    displays a message at the bottom of the screen on layer 3
+    draws a spritemap for a character portrait in the bottom left
+        corner of the screen
 
 clean up boot code
     ;clear all $4200-4300 registers sanely
