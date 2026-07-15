@@ -159,9 +159,9 @@ msg: {
         rtl
     }
     
-    
-    .scroll: {
-        ..main: {
+;===========================================================================================
+;============================== SCROLLING TEXT SYSTEM ======================================
+;===========================================================================================
             ;this was a huge pain to write
             ;line numbers that are multiples of $20 lines end up
             ;in a section of w_msg_buffer that overflows into $7f
@@ -169,6 +169,14 @@ msg: {
             ;so you can either write a special case for this
             ;or just don't use multiples of $20
             ;actually, i added an ORA #$0001 that fixed this lol
+            
+            ;this subsystem is pretty reckless with clobbering x and y
+            ;thankfully it doesn't end up mattering
+    
+    
+    .scroll: {
+        ..main: {
+;============================== SCROLL_MAIN ================================================
             
             phk
             plb
@@ -186,11 +194,20 @@ msg: {
             
             jsr msg_scroll_seam
             
+            lda w_controller
+            bit #!controller_up         ;press up to speed up
+            bne +
+            
+            jsl waitfornmi_long         ;halve the speeb, replaces call to msg_scroll_advance above
+            
             +
             rtl
         }
         
         ..advance: {
+;============================== SCROLL_ADVANCE =============================================
+            ;call is commented out, don't use this.
+            
             ;subpixel implementation
             ;this does not work at all
             ;the scrolling is fine, but the loading seam does not function unless
@@ -202,8 +219,8 @@ msg: {
             
             phx
             
-            ldx w_scene_gameprops
-            lda.l (bank(scenedef)<<16)+0|$0009,x
+            ldx w_scene_gameprops                          ;does not work anymore cuz
+            lda.l (bank(scenedef)<<16)+0|$0009,x           ;this data was removed from scenedef
             
             ;format for speed.subspeed is fixed point:
             ;one word, ssbb
@@ -239,6 +256,8 @@ msg: {
             rts
         }
         
+;===========================================================================================
+        ;deprecated scroll functions from when this was controlled with up and down on dpad
         ..input: {
             ;not used anymore
             lda w_controller
@@ -298,10 +317,12 @@ msg: {
         }
         
         ..handlenontextcommand: {
+;================================== HANDLENONTEXTCOMMAND ===================================
+            ;the scrolling text lists use one word for line counts to indicate the line
+            ;to write text on. the $8000 bit is a flag to indicate that we need to run
+            ;one of these functions instead. the bottom 15 bits are an index into this jump table
+        
             ;A = the contents of p_0 referenced as a pointer,
-            ;to the line count field of the scrolling text in strings.asm
-            ;if the $8000 bit is set, we get here, and treat it as a function command
-            
             ;y = index into string list
             
             phx
@@ -361,7 +382,10 @@ msg: {
             rts
         }
         
+        
+        
         ..writeline: {
+;================================== SCROLL_WRITELINE =======================================
             ;w_bg3yscroll will be 1 less than having the $0008 bit
             ;x = index into w_msgbuffer
             ;y is free to use
@@ -477,9 +501,18 @@ msg: {
         }
         
         ..seam: {
-            lda w_bg3yscroll        ;load tiles in advance of the scroll to keep it offscreen
+;================================== SCROLL_SEAM ============================================
+            ;this is the only call from scroll_main
+            ;and we figure out here if we have bg3yscroll%8
+            ;and if so, get the line's index into the $800 byte array at w_msgbuffer
+            ;there's a bug with this where $40 bytes of it overflows into $7f
+            ;hopefully won't matter
+            ;but it means that line counts that are multiples of $20 lines
+            ;won't be displayed. so there's an ORA #$0001 in msg_scroll_writeline to hide this bug
+            
+            lda w_bg3yscroll        ;load tiles in advance of the scroll to keep it offscreen,
             sec
-            sbc #$0015              ;this subtract moves the seam further offscreen
+            sbc #$0015              ;this subtraction moves the seam further offscreen
             
             bit #$0007              ;only load rows when scroll mod 8
             bne +

@@ -182,11 +182,6 @@ loadnongameplayscene: {
     stz w_msg_scrollindex
     stz w_msg_scrollpixels
     
-    ;lda w_scene_scrolltextptr
-    ;beq +
-    ;jsl msg_scroll_init
-    ;+
-    
     lda #!state_nongamehandler
     sta w_programstate
     
