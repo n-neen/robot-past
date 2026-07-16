@@ -102,6 +102,18 @@ w: {
         ..y                     : skip 2
         ..suby                  : skip 2
         
+        ..prevx                 : skip 2
+        ..prevsubx              : skip 2
+        ..prevy                 : skip 2
+        ..prevsuby              : skip 2
+        
+        ..nextx                 : skip 2
+        ..nextsubx              : skip 2
+        ..nexty                 : skip 2
+        ..nextsuby              : skip 2
+        
+        ..keepprevlocation      : skip 2
+        
         ..xspeed                : skip 2
         ..yspeed                : skip 2
         ..xsubspeed             : skip 2

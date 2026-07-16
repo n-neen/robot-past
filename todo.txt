@@ -4,6 +4,12 @@ objects to write:
     change physical bounds when touched
     ^(make room smaller or larger)
 
+the collision system is in a dire state
+    nothing works
+    well, not true. tile lookup in collision map works
+    but that's it
+
+
 write a system that does the following:
     displays a message at the bottom of the screen on layer 3
     draws a spritemap for a character portrait in the bottom left

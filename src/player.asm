@@ -35,22 +35,32 @@ player: {
 ;===================================== CALCHITBOX ==========================================
 
     .calchitbox: {
-        lda w_player_x              ;player x - x size = left bound
+        ;x = pointer to ram variable to use for horizontal
+        ;y = pointer to ram variable to use for vertical
+        ;print pc
+        stx p_0
+        sty p_2
+        
+        ;lda w_player_x              ;player x - x size = left bound
+        lda (p_0)
         sec
         sbc w_player_xsize
         sta w_player_hitboxleft
         
-        lda w_player_x              ;player x + x size = right bound
+        ;lda w_player_x              ;player x + x size = right bound
+        lda (p_0)
         clc
         adc w_player_xsize
         sta w_player_hitboxright
         
-        lda w_player_y              ;player y + y size = bottom bound
+        ;lda w_player_y              ;player y + y size = bottom bound
+        lda (p_2)
         clc
         adc w_player_ysize
         sta w_player_hitboxbottom
         
-        lda w_player_y              ;player y + y size = top bound
+        ;lda w_player_y              ;player y + y size = top bound
+        lda (p_2)
         sec
         sbc w_player_ysize
         sta w_player_hitboxtop
@@ -90,23 +100,33 @@ player: {
 ;(player_y/8)*level_width+(player_x/8)
 
 ;this returns a tile index into l_level_collision
-;to be used to do collision huh
 ;if you wanted, could get tile x,y by saving these right-shifted values below
+;
+;this uses the next suggested position in advance of where the player is
+;could make this take argument otherwhere and use it for both current tile
+;and future (next suggested position) tile
 
     .locateontile: {
-        ;db=pb
+        ;w_player_hitbox variables at this point are calculated for
+        ;w_player_nextx/nexty
         
+        ;x = pointer to variable for horizontal
+        ;y = pointer to variable for vertical
+        ;
         
-        lda w_player_x
-        lsr
-        lsr
-        lsr
-        sta p_0             ;player x pixel position/8 = player x tile position
+        stx p_2
+        sty p_4
         
-        lda w_player_y
+        lda (p_2)
         lsr
         lsr
-        lsr                 ;player x pixel position/8
+        lsr
+        sta p_0             ;player next suggested x pixel position/8 = player x tile position
+        
+        lda (p_4)
+        lsr
+        lsr
+        lsr                 ;player next suggested y pixel position/8
         
         sep #$20
         
@@ -156,6 +176,32 @@ player: {
     }
     
 ;===========================================================================================
+;shit ain't work
+    .collisionwrapper: {
+        ldx #w_player_hitboxleft
+        ldy #w_player_y
+        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        jsr player_collision        ;
+        
+        ldx #w_player_hitboxright
+        ldy #w_player_y
+        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        jsr player_collision        ;
+        
+        ldx #w_player_x
+        ldy #w_player_hitboxtop
+        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        jsr player_collision        ;
+        
+        ldx #w_player_x
+        ldy #w_player_hitboxbottom
+        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        jsr player_collision        ;
+        
+        rts
+    }
+    
+;===========================================================================================
 ;======================================= PLAYER_MAIN =======================================
 ;===========================================================================================
 ;high level player routine called from main gameplay
@@ -165,18 +211,32 @@ player: {
         phk
         plb
         
+        stz w_player_keepprevlocation
+        
+        jsr player_updatepreviousposition
+        
         jsr player_input            ;get input. adds direction bits to w_player_direction
-        ;jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_tickiframes      ;count iframes down to 0
-        jsr player_locateontile     ;translate player pixel position into tile index
-        jsr player_calchitbox       ;this used to be in obj collision
-        jsr player_collision        ;removes direction bits from w_player_direction (is what i would say if this worked)
+        
+        lda w_player_direction      ;suggested directions
+        jsr player_suggestlocation  ;calculate nextx/y position for checking what collision would be
+        
+        ldx #w_player_nextx
+        ldy #w_player_nexty
+        jsr player_calchitbox       ;use for collision with tiles, use next suggested position
+        
+        ;jsr player_collisionwrapper
+        
         jsr player_applyvelocity    ;use subspeed and speed to affect player position
         jsr player_decelerate       ;use the same to do the same (but inverse, if dpad not held)
         
         lda w_player_direction
         jsr player_move             ;move in the directions of remaining direction bits
+        
+        ldx #w_player_x
+        ldy #w_player_y
+        jsr player_calchitbox       ;use for collision with objects and fae, use actual updated position
         
         jsr player_updatelastknowndirection
         
@@ -197,6 +257,24 @@ player: {
         jsr player_draw
         
         rtl
+    }
+    
+;====================================== UPDATEPREVIOUSPOSITION =============================
+
+    .updatepreviousposition: {
+        lda w_player_x
+        sta w_player_prevx
+        
+        lda w_player_y
+        sta w_player_prevy
+        
+        lda w_player_subx
+        sta w_player_prevsubx
+        
+        lda w_player_suby
+        sta w_player_prevsuby
+        
+        rts
     }
 
 ;======================================= DECELERATE ========================================
@@ -242,7 +320,6 @@ player: {
 ;
     .applyvelocity: {
         ..y
-        
             lda w_player_suby
             clc
             adc w_player_ysubspeed
@@ -251,9 +328,8 @@ player: {
             lda w_player_y
             adc w_player_yspeed
             sta w_player_y
-        
+            
         ..x
-        
             lda w_player_subx
             clc
             adc w_player_xsubspeed
@@ -262,6 +338,37 @@ player: {
             lda w_player_x
             adc w_player_xspeed
             sta w_player_x
+        
+        rts
+    }
+    
+;======================================= SUGGESTLOCATION =====================================
+;subpixel and subspeed to subpixel and pixel 32 bit adds
+;same as the above but happens earlier in the logic
+;uses previous location and makes a suggested next location, which is teh nused for collision checks
+;
+    .suggestlocation: {
+        ..y
+        
+            lda w_player_prevsuby
+            clc
+            adc w_player_ysubspeed
+            sta w_player_nextsuby
+            
+            lda w_player_prevy
+            adc w_player_yspeed
+            sta w_player_nexty
+        
+        ..x
+        
+            lda w_player_prevsubx
+            clc
+            adc w_player_xsubspeed
+            sta w_player_nextsubx
+            
+            lda w_player_prevx
+            adc w_player_xspeed
+            sta w_player_nextx
         
         rts
     }
@@ -275,41 +382,73 @@ player: {
         ;A = direction bits
         
         bit #!controller_up
-        beq +
+        beq ..noup
         {
             pha
+            bit w_player_keepprevlocation
+            bne +
             jsr player_move_up
+            bra ++
+            +
+            
+            ;lda w_player_prevx
+            ;sta w_player_x
+            ++
             pla
         }
-        +
+        ..noup
         
         bit #!controller_dn
-        beq +
+        beq ..nodn
         {
             pha
+            bit w_player_keepprevlocation
+            bne +
             jsr player_move_down
+            bra ++
+            +
+            
+            ;lda w_player_prevy
+            ;sta w_player_y
+            ++
             pla
         }
-        +
+        ..nodn
         
         bit #!controller_lf
-        beq +
+        beq ..nolf
         {
             pha
+            bit w_player_keepprevlocation
+            bne +
             jsr player_move_left
+            bra ++
+            +
+            
+            ;lda w_player_prevx
+            ;sta w_player_x
+            ++
             pla
         }
-        +
+        ..nolf
         
         
         bit #!controller_rt
-        beq +
+        beq ..nort
         {
             pha
+            bit w_player_keepprevlocation
+            bne +
             jsr player_move_right
+            bra ++
+            +
+            
+            ;lda w_player_prevx
+            ;sta w_player_x
+            ++
             pla
         }
-        +
+        ..nort
         
         rts
         
@@ -390,21 +529,14 @@ player: {
         }
     }
     
+
 ;======================================= COLLISION =========================================
-;none of this is really implemented now
-;looks up the tile collision type and do jump table
-;collision maps currently not implemented 7.11.26
-;once they are, we need to actually write real collision types
+;w_player_keepprevlocation
+;contains 4 flags, one for each direction
+;signaling to the later call to player_move that we should skip updating position in that direction
     
     .collision: {
-        ;lda w_player_collisiontype
-        ;asl
-        ;tax
-        
-        ;print hex(w_player_tileindex)
-        
-        lda w_player_tileindex
-        tax
+        ldx w_player_tileindex          ;next suggested collision based on w_player_nextx/nexty
         lda.l l_level_collision,x
         and #$00ff
         asl
@@ -416,11 +548,7 @@ player: {
         
         ..table: {
             dw player_collision_air             ;0
-            dw player_collision_preventup       ;1
-            dw player_collision_preventdown     ;2
-            dw player_collision_preventleft     ;3
-            dw player_collision_preventright    ;4
-            dw player_collision_solid           ;5
+            dw player_collision_solid           ;1
         }
         
         ..air: {
@@ -429,50 +557,81 @@ player: {
         }
         
         ..solid: {
-            stz w_player_xspeed
-            stz w_player_yspeed
-            
-            ;lda w_player_yspeed
-            ;eor #$ffff
-            ;inc
-            ;sta w_player_yspeed
-            
-            ;lda w_player_xspeed
-            ;eor #$ffff
-            ;inc
-            ;sta w_player_xspeed
-
-            rts
-        }
-        
-        ..preventup: {
             lda w_player_direction
-            and #($ffff^!controller_up)
-            sta w_player_direction
             
-            rts
-        }
-        
-        ..preventdown: {
-            lda w_player_direction
-            and #($ffff^!controller_dn)
-            sta w_player_direction
+            bit #!controller_up
+            beq +
+            {
+                pha
+                ;stz w_player_yspeed
+                ;stz w_player_ysubspeed
+                
+                ;ora w_player_keepprevlocation
+                ;sta w_player_keepprevlocation
+                
+                ;lda #$8000
+                ;sta w_player_ysubspeed
+                
+                lda w_player_lastknowndirection
+                eor #!controller_up
+                sta w_player_direction
+                
+                lda #!controller_dn
+                jsr player_move
+                jsr player_move
+                
+                pla
+            }
+            +
             
-            rts
-        }
-        
-        ..preventleft: {
-            lda w_player_direction
-            and #($ffff^!controller_lf)
-            sta w_player_direction
+            bit #!controller_dn
+            beq +
+            {
+                pha
+                stz w_player_yspeed
+                ;stz w_player_ysubspeed
+                
+                ora w_player_keepprevlocation
+                sta w_player_keepprevlocation
+                
+                ;lda #$8000
+                ;sta w_player_ysubspeed
+                pla
+            }
+            +
             
-            rts
-        }
-        
-        ..preventright: {
-            lda w_player_direction
-            and #($ffff^!controller_rt)
-            sta w_player_direction
+            bit #!controller_lf
+            beq +
+            {
+                pha
+                stz w_player_xspeed
+                ;stz w_player_xsubspeed
+                
+                ora w_player_keepprevlocation
+                sta w_player_keepprevlocation
+                
+                ;lda #$8000
+                ;sta w_player_xsubspeed
+                pla
+            }
+            +
+            
+            bit #!controller_rt
+            beq +
+            {
+                pha
+                
+                stz w_player_xspeed
+                ;stz w_player_xsubspeed
+                
+                ora w_player_keepprevlocation
+                sta w_player_keepprevlocation
+                
+                ;lda #$8000
+                ;sta w_player_xsubspeed
+                pla
+            }
+            +
             
             rts
         }
