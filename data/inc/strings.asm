@@ -34,8 +34,14 @@ str: {
     }
     
     .speechtest: {
-        db "       hey, there are words here", !msg_newline
-        db "       and down here too", !msg_newline
+        db "      hey, there are words here", !msg_newline
+        db "      and down here too okay", !msg_newline
+        db "      yeah but how many words", !msg_newline
+        db "      can there be here exactly", !msg_newline
+        db "      quite a few more i think", !msg_newline
+        db "      wow look at all the words", !msg_newline
+        db "now the words can be here too..", !msg_newline
+        db "it's so many, let me tell you", !msg_newline
         db !msg_end
     }
     

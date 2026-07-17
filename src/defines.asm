@@ -101,6 +101,8 @@
 
 !irq_command_hud_start      = $01
 !irq_command_hud_end        = $02
+!irq_command_speech_start   = $03
+!irq_command_speech_end     = $04
 
 ;================================ object
 

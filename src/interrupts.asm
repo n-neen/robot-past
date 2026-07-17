@@ -42,6 +42,8 @@ irq: {
         dw $0000            ;0
         dw irq_hudstart     ;1
         dw irq_hudend       ;2
+        dw irq_speechstart  ;3
+        dw irq_speechend    ;4
     }
     
     .enable: {
@@ -103,12 +105,16 @@ irq: {
             dw $0000    ;0 null command
             dw $00a8    ;1 hud start
             dw $00a8    ;2 hud end
+            dw $00a8    ;3 speech start
+            dw $00a8    ;3 speech end
         }
         
         ..vtable: {
             dw $0000                    ;0 null command
             dw !hud_first_row_y_pos-1   ;1 hud start
             dw !hud_second_row_y_pos+9  ;2 hud end
+            dw $0090                    ;3 speech start
+            dw $00d0                    ;3 speech end
         }
     }
     
@@ -137,6 +143,57 @@ irq: {
     
     .hudend: {
         ;irq command 2
+        
+        sep #$20
+        
+        lda #%11100000
+        sta $2132
+        
+        lda w_speech_spritemap_ptr
+        bne ..speechirq
+        
+        lda.b #!irq_command_hud_start
+        sta w_irq_command
+        
+        rep #$20
+        
+        rts
+        
+        ..speechirq
+        
+        lda.b #!irq_command_speech_start
+        sta w_irq_command
+        
+        rep #$20
+        
+        rts
+    }
+    
+    .speechstart: {
+        ;irq command 3
+        
+        sep #$20
+        
+        lda w_hud_colortint_r
+        sta $2132
+        
+        lda w_hud_colortint_g
+        sta $2132
+        
+        lda w_hud_colortint_b
+        sta $2132
+        
+        lda.b #!irq_command_speech_end
+        sta w_irq_command
+        
+        rep #$20
+        
+        rts
+    }
+    
+    
+    .speechend: {
+        ;irq command 4
         
         sep #$20
         
