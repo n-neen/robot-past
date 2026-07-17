@@ -6,14 +6,15 @@
 
 ;================================ program state constants ==================================
 
-!state_setup            =   $0000
-!state_introhandler     =   $0001
-!state_loadintroscene   =   $0002
-!state_gameplay         =   $0003
-!state_loadgame         =   $0004
-!state_loadnongame      =   $0005
-!state_nongamehandler   =   $0006
-
+!state_setup                =   $0000
+!state_introhandler         =   $0001
+!state_loadintroscene       =   $0002
+!state_gameplay             =   $0003
+!state_loadgame             =   $0004
+!state_loadnongame          =   $0005
+!state_nongamehandler       =   $0006
+!state_setupgameoverscreen  =   $0007
+!state_handlegameoverscreen =   $0008
 
 ;pre-state
 ;currently not used
@@ -72,6 +73,8 @@
 !player_max_speed               =   0003
 
 !player_frames_default          =   $00c0
+
+!player_hp_default              =   $0001
 
 !player_shot_allowed_bitmask    =   $0007       ;BIT tested with w_nmicounter
                                                             ;maybe timer is better?
@@ -139,7 +142,7 @@
 ;================================ speech text objects
 
 !speech_icon_anchor_x       =   $10
-!speech_icon_anchor_y       =   $a0
+!speech_icon_anchor_y       =   $a8
 
 
 ;================================= module bank constants ===================================

@@ -31,7 +31,7 @@ org $808000                             ;main system bank
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     incsrc "./src/hud.asm"
-    incsrc "./src/shot.asm"
+    incsrc "./src/shot/shot.asm"
     incsrc "./src/shot/common.asm"
     incsrc "./src/shot/bubble.asm"
     incsrc "./src/speech.asm"           ;just started
@@ -87,7 +87,7 @@ org $c80000
     print "c8 end: ", pc, " collision maps"
     
 org $c90000
-    ;
+    incsrc "./data/inc/c9.asm"
     print "c9 end: ", pc
     
 org $ca0000

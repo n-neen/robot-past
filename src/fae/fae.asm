@@ -233,6 +233,25 @@ fae: {
             db "hit!"
     }
     
+    .hitplayertest: {
+        ;print pc
+        ;
+        ;eventually i want to have the fae do variable damage
+        ;for ease of writing it, the hud routine uses bcd
+        ;but all the fae damage values will be in hex
+        ;actually, since i haven't written it yet, maybe the fae contact damage
+        ;could be in bcd?
+        sed
+        
+        lda w_player_hp
+        sec
+        sbc #$0001
+        sta w_player_hp
+        
+        cld
+        rts
+    }
+    
     .collision: {
         lda w_player_iframes
         bne ..nocollision
@@ -245,6 +264,7 @@ fae: {
         jsr fae_collision_check
         bcc +
         jsr (w_fae_touchptr,x)
+        jsr fae_hitplayertest               ;test test not real
         jsr fae_collisionhudtest
         +
         dex

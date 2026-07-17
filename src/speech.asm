@@ -18,6 +18,7 @@ speech: {
         beq +
         
         jsr speech_handletext
+        ;jsr speech_typechar
         jsr speech_drawsprites
         jsr speech_ticktimer
         
@@ -180,8 +181,11 @@ speech: {
         
         jsl layer3on_long
         
+        lda #$0001
+        sta w_msg_waitflag
+        
         ldx w_speech_string_ptr
-        ldy #$0012
+        ldy #$0013
         jsl msg_display
         
         lda w_speech_flags
@@ -195,6 +199,30 @@ speech: {
     }
     
     
+    .typechar: {
+        ;frudge this
+        ldx w_speech_string_ptr
+        lda.l bank(str)<<16,x
+        and #$00ff
+        beq +
+        
+        
+        lda w_speech_string_ptr
+        clc
+        adc w_speech_string_index
+        tax
+        
+        ldy #$0012
+        
+        jsl msg_display
+        
+        inc w_speech_string_index
+        
+        +
+        rts
+    }
+    
+    
     .clear: {
         phk
         plb
@@ -203,7 +231,7 @@ speech: {
         stz w_speech_string_ptr
         stz w_speech_timer
         stz w_speech_string_index
-        stz w_speech_flags
+        stz w_speech_flags              ;low byte is state
         
         rtl
     }

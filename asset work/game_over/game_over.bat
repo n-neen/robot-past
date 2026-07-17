@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\game_over\game_over.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\game_over\game_over.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\game_over\game_over.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\game_over\game_over.gfx" --palette-base-offset 1 --color-zero 000000
+
+pause

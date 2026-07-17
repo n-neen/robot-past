@@ -231,6 +231,56 @@ hud: {
         }
     }
     
+    ;dis worx
+    ;lda #w_player_hp
+    ;ldx #$0007
+    ;jsl hud_writethreedigitnumber
+    
+    
+    .writethreedigitnumber: {
+        ;A = pointer to number to write
+            ;number must be bcd
+        ;x = index into w_hud_buffer
+        
+        ;print pc
+        
+        sta p_0
+        lda (p_0)
+        
+        pha
+        pha
+        
+        and #$000f              ;rightmost digit
+        clc
+        adc #$0030
+        sep #$20
+        sta w_hud_buffer,x      ;index from argument
+        rep #$20
+        
+        pla                     ;second digit
+        and #$00f0
+        lsr
+        lsr
+        lsr
+        lsr
+        clc
+        adc #$0030
+        sep #$20
+        sta w_hud_buffer-1,x    ;index from argument
+        rep #$20
+        
+        pla                     ;third digit
+        and #$0f00
+        xba
+        clc
+        adc #$0030
+        sep #$20
+        sta w_hud_buffer-2,x    ;index from argument
+        rep #$20
+        
+        rtl
+    }
+    
     
     .test: {
         phb
@@ -257,7 +307,7 @@ hud: {
         rtl
         
         ..string: {
-            db "life: 27                        "
+            db "life:                           "
             db "hud second row", !hud_end
         }
     }

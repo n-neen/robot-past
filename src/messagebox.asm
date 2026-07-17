@@ -50,7 +50,11 @@ msg: {
             inc
             sta w_msg_size
             
+            lda w_msg_waitflag
+            bne ..nowait
             jsl waitfornmi_long
+            ..nowait
+            
             ;jsl gameplay               ;could call gameplay here too
             
             ;lda w_programstate

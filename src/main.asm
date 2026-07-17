@@ -26,13 +26,15 @@ main: {
         ;don't forget to make a corresponding define in defines.asm
         ;!state_[name]
         
-        dw setup                    ;0      ;initial program setup after boot.asm happens
-        dw introhandler             ;1      ;loads dialog scenes in order when button pressed
-        dw loadintroscene           ;2      ;load the individual scenes for above
-        dw gameplayvector           ;3      ;playing the game, top level routine in gameplay.asm
-        dw loadgame                 ;4      ;set up gameplay initially, and also for room transitions
-        dw loadnongameplayscene     ;5      ;load dialog scenes that come from gameplay and return to gameplay
-        dw nongameplayhandler       ;6      ;handle running the above after loading
+        dw  setup,                      ;0      ;initial program setup after boot.asm happens
+            introhandler,               ;1      ;loads dialog scenes in order when button pressed
+            loadintroscene,             ;2      ;load the individual scenes for above
+            gameplayvector,             ;3      ;playing the game, top level routine in gameplay.asm
+            loadgame,                   ;4      ;set up gameplay initially, and also for room transitions
+            loadnongameplayscene,       ;5      ;load dialog scenes that come from gameplay and return to gameplay
+            nongameplayhandler,         ;6      ;handle running the above after loading
+            setupgameoverscreen,        ;7      ;do game over graphics and tilemap transfurs
+            handlegameoverscreen        ;8      ;display game over and handle interactions
     }
 }
 
@@ -316,6 +318,9 @@ setup: {
     jsl load_playerpal
     jsl load_playergfx
     
+    lda #!player_hp_default         ;number is bcd
+    sta w_player_hp ;can't do this in loadgame cause that runs every room transition
+    
     lda #$01ff
     sta w_bg3yscroll
     
@@ -480,6 +485,11 @@ loadgame: {
     jsl player_init
     
     jsl hud_writeroomstring
+    
+    lda #w_player_hp
+    ldx #$0007
+    jsl hud_writethreedigitnumber
+    
     jsl hud_draw
     
     sep #$20
@@ -540,6 +550,92 @@ loadgame: {
     lda #!state_gameplay
     sta w_programstate
     
+    rts
+}
+
+;===========================================================================================
+;===================== STATE 7:   S E T U P G A M E O V E R S C R E E N ====================
+;===========================================================================================
+
+setupgameoverscreen: {
+    sei
+    jsr irq_disable
+    jsr disablenmi
+    jsr screenoff
+    
+    ;do vram transfurs
+    
+    ; ============================= tilemap =============================
+    lda #bank(gameoverdata)     ;tilemap bank
+    sta p_2
+        
+    lda #gameoverdata_map       ;tilemap pointer
+    sta p_0
+        
+    lda w_scene_tilemapsize     ;tilemap size
+    jsl load_romtolevelbuffer   ;copy tilemap to level buffer
+    
+    lda #$0800                  ;tilemap size
+    ldx #!bg1tilemap            ;destination in vram
+    jsl load_levelbuffertovram  ;dma tilemap to vram
+    
+    ; =========================== graphics ==============================
+    
+    lda #bank(gameoverdata)             ;graphics bank
+    sta p_2
+    
+    lda #gameoverdata_gfx               ;gfx pointer
+    sta p_0
+    
+    lda #datasize(gameoverdata_gfx)     ;gfx size
+    jsl load_romtobuffer                ;copy gfx to buffer
+    
+    lda #datasize(gameoverdata_gfx)     ;gfx size
+    ldx #!bg1tiles                      ;destination in vram
+    jsl load_buffertovram               ;dma gfx to vram
+    
+    ; ============================= palette =============================
+    
+    lda #bank(gameoverdata)
+    ldx #gameoverdata_pal
+    jsl load_romtocolorbuffer
+    
+    lda #$01ff
+    sta w_bg1yscroll
+    stz w_bg1xscroll
+    
+    stz w_oam_index
+    jsl oam_cleanbuffer
+    jsl oam_cleanhibytebuffer
+    jsl oam_constructhibuffer
+    
+    jsr enablenmi
+    jsr waitfornmi
+    jsr fadein
+    jsr screenon
+    
+    lda #!state_handlegameoverscreen
+    sta w_programstate
+    
+    rts
+}
+
+;===========================================================================================
+;=================== STATE 8:   H A N D L E G A M E O V E R S C R E E N ====================
+;===========================================================================================
+
+handlegameoverscreen: {
+    ;press start button to continue or whatever
+    
+    lda w_controller
+    beq +
+    
+    jsr fadeout
+    ;lda #!state_setup
+    ;sta w_programstate
+    jml boot
+    
+    +
     rts
 }
 

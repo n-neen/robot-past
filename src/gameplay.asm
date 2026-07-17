@@ -11,7 +11,7 @@ gameplay: {
     stz w_scroll_direction
     stz w_player_collisiontype          ;not really used currently
     stz w_oam_index
-    ;stz w_msg_waitflag
+    stz w_msg_waitflag
     
     jsl oam_cleanhibytebuffer
     

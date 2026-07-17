@@ -23,8 +23,6 @@ player: {
         
         stz w_player_iframes
         
-        lda #$0080
-        sta w_player_hp
         
         ;jsr player_olddraw             ;test sprite not real
         ;jsr player_draw                ;don't think this is necessary anymore
@@ -119,6 +117,7 @@ player: {
         ;x = pointer to variable for horizontal
         ;y = pointer to variable for vertical
         ;
+        ;sei
         
         stx p_2
         sty p_4
@@ -151,6 +150,7 @@ player: {
         
         sta w_player_tileindex
         
+        ;cli
         rts
     }
     
@@ -181,7 +181,7 @@ player: {
         rts
     }
     
-;===========================================================================================
+;==================================== COLLISIONWRAPPER =====================================
 ;runs player_collision to get collision reactions in each direction
 ;right before this, player_calchitbox is run with w_player_nextx/nexty
 ;at some point after, it's run again with w_player_x/y
@@ -207,6 +207,21 @@ player: {
         jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
         jsr player_collision        ;
         
+        rts
+    }
+    
+    
+;===========================================================================================
+    .checkfordeath: {
+        lda w_player_hp
+        bpl +
+        
+        jsl fadeout_long
+        
+        lda #!state_setupgameoverscreen
+        sta w_programstate
+        
+        +
         rts
     }
     
@@ -248,6 +263,12 @@ player: {
         jsr player_calchitbox       ;use for collision with objects and fae, use actual updated position
         
         jsr player_updatelastknowndirection
+        
+        jsr player_checkfordeath
+        
+        lda #w_player_hp
+        ldx #$0007
+        jsl hud_writethreedigitnumber
         
         ;locate player on screen
         
@@ -912,7 +933,6 @@ player: {
             pha
             
             ;jsl msg_reset
-            
             lda #speech_testobject
             jsl speech_spawn
             
@@ -1203,12 +1223,22 @@ player: {
         ;       tile
         ;
         
+        ..circle: {
+            db 04
+            ;   xx     yy     tt   vhppccct   hh
+            db $00-4, $00-4, $c9, %00110000, $00
+            db $00-4, $08-4, $c9, %10110000, $00
+            db $08-4, $00-4, $c9, %01110000, $00
+            db $08-4, $08-4, $c9, %11110000, $00
+        }
+        
         ;vertical ====================================================================================
         ..0: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
             db $00, $00, $c0, %00111110, $00
+            
         }
         
         ..1: {

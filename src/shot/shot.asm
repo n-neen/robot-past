@@ -171,7 +171,7 @@ shot: {
         
         lda w_level_cameray
         clc
-        adc #$00f0
+        adc #$00e8
         cmp w_shot_y,x
         bpl +
         jsr shot_clear

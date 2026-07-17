@@ -113,8 +113,8 @@ irq: {
             dw $0000                    ;0 null command
             dw !hud_first_row_y_pos-1   ;1 hud start
             dw !hud_second_row_y_pos+9  ;2 hud end
-            dw $0090                    ;3 speech start
-            dw $00d0                    ;3 speech end
+            dw $0098                    ;3 speech start
+            dw $00d8                    ;3 speech end
         }
     }
     

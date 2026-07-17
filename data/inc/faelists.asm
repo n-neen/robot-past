@@ -42,6 +42,10 @@ faelist: {
     .icecave1: {
                         ;type       x      y      var1   var2   var3
         %fae_list_entry (fae_test, $0180, $0180, $0000, $0000, $0000)
+        %fae_list_entry (fae_test, $0100, $0100, $0000, $0000, $0000)
+        %fae_list_entry (fae_test, $0110, $0120, $0000, $0000, $0000)
+        %fae_list_entry (fae_test, $0130, $0100, $0000, $0000, $0000)
+        %fae_list_entry (fae_test, $0138, $0109, $0000, $0000, $0000)
         dw $ffff
     }
     
