@@ -34,6 +34,7 @@ org $808000                             ;main system bank
     incsrc "./src/shot.asm"
     incsrc "./src/shot/common.asm"
     incsrc "./src/shot/bubble.asm"
+    incsrc "./src/speech.asm"           ;just started
     print "80 end: ", pc, " main system bank"
     
 org $818000

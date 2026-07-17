@@ -209,6 +209,7 @@ w: {
         ..start         :   skip 2
         ..ptr           :   skip 2
         ..index         :   skip 2
+        ..waitflag      :   skip 2
         
         ..scrollsubpos  :   skip 2
         ..scrollptr     :   skip 2      ;base ptr+index
@@ -319,6 +320,14 @@ w: {
         ..pal           : skip 2*!shot_count+2      ;high byte is free
         ..counter       : skip 2*!shot_count+2
         print "shot end:   ", pc
+    }
+    
+    .speech: {
+        ..spritemap_ptr     :   skip 2
+        ..string_ptr        :   skip 2
+        ..timer             :   skip 2
+        ..string_index      :   skip 2
+        ..flags             :   skip 2
     }
     
     .hdma: {                           ;w_hdma

@@ -8,8 +8,8 @@
     dw fae_common_explode       ;shot routine
     dw ..spritemap              ;spritemap
     
-    dw $001e    ;x size
-    dw $001e    ;y size
+    dw $0008    ;x size
+    dw $0008    ;y size
     
     ..main: {
         ;runs once per frame
@@ -94,7 +94,7 @@
     
     ..spritemap: {
         ;number of sprites
-        db 09
+        db 01
         ;  xx   yy   tt   pp         hh 01 = extra x bit, 02 = size select
         db $f0, $f0, $6a, %00111101, $02
         db $00, $f0, $6c, %00111101, $02

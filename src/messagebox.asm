@@ -49,10 +49,16 @@ msg: {
             inc
             inc
             sta w_msg_size
-            jsl waitfornmi_long
             
-            ;jsl gameplay                ;could call gameplay here too
+            jsl waitfornmi_long
+            ;jsl gameplay               ;could call gameplay here too
+            
+            ;lda w_programstate
+            ;cmp #!state_gameplay
+            ;bne ..notgameplay
             ;jsl gameplay_shadow         ;this is a better idea but still not ideal
+            ;..notgameplay
+            
             
             ;maybe gameplay and scene handler both have shadow modes?
             ;scene handler doesn't need to do anyhting else, so i think gameplay
@@ -72,6 +78,30 @@ msg: {
         ..done:
         
         ;stx w_msg_size
+        rtl
+    }
+    
+    
+    .displayspeech: {
+        
+        
+        lda w_speech_string_ptr
+        sta p_0
+        
+        lda #((str&$ff0000)>>16)    ;text string bank
+        sta p_2
+        
+        
+        
+        tya
+        asl
+        asl
+        asl
+        asl
+        asl
+        asl
+        sta w_msg_start
+        
         rtl
     }
     
@@ -117,6 +147,9 @@ msg: {
     
     
     .cleartilemap: {
+        phb
+        phx
+        
         pea.w (($ff0000&w_msgbuffer)>>8)+0     ;db = message buffer bank (7e)
         plb
         plb
@@ -136,6 +169,8 @@ msg: {
         dex
         bpl -
         
+        plx
+        plb
         rtl
     }
 

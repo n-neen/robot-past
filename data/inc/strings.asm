@@ -3,7 +3,24 @@
 ;==================================   S T R I N G S   ======================================
 ;===================================                ========================================
 ;===========================================================================================
-
+;
+;types of strings:
+;   hud strings
+;       used to draw strings on the hud, made of sprites, no high table
+;       fixed at ten characters long
+;
+;   scrolling text lists
+;       can be called from intro scenes or nongameplay scenes
+;       list contains entries of two words:
+;           dw linecount, pointer_to_string
+;           linecount can also include the $8000 bit to run a non-text command
+;           strings can be at most 32 chars (one line), or can end a line early
+;
+;   other strings can be written to layer 3 from dialogue trigger objects
+;   and are also included as elements of the scrolling text
+;
+;
+;
 
 
 
@@ -14,6 +31,12 @@ str: {
         ..room2:        db "room2     "
         ..icecave1:     db "ice cave 1"
         ..town:         db "town      "
+    }
+    
+    .speechtest: {
+        db "       hey, there are words here", !msg_newline
+        db "       and down here too", !msg_newline
+        db !msg_end
     }
     
     .credits: {

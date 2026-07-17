@@ -17,7 +17,7 @@ debug controls:
 
 dpad: move
 
-A: clear message text
+A: spawn a test object in the speech text system
 B: stop moving
 X: shoot
 Y: slow movement

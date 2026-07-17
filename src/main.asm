@@ -475,6 +475,8 @@ loadgame: {
     lda #$0800
     sta w_msg_size
     
+    jsl speech_clear
+    
     jsl player_init
     
     jsl hud_writeroomstring

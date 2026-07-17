@@ -134,6 +134,11 @@
 
 !fae_list_entry_length      =   datasize(faelist_definitionstart)
 
+;================================ speech text objects
+
+!speech_icon_anchor_x       =   $10
+!speech_icon_anchor_y       =   $a0
+
 
 ;================================= module bank constants ===================================
 
