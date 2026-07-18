@@ -38,7 +38,7 @@ load: {
         lda w_scene_gfxptr          ;gfx pointer
         sta p_0
         
-        lda w_scene_gfxsize         ;tilemap size
+        lda w_scene_gfxsize         ;gfx size
         jsl load_romtobuffer        ;copy gfx to buffer
         
         ;upload buffer to vram
@@ -110,12 +110,13 @@ load: {
         
         ;arguments:
         ;p_0 = long pointer
-        ;a   = size, must be < $8000
+        ;a   = size, forced to be even. max $8000
         
         phy
         phb
         
-        and #$7fff
+        ;and #$7fff
+        and #$fffe
         tay
         
         pea.w (($ff0000&l_decompressionbuffer)>>8)+0

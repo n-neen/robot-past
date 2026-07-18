@@ -39,6 +39,12 @@ objlist: {
     
     .town: {
         %obj_list_entry (obj_door,  $08, $08, $0234, $0000, scenedef_room2)
+        %obj_list_entry (obj_door,  $18, $08, $0234, $0000, scenedef_moonroom)
+        dw $ffff
+    }
+    
+    .moonroom: {
+        %obj_list_entry (obj_door,  $08, $08, $0234, $0000, scenedef_town)
         dw $ffff
     }
 }

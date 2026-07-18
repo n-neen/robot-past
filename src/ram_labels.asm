@@ -395,14 +395,13 @@ org $7f0000
 
 l: {
     .level: {
-        ..screen0   :   skip $800   ;7f0000
-        ..screen1   :   skip $800   ;7f0800
-        ..screen2   :   skip $800   ;7f1000
-        ..screen3   :   skip $800   ;7f1800
+        ..screen0   :   skip $800           ;7f0000
+        ..screen1   :   skip $800           ;7f0800
+        ..screen2   :   skip $800           ;7f1000
+        ..screen3   :   skip $800           ;7f1800
         
-        ..collision :   skip $1000  ;7f2000-3000
+        ..collision :   skip $1000          ;7f2000-3000
         
-        ..extra     :   skip $5000      ;reserved space
     }
-    .decompressionbuffer    :   skip $8000
+    .decompressionbuffer    :   skip $8000  ;7f3000-7fb000
 }

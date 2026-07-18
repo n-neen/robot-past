@@ -41,6 +41,9 @@ hdma handler
     hdma object system with preinstrucions, etc
     half written, kinda works. indirect doesn't work
 
+there's a bug in main gameplay during fadeout where sprites aren't drawn in the right places
+    but only some of them
+
 hud
     use sprites
     all good, uses a buffer w/ ascii

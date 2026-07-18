@@ -52,4 +52,8 @@ faelist: {
     .town: {
         dw $ffff
     }
+    
+    .moonroom: {
+        dw $ffff
+    }
 }

@@ -92,7 +92,7 @@ org $c90000
     print "c9 end: ", pc
     
 org $ca0000
-    ;
+    incsrc "./data/inc/ca.asm"
     print "ca end: ", pc
     
 org $cb0000

@@ -36,6 +36,7 @@ scenedef: {
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
     .town:              %scenedefentry(town)
+    .moonroom:          %scenedefentry(moonroom)
     
     .icecave1:                      ;have to do this to reuse graphics :/
         dl icecave1                 ;long pointer to the scene data ;0
@@ -107,7 +108,7 @@ properties: {
         dw $0001, $0001                 ;starting camera position   ;2,4
         dw $0028, $0058                 ;starting player position   ;6,8
         dw objlist_room1                ;object list pointer        ;a
-        dw collisionmap_room1           ;unimplemented              ;c
+        dw collisionmap_room1           ;                           ;c
         dw faelist_room1                ;list of fae for the room   ;e
         dw str_hudstring_room1          ;string to print on hud     ;$10
     }
@@ -117,7 +118,7 @@ properties: {
         dw $0100, $0000                 ;starting camera position x,y
         dw $01e0, $0080                 ;starting player position x,y
         dw objlist_room2                ;object list pointer
-        dw collisionmap_room2           ;unimplemented
+        dw collisionmap_room2           ;
         dw faelist_room2                ;
         dw str_hudstring_room2          ;string to print on hud     ;$10
     }
@@ -127,7 +128,7 @@ properties: {
         dw $0080, $0080                 ;starting camera position x,y
         dw $0100, $0100                 ;starting player position x,y
         dw objlist_town                 ;object list pointer
-        dw collisionmap_town            ;unimplemented
+        dw collisionmap_town            ;
         dw faelist_town                 ;
         dw str_hudstring_town           ;string to print on hud     ;$10
     }
@@ -137,9 +138,19 @@ properties: {
         dw $0000, $0000                 ;starting camera position x,y
         dw $0080, $0080                 ;starting player position x,y
         dw objlist_icecave1             ;object list pointer
-        dw collisionmap_icecave1        ;unimplemented
+        dw collisionmap_icecave1        ;
         dw faelist_icecave1             ;
         dw str_hudstring_icecave1       ;string to print on hud     ;$10
+    }
+    
+    .moonroom: {                        ;description                ;number of bytes in
+        dw !state_loadgame              ;program mode to use        ;0
+        dw $0001, $0001                 ;starting camera position   ;2,4
+        dw $0028, $0058                 ;starting player position   ;6,8
+        dw objlist_moonroom             ;object list pointer        ;a
+        dw collisionmap_moonroom        ;                           ;c
+        dw faelist_moonroom             ;list of fae for the room   ;e
+        dw str_hudstring_moonroom       ;string to print on hud     ;$10
     }
     
     

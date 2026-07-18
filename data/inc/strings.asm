@@ -31,6 +31,7 @@ str: {
         ..room2:        db "room2     "
         ..icecave1:     db "ice cave 1"
         ..town:         db "town      "
+        ..moonroom:     db "moonroom  "
     }
     
     .speechtest: {

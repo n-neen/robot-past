@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\moonroom\moon_arranged.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\moonroom\moon.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\moonroom\moon.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\moonroom\moon.gfx" --palette-base-offset 1 --color-zero 000000
+
+pause
