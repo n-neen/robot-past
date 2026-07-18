@@ -74,7 +74,7 @@
 
 !player_frames_default          =   $00c0
 
-!player_hp_default              =   $0001
+!player_hp_default              =   $0027
 
 !player_shot_allowed_bitmask    =   $0007       ;BIT tested with w_nmicounter
                                                             ;maybe timer is better?

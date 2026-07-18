@@ -9,9 +9,6 @@ player: {
 ;player position is set in 'scenetransition' in main.asm
 
     .init: {
-        stz w_player_hp
-        
-        
         lda w_level_playerstartx
         sta w_player_x
         
@@ -214,7 +211,7 @@ player: {
     }
     
     
-;===========================================================================================
+;===================================== CHECKFORDEATH =======================================
     .checkfordeath: {
         lda w_player_hp
         bpl +

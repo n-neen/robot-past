@@ -649,6 +649,12 @@ setupgameoverscreen: {
     }
     rep #$20
     
+    phk
+    plb
+    
+    stz w_menu_state
+    jsl gameover_drawcursor_long
+    
     jsr enablenmi
     jsr waitfornmi
     jsr fadein

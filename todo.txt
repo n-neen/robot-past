@@ -4,6 +4,10 @@ objects to write:
     change physical bounds when touched
     ^(make room smaller or larger)
 
+player->fae collisions are visually off because object center is used
+    probably draw off by player_xsize/2 and player_ysize/2?
+    same for all fae spritemaps
+
 the collision system is in a dire state
     nothing works
     well, not true. tile lookup in collision map works

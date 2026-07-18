@@ -18,7 +18,7 @@ gameover: {
         
         jsr gameover_drawcursor
         
-        jsl oam_cleanbuffer
+        jsl oam_cleanbuffer         ;don't bother with oam hi table. might want to clear it in setup?
         rtl
     }
     
@@ -41,6 +41,11 @@ gameover: {
         bit #!controller_a
         beq +
         ;continue game somehow
+        
+        lda #!player_hp_default
+        sta w_player_hp
+        
+        jsl fadeout_long
         lda #!state_loadgame
         sta w_programstate
         +
@@ -63,6 +68,7 @@ gameover: {
         bit #!controller_a
         beq +
         ;end game somehow
+        jsl fadeout_long
         jml boot
         +
         
@@ -70,6 +76,13 @@ gameover: {
     }
     
     .drawcursor: {
+        phb
+        phx
+        phy
+        
+        phk
+        plb
+        
         lda w_menu_state
         asl
         asl
@@ -128,14 +141,15 @@ gameover: {
         
         sty w_oam_index
         
-        plb
-        plx
         ply
+        plx
+        plb
         rts
         
-        
-        
-        rts
+        ..long: {
+            jsr gameover_drawcursor
+            rtl
+        }
     }
     
     .cursorpositions: {
