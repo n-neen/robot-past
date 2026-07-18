@@ -572,11 +572,25 @@ setupgameoverscreen: {
     lda #gameoverdata_map       ;tilemap pointer
     sta p_0
         
-    lda w_scene_tilemapsize     ;tilemap size
+    lda #$0800                  ;tilemap size
     jsl load_romtolevelbuffer   ;copy tilemap to level buffer
     
     lda #$0800                  ;tilemap size
     ldx #!bg1tilemap            ;destination in vram
+    jsl load_levelbuffertovram  ;dma tilemap to vram
+    
+    ; ========================= bg2 tilemap =============================
+    lda #bank(gameoverdata)     ;tilemap bank
+    sta p_2
+        
+    lda #gameoverdata_bg2map    ;tilemap pointer
+    sta p_0
+        
+    lda #$0800                  ;tilemap size
+    jsl load_romtolevelbuffer   ;copy tilemap to level buffer
+   
+    lda #$0800                  ;tilemap size
+    ldx #!bg2tilemap            ;destination in vram
     jsl load_levelbuffertovram  ;dma tilemap to vram
     
     ; =========================== graphics ==============================
@@ -604,10 +618,36 @@ setupgameoverscreen: {
     sta w_bg1yscroll
     stz w_bg1xscroll
     
+    stz w_bg2xscroll
+    stz w_bg2yscroll
+    
     stz w_oam_index
     jsl oam_cleanbuffer
     jsl oam_cleanhibytebuffer
     jsl oam_constructhibuffer
+    
+    sep #$20
+    {
+        ;lda.b #!bg1tileshifted|(!spritegfxshifted<<4)     ;sprites and bg2 use same graphics here
+        ;sta $210b
+        
+        lda #%00000010
+        sta w_colormathlogic
+        sta $2130
+        
+        lda #%10000011      ;color math layers: 1, 2; subtractive mode
+        sta w_colormathlayers
+        sta $2131
+        
+        lda #%00010001      ;main screen layers: 1
+        sta w_mainscreenlayers
+        sta $212c
+        
+        lda #%00000000      ;subscreen layers: nothing
+        sta w_subscreenlayers
+        sta $212d
+    }
+    rep #$20
     
     jsr enablenmi
     jsr waitfornmi
@@ -625,17 +665,10 @@ setupgameoverscreen: {
 ;===========================================================================================
 
 handlegameoverscreen: {
-    ;press start button to continue or whatever
+    ;see gameover.asm
     
-    lda w_controller
-    beq +
+    jsl gameover_main
     
-    jsr fadeout
-    ;lda #!state_setup
-    ;sta w_programstate
-    jml boot
-    
-    +
     rts
 }
 

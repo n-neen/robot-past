@@ -330,6 +330,10 @@ w: {
         ..flags             :   skip 2
     }
     
+    .menu: {
+        ..state             :   skip 2
+    }
+    
     .hdma: {                           ;w_hdma
         ;object independent
         ..channels  : skip 2

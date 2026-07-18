@@ -9,16 +9,16 @@ gameplay: {
     
     stz w_player_direction
     stz w_scroll_direction
-    stz w_player_collisiontype          ;not really used currently
+    stz w_player_collisiontype          ;not really used
     stz w_oam_index
     stz w_msg_waitflag
     
     jsl oam_cleanhibytebuffer
     
-    jsl hud_draw
-    jsl speech_top
+    jsl hud_draw                        ;1: draws hud
+    jsl speech_top                      ;2: draws speech boxes
     
-    jsl player_main
+    jsl player_main                     ;3: draws player
     jsl scroll_main
     ;jsl scroll_bg2
     
@@ -38,10 +38,10 @@ gameplay: {
         +
     }
     
-    jsl shot_top
+    jsl shot_top                        ;4: draws shots
     
-    jsl fae_top
-    
+    jsl fae_top                         ;5: draws fae
+                                        ;then finalize oam
     jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
     jsl oam_constructhibuffer           ;construct the real (two bits per sprite) oam hi table from the byte table (one byte per sprite)
     

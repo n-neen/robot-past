@@ -144,6 +144,11 @@
 !speech_icon_anchor_x       =   $10
 !speech_icon_anchor_y       =   $a8
 
+;================================ game over menu
+
+!gameover_menu_state_left   =   $0000
+!gameover_menu_state_right  =   $0001
+
 
 ;================================= module bank constants ===================================
 
