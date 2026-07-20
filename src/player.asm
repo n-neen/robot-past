@@ -214,10 +214,10 @@ player: {
 ;===================================== CHECKFORDEATH =======================================
     .checkfordeath: {
         lda w_player_hp
-        bne +
-        beq ++
+        bne +               ;if not 0, exit
+        beq ++              ;if 0, go to end game
         
-        bpl +
+        bpl +               ;if positive, exit (else, negative, end game). need this cause 0 is positive
         
         ++
         lda w_scene_ptr                 ;save room for resume game

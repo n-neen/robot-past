@@ -145,12 +145,24 @@ title: {
     
     
     .drawcursor: {
+        ;used in routine
+        ;p_0 = number of sprites to draw
+        ;p_2 = used for y position
+        ;p_4 = used for x position
+        ;p_6 = used for sprite tile selection (via nmi counter)
+        
         phb
         phx
         phy
         
         phk
         plb
+        
+        lda w_nmicounter
+        and #$001c
+        lsr
+        lsr
+        sta p_6
         
         lda w_menu_state
         asl
@@ -186,6 +198,8 @@ title: {
             sta w_oam_lo_buffer+1,y     ;y
             
             lda $0002,x
+            clc
+            adc p_6
             sta w_oam_lo_buffer+2,y     ;tile
             
             lda $0003,x
@@ -232,5 +246,6 @@ title: {
         db 01
         ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
         db $00, $00, $00, %01110010, $00
+        db $00, $00, $01, %01110010, $00
     }
 }

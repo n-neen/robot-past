@@ -887,11 +887,11 @@ C0:02BA str_speechtest
 C0:0777 str_testtext
 C0:07E7 str_text2
 80:A7D8 title
-80:A8CE title_cursorpositions
-80:A8DA title_cursorspritemap
+80:A8DB title_cursorpositions
+80:A8E7 title_cursorspritemap
 80:A870 title_drawcursor
-80:A8CA title_drawcursor_long
-80:A894 title_drawcursor_nextsprite
+80:A8D7 title_drawcursor_long
+80:A89E title_drawcursor_nextsprite
 80:A7D8 title_main
 80:A843 title_menuoptions
 80:A85A title_menuoptions_noa
@@ -1155,7 +1155,7 @@ C2:52A4 town_props
 0007 63880e2d c:/users/keenan/desktop/robot_past/robot_past/src/hdma.asm
 0008 1b78600d c:/users/keenan/desktop/robot_past/robot_past/src/scroll.asm
 0009 00f7bcb9 c:/users/keenan/desktop/robot_past/robot_past/src/loading.asm
-000a 3965339b c:/users/keenan/desktop/robot_past/robot_past/src/player.asm
+000a 0bcf7153 c:/users/keenan/desktop/robot_past/robot_past/src/player.asm
 000b 1afd8499 c:/users/keenan/desktop/robot_past/robot_past/src/color_cycling.asm
 000c 9cafc1c7 c:/users/keenan/desktop/robot_past/robot_past/src/messagebox.asm
 000d 7f636698 c:/users/keenan/desktop/robot_past/robot_past/src/objects.asm
@@ -1165,7 +1165,7 @@ C2:52A4 town_props
 0011 ea166785 c:/users/keenan/desktop/robot_past/robot_past/src/shot/common.asm
 0012 c1a243dc c:/users/keenan/desktop/robot_past/robot_past/src/shot/bubble.asm
 0013 03c9930d c:/users/keenan/desktop/robot_past/robot_past/src/speech.asm
-0014 89ad8612 c:/users/keenan/desktop/robot_past/robot_past/src/title.asm
+0014 e9075c9d c:/users/keenan/desktop/robot_past/robot_past/src/title.asm
 0015 47fa1dd4 c:/users/keenan/desktop/robot_past/robot_past/src/fae/fae.asm
 0016 e68ec1e6 c:/users/keenan/desktop/robot_past/robot_past/src/fae/common.asm
 0017 ca035770 c:/users/keenan/desktop/robot_past/robot_past/src/fae/test.asm
@@ -1189,7 +1189,7 @@ C2:52A4 town_props
 0029 334162c3 c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-6c4b2170
+8d67a0ac
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -5490,62 +5490,70 @@ C2:52A4 town_props
 80:a867 0014:0000008c
 80:a86b 0014:0000008d
 80:a86f 0014:0000008f
-80:a870 0014:00000094
-80:a871 0014:00000095
-80:a872 0014:00000096
-80:a873 0014:00000098
-80:a874 0014:00000099
-80:a875 0014:0000009b
-80:a878 0014:0000009c
-80:a879 0014:0000009d
-80:a87a 0014:0000009e
-80:a87b 0014:000000a0
-80:a87e 0014:000000a1
-80:a880 0014:000000a3
-80:a883 0014:000000a4
-80:a885 0014:000000a6
-80:a888 0014:000000a7
-80:a88b 0014:000000a9
-80:a88e 0014:000000aa
-80:a891 0014:000000ab
-80:a893 0014:000000ac
-80:a894 0014:000000b0
-80:a896 0014:000000b2
-80:a899 0014:000000b3
-80:a89a 0014:000000b4
-80:a89c 0014:000000b5
-80:a89f 0014:000000b7
-80:a8a2 0014:000000b8
-80:a8a3 0014:000000b9
-80:a8a5 0014:000000ba
-80:a8a8 0014:000000bc
-80:a8ab 0014:000000bd
-80:a8ae 0014:000000bf
-80:a8b1 0014:000000c0
-80:a8b4 0014:000000c3
-80:a8b6 0014:000000c5
-80:a8b7 0014:000000c6
-80:a8b8 0014:000000c7
-80:a8b9 0014:000000c8
-80:a8ba 0014:000000c9
-80:a8bb 0014:000000cb
-80:a8bc 0014:000000cc
-80:a8bd 0014:000000cd
+80:a870 0014:0000009a
+80:a871 0014:0000009b
+80:a872 0014:0000009c
+80:a873 0014:0000009e
+80:a874 0014:0000009f
+80:a875 0014:000000a1
+80:a878 0014:000000a2
+80:a87b 0014:000000a3
+80:a87c 0014:000000a4
+80:a87d 0014:000000a5
+80:a87f 0014:000000a7
+80:a882 0014:000000a8
+80:a883 0014:000000a9
+80:a884 0014:000000aa
+80:a885 0014:000000ac
+80:a888 0014:000000ad
+80:a88a 0014:000000af
+80:a88d 0014:000000b0
+80:a88f 0014:000000b2
+80:a892 0014:000000b3
+80:a895 0014:000000b5
+80:a898 0014:000000b6
+80:a89b 0014:000000b7
+80:a89d 0014:000000b8
+80:a89e 0014:000000bc
+80:a8a0 0014:000000be
+80:a8a3 0014:000000bf
+80:a8a4 0014:000000c0
+80:a8a6 0014:000000c1
+80:a8a9 0014:000000c3
+80:a8ac 0014:000000c4
+80:a8ad 0014:000000c5
+80:a8af 0014:000000c6
+80:a8b2 0014:000000c8
+80:a8b5 0014:000000c9
+80:a8b6 0014:000000ca
+80:a8b8 0014:000000cb
+80:a8bb 0014:000000cd
 80:a8be 0014:000000ce
-80:a8bf 0014:000000d0
 80:a8c1 0014:000000d1
 80:a8c3 0014:000000d3
-80:a8c6 0014:000000d5
-80:a8c7 0014:000000d6
-80:a8c8 0014:000000d7
-80:a8c9 0014:000000d8
+80:a8c4 0014:000000d4
+80:a8c5 0014:000000d5
+80:a8c6 0014:000000d6
+80:a8c7 0014:000000d7
+80:a8c8 0014:000000d9
+80:a8c9 0014:000000da
 80:a8ca 0014:000000db
-80:a8cd 0014:000000dc
-80:a8ce 0014:000000e2
-80:a8d2 0014:000000e3
-80:a8d6 0014:000000e4
-80:a8da 0014:000000e8
-80:a8db 0014:000000ea
+80:a8cb 0014:000000dc
+80:a8cc 0014:000000de
+80:a8ce 0014:000000df
+80:a8d0 0014:000000e1
+80:a8d3 0014:000000e3
+80:a8d4 0014:000000e4
+80:a8d5 0014:000000e5
+80:a8d6 0014:000000e6
+80:a8d7 0014:000000e9
+80:a8da 0014:000000ea
+80:a8db 0014:000000f0
+80:a8df 0014:000000f1
+80:a8e3 0014:000000f2
+80:a8e7 0014:000000f6
+80:a8e8 0014:000000f8
+80:a8ed 0014:000000f9
 81:8000 0015:00000014
 81:8001 0015:00000015
 81:8002 0015:00000016
