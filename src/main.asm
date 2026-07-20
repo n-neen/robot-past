@@ -81,10 +81,21 @@ setuptitle: {
     ldx #!bg1tiles                      ;destination in vram
     jsl load_buffertovram               ;dma gfx to vram
     
-    ;=================================== load bg2 ================================
-    ;load title bg2 tilemap
-    ;load title bg2 graphics
-        ;when they exist (later)
+    ;============================== load bg2 tilemap =============================
+    ;tilemap to buffer
+    lda #bank(titledata_bg2map)
+    sta p_2
+        
+    lda #titledata_bg2map               ;tilemap pointer
+    sta p_0
+        
+    lda #datasize(titledata_bg2map)     ;tilemap size
+    jsl load_romtolevelbuffer           ;copy tilemap to level buffer
+        
+    ;buffer to vram
+    lda #datasize(titledata_bg2map)     ;tilemap size
+    ldx #!bg2tilemap                    ;destination in vram
+    jsl load_levelbuffertovram          ;dma tilemap to vram
     
     ;============================== load bg3 graphics ============================
     ;gfx to buffer
@@ -179,11 +190,11 @@ setuptitle: {
         sta w_colormathlayers
         sta $2131
         
-        lda #%00010001      ;main screen layers
+        lda #%00010011      ;main screen layers
         sta w_mainscreenlayers
         sta $212c
         
-        lda #%00000100      ;subscreen layers
+        lda #%00000110      ;subscreen layers
         sta w_subscreenlayers
         sta $212d
         

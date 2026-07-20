@@ -335,6 +335,7 @@ w: {
     
     .menu: {
         ..state             :   skip 2
+        ..var1              :   skip 2      ;bg2 x subpixels on title screen
     }
     
     .hdma: {                           ;w_hdma

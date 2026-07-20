@@ -3,6 +3,15 @@ title: {
         phk
         plb
         
+        lda w_menu_var1         ;bg2 x scroll subpixels
+        clc
+        adc #$4000
+        sta w_menu_var1
+        
+        lda w_bg2xscroll
+        adc #$0000
+        sta w_bg2xscroll
+        
         lda w_nmicounter
         bit #$0007
         bne +
