@@ -6,7 +6,7 @@
 
 ;================================ program state constants ==================================
 
-!state_setup                =   $0000
+!state_introsetup           =   $0000
 !state_introhandler         =   $0001
 !state_loadintroscene       =   $0002
 !state_gameplay             =   $0003
@@ -15,6 +15,8 @@
 !state_nongamehandler       =   $0006
 !state_setupgameoverscreen  =   $0007
 !state_handlegameoverscreen =   $0008
+!state_setuptitle           =   $0009
+!state_handletitlescreen    =   $000a
 
 ;pre-state
 ;currently not used
@@ -28,8 +30,11 @@
 
 ;================================ constants ==================================
 
-!fade_bitmask_default       =   $0005       ;used in main.asm
-!fade_timer_default         =   $0010
+!fade_bitmask_default       =   $0001       ;used in main.asm
+!fade_timer_default         =   $0010       ;not used
+
+!fade_bitmask_title         =   $0003       ;used in main.asm
+!fade_timer_title           =   $0020       ;not used
 
 
 ;================================ camera/scroll
@@ -149,6 +154,11 @@
 !gameover_menu_state_left   =   $0000
 !gameover_menu_state_right  =   $0001
 
+;================================ title menu
+
+!title_menu_state_startgame     =   $0000
+!title_menu_state_resumegame    =   $0001
+!title_menu_state_options       =   $0002
 
 ;================================= module bank constants ===================================
 

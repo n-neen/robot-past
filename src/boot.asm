@@ -206,8 +206,10 @@ init: {
     ;jsl $80e0bd             ;sound test. no work
     
     
-    stz.w w_programstate
-    stz.w w_prestate
+    ;stz w_programstate
+    
+    lda #!state_setuptitle
+    sta w_programstate
     
     sep #$20
     {

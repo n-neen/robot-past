@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\background_only_15_colors.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\background_only_15_colors.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\background_only_15_colors.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\background_only_15_colors.gfx"  --palette-base-offset 1 --color-zero 000000
+
+pause

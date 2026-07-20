@@ -112,10 +112,14 @@ load: {
         ;p_0 = long pointer
         ;a   = size, forced to be even. max $8000
         
+        ;could write a copy of this for > $8000
+        ;halve size, tax, use x as half-size counter
+        ;but realistically i don't think we'll need it
+        ;and it would be even slower
+        
         phy
         phb
         
-        ;and #$7fff
         and #$fffe
         tay
         

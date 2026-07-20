@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\mockup_mode_5_bg_only.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\mockup_mode_5_bg_only.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\mockup_mode_5_bg_only.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\mockup_mode_5_bg_only.gfx"
+
+pause

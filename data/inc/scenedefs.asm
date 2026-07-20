@@ -23,13 +23,13 @@ scenedef: {
     ;unused
     .light:             %scenedefentry(light)           ;text
     
-    ;intro text scenes
+    ;intro scenes
     .meetsisters:       %scenedefentry(meetsisters)
     .bloodlotus:        %scenedefentry(bloodlotus)
     .flamecircle:       %scenedefentry(flamecircle)
     .city:              %scenedefentry(city)
     
-    ;dialog text scenes (gameplay subscenes)
+    ;nongameplay scenes (gameplay subscenes)
     .entrance:          %scenedefentry(entrance)
     
     ;gameplay rooms
@@ -64,7 +64,7 @@ properties: {
         dw str_intro1               ;text string pointer
         db $08                      ;starting line for text
         dw hdma_testobject_inidisp  ;hdma object to spawn and run
-        dw str_scrollingintro       ;scrolling text commands (ptr to strings.asm)
+        dw str_credits              ;scrolling text commands (ptr to strings.asm)
     }
     
     .bloodlotus: {                  ;intro 2
@@ -72,7 +72,7 @@ properties: {
         dw str_intro2
         db $16
         dw $0000                    ;hdma object to spawn and run
-        dw $0000                    ;scrolling text commands
+        dw str_scrollingintro       ;scrolling text commands
     }
     
     .flamecircle: {                 ;intro 3

@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\title_bg3.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\title_bg3.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\title_bg3.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\title_screen\title_bg3.gfx" --bpp 2
+
+pause

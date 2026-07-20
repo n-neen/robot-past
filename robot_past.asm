@@ -35,7 +35,8 @@ org $808000                             ;main system bank
     incsrc "./src/shot/shot.asm"
     incsrc "./src/shot/common.asm"
     incsrc "./src/shot/bubble.asm"
-    incsrc "./src/speech.asm"           ;just started
+    incsrc "./src/speech.asm"
+    incsrc "./src/title.asm"
     print "80 end: ", pc, " main system bank"
     
 org $818000
@@ -89,15 +90,15 @@ org $c80000
     
 org $c90000
     incsrc "./data/inc/c9.asm"
-    print "c9 end: ", pc
+    print "c9 end: ", pc, " game over tilemaps, graphics, palettes"
     
 org $ca0000
     incsrc "./data/inc/ca.asm"
     print "ca end: ", pc
     
 org $cb0000
-    ;
-    print "cb end: ", pc
+    incsrc "./data/inc/cb.asm"
+    print "cb end: ", pc, " title screen tilemaps, graphics, palettes"
     
 org $cc0000
     ;

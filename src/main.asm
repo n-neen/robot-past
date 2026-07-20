@@ -26,7 +26,7 @@ main: {
         ;don't forget to make a corresponding define in defines.asm
         ;!state_[name]
         
-        dw  setup,                      ;0      ;initial program setup after boot.asm happens
+        dw  setupintro,                 ;0      ;initial program setup after boot.asm happens
             introhandler,               ;1      ;loads dialog scenes in order when button pressed
             loadintroscene,             ;2      ;load the individual scenes for above
             gameplayvector,             ;3      ;playing the game, top level routine in gameplay.asm
@@ -34,9 +34,192 @@ main: {
             loadnongameplayscene,       ;5      ;load dialog scenes that come from gameplay and return to gameplay
             nongameplayhandler,         ;6      ;handle running the above after loading
             setupgameoverscreen,        ;7      ;do game over graphics and tilemap transfurs
-            handlegameoverscreen        ;8      ;display game over and handle interactions
+            handlegameoverscreen,       ;8      ;display game over and handle interactions
+            setuptitle,                 ;9      ;does not use loadscene structures
+            handletitlescreen           ;10     ;handle title menu interactions
     }
 }
+
+;===========================================================================================
+;============================ STATE 9:    S E T U P T I T L E ==============================
+;===========================================================================================
+
+setuptitle: {
+    sei
+    jsr screenoff
+    jsr disablenmi
+    
+    ;============================== load bg1 tilemap =============================
+    ;tilemap to buffer
+    lda #bank(titledata_bg1map)
+    sta p_2
+        
+    lda #titledata_bg1map               ;tilemap pointer
+    sta p_0
+        
+    lda #datasize(titledata_bg1map)     ;tilemap size
+    jsl load_romtolevelbuffer           ;copy tilemap to level buffer
+        
+    ;buffer to vram
+    lda #datasize(titledata_bg1map)     ;tilemap size
+    ldx #!bg1tilemap                    ;destination in vram
+    jsl load_levelbuffertovram          ;dma tilemap to vram
+    
+    ;============================== load bg1 graphics ============================
+    ;graphics to buffer
+    lda #bank(titledata_bg1gfx)
+    sta p_2
+        
+    lda #titledata_bg1gfx
+    sta p_0
+        
+    lda #datasize(titledata_bg1gfx)
+    jsl load_romtobuffer
+    
+    ;load title bg1 graphics to vram
+    lda #datasize(titledata_bg1gfx)     ;gfx size
+    ldx #!bg1tiles                      ;destination in vram
+    jsl load_buffertovram               ;dma gfx to vram
+    
+    ;=================================== load bg2 ================================
+    ;load title bg2 tilemap
+    ;load title bg2 graphics
+        ;when they exist (later)
+    
+    ;============================== load bg3 graphics ============================
+    ;gfx to buffer
+    lda #bank(titledata_bg3gfx)
+    sta p_2
+        
+    lda #titledata_bg3gfx
+    sta p_0
+        
+    lda #datasize(titledata_bg3gfx)
+    jsl load_romtobuffer
+
+    ;buffer to vram
+    lda #datasize(titledata_bg3gfx)     ;gfx size
+    ldx #!bg3tiles                      ;destination in vram
+    jsl load_buffertovram               ;dma gfx to vram
+    
+    ;============================== load bg3 tilemap =============================
+    lda #bank(titledata_bg3map)
+    sta p_2
+        
+    lda #titledata_bg3map               ;tilemap pointer
+    sta p_0
+        
+    lda #datasize(titledata_bg3map)     ;tilemap size
+    jsl load_romtolevelbuffer           ;copy tilemap to level buffer
+
+    ;load title bg3 tilemap to vram
+    lda #datasize(titledata_bg3map)     ;tilemap size
+    ldx #!bg3tilemap                    ;destination in vram
+    jsl load_levelbuffertovram          ;dma tilemap to vram
+    
+    ;============================= load title palette ============================
+    lda #bank(titledata_pal)
+    ldx #titledata_pal
+    jsl load_romtocolorbuffer
+    
+    ;load bg3palette
+    ;inline because frudge it we'll do it live
+    ldx #$0020
+    -
+    lda.l titledata_pal+$20,x
+    sta w_cgrambuffer,x
+    dex
+    dex
+    bpl -
+    
+    
+    ;=================== load title sprite graphics ==============================
+    lda #bank(titledata_spritegfx)
+    sta p_2
+        
+    lda #titledata_spritegfx
+    sta p_0
+        
+    lda #datasize(titledata_spritegfx)
+    jsl load_romtobuffer
+        
+    lda #datasize(titledata_spritegfx)  ;gfx size
+    ldx #!spritegfx                     ;destination in vram
+    jsl load_buffertovram               ;dma gfx to vram
+    
+    ;=================== load title sprite palettes ==============================
+    
+    ldx #$0100
+    -
+    lda.l titledata_spritepal,x
+    sta.l w_cgrambuffer+$100,x
+    dex
+    dex
+    bpl -
+    
+    
+    ;initialize title menu state, draw sprites for fade-in
+    stz w_oam_index
+    stz w_menu_state
+    jsl title_drawcursor_long
+    jsl oam_cleanbuffer
+    
+    
+    ;init ppu for title screen
+    lda #$00ff
+    sta w_bg3yscroll
+    
+    sep #$20
+    {
+        lda #%00000010
+        sta w_colormathlogic
+        sta $2130
+        
+        lda #%00000111      ;color math layers: 1, 2, 3; additive mode
+        sta w_colormathlayers
+        sta $2131
+        
+        lda #%00010001      ;main screen layers
+        sta w_mainscreenlayers
+        sta $212c
+        
+        lda #%00000100      ;subscreen layers
+        sta w_subscreenlayers
+        sta $212d
+        
+        
+    }
+    rep #$20
+    
+    jsr enablenmi
+    jsr waitfornmi
+    
+    lda #!fade_bitmask_title
+    sta w_fadebitmask
+    
+    lda #!fade_timer_title
+    sta w_fadetimer
+    
+    jsr fadein
+    
+    lda #!state_handletitlescreen
+    sta w_programstate
+    
+    rts
+}
+
+
+;===========================================================================================
+;===================== STATE 10:    H A N D L E T I T L E S C R E E N ======================
+;===========================================================================================
+
+handletitlescreen: {
+    
+    jsl title_main
+    
+    rts
+}
+
 
 ;===========================================================================================
 ;========================= B E G I N   S C E N E   T R A N S I T I O N =====================
@@ -270,17 +453,24 @@ loadintroscene: {
 }
 
 ;===========================================================================================
-;================================== STATE 0:   S E T U P ===================================
+;============================== STATE 0: I N T R O  S E T U P ==============================
 ;===========================================================================================
 
 ;first state that is called
-;initial setup for loading graphics, tilemaps
+;initial setup for loading graphics, tilemaps of intro sequence
 
-setup: {
+setupintro: {
     sei
     
     jsr waitfornmi
+    jsr disablenmi
     jsr screenoff
+    
+    sep #$20
+    lda w_mainscreenlayers
+    and #%11101111
+    sta w_mainscreenlayers
+    rep #$20
     
     ;load graphics, palette, tilemap
     
@@ -333,7 +523,6 @@ setup: {
     
     jsr enablenmi
     jsr waitfornmi
-    jsr screenon
     
     lda #!state_loadintroscene      ;program state = load text scene (for intro)
     sta w_programstate
@@ -498,11 +687,11 @@ loadgame: {
         ora #%00010000
         sta w_mainscreenlayers
         
-        ;lda #%00100001
-        ;sta w_colormathlayers
+        lda #%10100001
+        sta w_colormathlayers
         
-        ;lda #%00000010
-        ;sta w_colormathlogic
+        lda #%00000010
+        sta w_colormathlogic
     }
     rep #$20
     
@@ -551,6 +740,42 @@ loadgame: {
     sta w_programstate
     
     rts
+}
+
+setupresumedgame: {
+    lda #!fade_bitmask_default
+    sta w_fadebitmask
+    
+    jsr fadeout
+    ;screen is now off
+    jsr disablenmi
+    
+    jsl hud_init
+    jsl hud_test
+    
+    stz w_oam_index
+    
+    jsl load_bg3colortobuffer       ;bg3 palette
+    ;jsl load_bg3tilemaptobuffer    ;tilemap copy to buffer
+    ;jsl load_bg3tilemapupload      ;upload buffer
+    jsl load_bg3tilesupload         ;bg3 tiles to vram
+    jsl load_playerpal
+    jsl load_playergfx
+    
+    ;eventaully get the following from save ram
+    
+    ldx #scenedef_room1
+    jsl scenetransition_long
+    
+    lda #$0010
+    sta w_player_hp
+        
+    lda #!state_loadgame
+    sta w_programstate
+    
+    jsr enablenmi
+    
+    rtl
 }
 
 ;===========================================================================================
@@ -740,7 +965,7 @@ fadeout: {
     
     lda w_nmicounter
     bit w_fadebitmask
-    beq -
+    bne -
     
     lda w_screenbrightness
     dec
@@ -766,7 +991,7 @@ fadein: {
     
     lda w_nmicounter
     bit w_fadebitmask
-    beq -
+    bne -
     
     lda w_screenbrightness
     inc
