@@ -67,7 +67,7 @@ oam: {
         sta w_oam_lo_buffer,x
         inx
         inx
-        cpx #$0200          ;uhh is that right or no?
+        cpx #$01fe          ;uhh is that right or no?
         bmi -
         
         rtl

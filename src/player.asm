@@ -214,19 +214,13 @@ player: {
 ;===================================== CHECKFORDEATH =======================================
     .checkfordeath: {
         lda w_player_hp
-        bne +               ;if not 0, exit
-        beq ++              ;if 0, go to end game
+        bne +                           ;if not 0, exit
         
-        bpl +               ;if positive, exit (else, negative, end game). need this cause 0 is positive
-        
-        ++
         lda w_scene_ptr                 ;save room for resume game
         sta.l s_roomptr
         
-        jsl fadeout_long
-        
         lda #!state_setupgameoverscreen
-        sta w_programstate
+        sta w_gameplayfadeoutstate
         
         +
         rts

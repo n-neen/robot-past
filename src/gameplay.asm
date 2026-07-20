@@ -12,6 +12,7 @@ gameplay: {
     stz w_player_collisiontype          ;not really used
     stz w_oam_index
     stz w_msg_waitflag
+    stz w_gameplayfadeoutstate
     
     jsl oam_cleanhibytebuffer
     
@@ -45,6 +46,16 @@ gameplay: {
     jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
     jsl oam_constructhibuffer           ;construct the real (two bits per sprite) oam hi table from the byte table (one byte per sprite)
     
+    ;end of this gameplay frame's logic
+    ;if we have a fadeout queued, do that now
+    
+    lda w_gameplayfadeoutstate
+    beq +
+    {
+        sta w_programstate              ;change program state then fade out
+        jsl fadeout_long
+    }
+    +
     rtl
     
     

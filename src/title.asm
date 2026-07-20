@@ -3,9 +3,9 @@ title: {
         phk
         plb
         
+
         lda w_menu_var1         ;bg2 x scroll subpixels
-        clc
-        adc #$4000
+        adc #$2800              ;bg2 x scroll subpixel speed
         sta w_menu_var1
         
         lda w_bg2xscroll

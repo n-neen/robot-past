@@ -55,47 +55,49 @@ d: {
 org $7e0100
 w: {
     print "work ram start: ", pc
-    .nmicounter         : skip 2
-    .nmiflag            : skip 2
-    .lagcounter         : skip 2
+    .nmicounter             : skip 2
+    .nmiflag                : skip 2
+    .lagcounter             : skip 2
+    
+    .gameplayfadeoutstate   : skip 2
     
     ;ppu register buffers
-    .screenbrightness   : skip 2
-    .bg1xscroll         : skip 2
-    .bg1yscroll         : skip 2
+    .screenbrightness       : skip 2
+    .bg1xscroll             : skip 2
+    .bg1yscroll             : skip 2
     
-    .bg2xscroll         : skip 2
-    .bg2yscroll         : skip 2
+    .bg2xscroll             : skip 2
+    .bg2yscroll             : skip 2
     
-    .bg3xscroll         : skip 2
-    .bg3yscroll         : skip 2
+    .bg3xscroll             : skip 2
+    .bg3yscroll             : skip 2
     
-    .subscreenlayers    : skip 1
-    .mainscreenlayers   : skip 1
-    .colormathlayers    : skip 1
-    .colormathlogic     : skip 1
+    .subscreenlayers        : skip 1
+    .mainscreenlayers       : skip 1
+    .colormathlayers        : skip 1
+    .colormathlogic         : skip 1
     
     ;dma arguments
-    .dmabaseaddr        : skip 2
-    .dmasrcptr          : skip 2
-    .dmasrcbank         : skip 2
-    .dmasize            : skip 2
+    .dmabaseaddr            : skip 2
+    .dmasrcptr              : skip 2
+    .dmasrcbank             : skip 2
+    .dmasize                : skip 2
     
-    .controller         : skip 2
-    .controller2        : skip 2
-    .programstate       : skip 2
+    .controller             : skip 2
+    .controller2            : skip 2
+    .programstate           : skip 2
     
-    .prestate           : skip 2        ;not sure if using this
-    .fadetimer          : skip 2
-    .fadebitmask        : skip 2
-    .fadenextstate      : skip 2        ;deprecated
+    .prestate               : skip 2        ;not sure if using this
+    .fadetimer              : skip 2
+    .fadebitmask            : skip 2
+    .fadenextstate          : skip 2        ;deprecated
     
-    .testsceneindex     : skip 2
+    .testsceneindex         : skip 2
     
-    .nmitimen           : skip 2
+    .nmitimen               : skip 2
     
     .irq: {
-        ..command       : skip 2
+        ..command           : skip 2
     }
     
     .player: {
@@ -336,6 +338,7 @@ w: {
     .menu: {
         ..state             :   skip 2
         ..var1              :   skip 2      ;bg2 x subpixels on title screen
+        ..var2              :   skip 2
     }
     
     .hdma: {                           ;w_hdma

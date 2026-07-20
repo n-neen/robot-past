@@ -180,21 +180,24 @@ setuptitle: {
     lda #$00ff
     sta w_bg3yscroll
     
+    lda #$0070
+    sta w_bg2yscroll
+    
     sep #$20
     {
         lda #%00000010
         sta w_colormathlogic
         sta $2130
         
-        lda #%00000111      ;color math layers: 1, 2, 3; additive mode
+        lda #%00000110      ;color math layers: 1, 2, 3; additive mode
         sta w_colormathlayers
         sta $2131
         
-        lda #%00010011      ;main screen layers
+        lda #%00010111      ;main screen layers
         sta w_mainscreenlayers
         sta $212c
         
-        lda #%00000110      ;subscreen layers
+        lda #%00000010      ;subscreen layers
         sta w_subscreenlayers
         sta $212d
         
@@ -484,9 +487,24 @@ setupintro: {
     jsr screenoff
     
     sep #$20
-    lda w_mainscreenlayers
-    and #%11101111
-    sta w_mainscreenlayers
+    {
+        lda #%00000010
+        sta w_colormathlogic
+        sta $2130
+        
+        lda #%00000000      ;color math layers
+        sta w_colormathlayers
+        sta $2131
+        
+        lda #%00000101      ;main screen layers
+        sta w_mainscreenlayers
+        sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        sta $212d
+        
+    }
     rep #$20
     
     ;load graphics, palette, tilemap
@@ -648,6 +666,8 @@ introhandler: {
 ;for doing room transitions between two gameplay rooms
 
 loadgame: {
+    sei
+    jsr irq_disable
     jsr disablenmi
     jsr screenoff
     sei
@@ -703,15 +723,22 @@ loadgame: {
     
     sep #$20
     {
-        lda w_mainscreenlayers
-        ora #%00010000
-        sta w_mainscreenlayers
-        
-        lda #%10100001
-        sta w_colormathlayers
-        
-        lda #%00000010
+        lda #%00000000
         sta w_colormathlogic
+        sta $2130
+        
+        lda #%10100001      ;color math layers
+        sta w_colormathlayers
+        sta $2131
+        
+        lda #%00010101      ;main screen layers
+        sta w_mainscreenlayers
+        sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        sta $212d
+        
     }
     rep #$20
     

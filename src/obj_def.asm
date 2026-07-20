@@ -64,7 +64,8 @@
         jsr scenetransition         ;populate scene area of memory
         
         lda w_scene_mode            ;transition to program state
-        sta w_programstate          ;indicated by scene data
+        sta w_gameplayfadeoutstate
+        ;sta w_programstate          ;indicated by scene data
         
         jsl fadeout_long
         

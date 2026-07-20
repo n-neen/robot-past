@@ -289,7 +289,7 @@ hud: {
         phk
         plb
         
-        ldx #datasize(hud_test_string)
+        ldx #datasize(hud_test_string)-1
         
         sep #$20
         {
@@ -308,7 +308,7 @@ hud: {
         
         ..string: {
             db "life:                           "
-            db "hud second row", !hud_end
+            db "            hud string", !hud_end
         }
     }
 }

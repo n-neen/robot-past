@@ -47,6 +47,10 @@ hdma handler
 
 there's a bug in main gameplay during fadeout where sprites aren't drawn in the right places
     but only some of them
+    i think it's related to the hud
+    the last three sprites on the hud turn into large sprites and take the place of
+        the next three sprites (fae)
+    this was fixed by adding w_gameplayfadeoutstate
 
 hud
     use sprites
