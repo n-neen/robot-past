@@ -48,6 +48,7 @@ gameover: {
         jsl fadeout_long
         lda #!state_loadgame
         sta w_programstate
+        
         +
         rts
     }

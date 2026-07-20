@@ -219,6 +219,11 @@ init: {
     }
     rep #$20
     
+    ;check if sram is initialized, and if not, initialize it
+    
+    jsl checksram
+    
+    
     ;print pc, " decompression test"
     ;jsl decompressiontest
     ;seems to work

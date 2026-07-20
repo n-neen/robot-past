@@ -4,7 +4,7 @@ title: {
         plb
         
         lda w_nmicounter
-        bit #$000f
+        bit #$0007
         bne +
         
         lda w_menu_state
@@ -129,6 +129,8 @@ title: {
     
     
     .startgame: {
+        ;start intro
+        
         lda #!state_introsetup
         sta w_programstate
         

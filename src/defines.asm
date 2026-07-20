@@ -37,7 +37,7 @@
 !fade_timer_title           =   $0020       ;not used
 
 
-;================================ camera/scroll
+;================================ camera/scroll/level
 
 !scroll_upbound_default     =   $0001       ;used in scroll.asm
 !scroll_downbound_default   =   $00ff
@@ -63,6 +63,7 @@
 
 !level_width                    =   $40
 
+!starting_room                  =   scenedef_room1
 
 ;================================ player
 
@@ -79,7 +80,7 @@
 
 !player_frames_default          =   $00c0
 
-!player_hp_default              =   $0027
+!player_hp_default              =   $0002
 
 !player_shot_allowed_bitmask    =   $0007       ;BIT tested with w_nmicounter
                                                             ;maybe timer is better?
@@ -205,6 +206,10 @@
 ;================================ cgram constants ===================================
 
 !k_cgrambuffersize  =       $0200
+
+;================================ sram constants ===================================
+!sram_size          =       $0800
+
 
 
 ;============================== scrolling constants =================================

@@ -8,8 +8,8 @@
     dw fae_common_explode       ;shot routine
     dw ..spritemap              ;spritemap
     
-    dw $0008    ;x size
-    dw $0008    ;y size
+    dw $0010    ;x size
+    dw $0010    ;y size
     
     ..main: {
         ;runs once per frame

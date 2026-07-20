@@ -9,11 +9,13 @@ fae: {
         ;x = fae index
         
         ;used inroutine:
-        ;p_4 = sprite counter
-        ;p_6 = fae x onscreen position
-        ;p_8 = fae y onscreen position
-        ;p_a = extra x bit
-        ;p_c = just put this value down for a sec to recheck its psr bits
+        ;p_4  = sprite counter
+        ;p_6  = fae x onscreen position
+        ;p_8  = fae y onscreen position
+        ;p_a  = extra x bit
+        ;p_c  = just put this value down for a sec to recheck its psr bits
+        ;p_e  = used for halving the x radius for drawing offset
+        ;p_10 = used for halving the y radius for drawing offset
         
         phx
         phy
@@ -23,14 +25,28 @@ fae: {
         plb
         plb
         
+        lda w_fae_xsize,x
+        lsr
+        lsr
+        sta p_e
+        
+        lda w_fae_ysize,x
+        lsr
+        lsr
+        sta p_10
+        
         lda w_fae_x,x
         sec
         sbc w_level_camerax
+        sec
+        sbc p_e
         sta p_6                 ;fae onscreen x position
         
         lda w_fae_y,x
         sec
         sbc w_level_cameray
+        sec
+        sbc p_10
         sta p_8                 ;fae onscreen y position
         
         ldx p_0                 ;x = spritemap ptr

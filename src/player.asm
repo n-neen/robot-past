@@ -214,8 +214,14 @@ player: {
 ;===================================== CHECKFORDEATH =======================================
     .checkfordeath: {
         lda w_player_hp
+        bne +
+        beq ++
+        
         bpl +
-        beq +
+        
+        ++
+        lda w_scene_ptr                 ;save room for resume game
+        sta.l s_roomptr
         
         jsl fadeout_long
         
@@ -1095,6 +1101,13 @@ player: {
 ;does have oam high table handling
     
     .draw: {
+        ;used in routine:
+        ;p_0 = counter for number of sprites to draw
+        ;p_2 = used to halve x radius for drawing offset
+        ;p_4 = used to halve y radius for drawing offset
+        
+        ;print hex(w_player_x)
+        
         phb
         phx
         phy
@@ -1106,9 +1119,20 @@ player: {
         beq +                       ;if iframes > 0
         lda w_nmicounter            ;and nmicounter %1,
         bit #$0001                  ;skip drawing
-        bne ..skip
+        beq ..noskip
+        jmp ..skip
+        ..noskip
         
         +
+        
+        ;lda w_player_xsize
+        ;lsr
+        ;sta p_2
+        
+        ;lda w_player_ysize
+        ;lsr
+        ;sta p_4
+        
         ldx w_oam_index
         
         lda w_nmicounter
@@ -1149,12 +1173,16 @@ player: {
         and #$00ff
         clc
         adc w_player_x_onscreen
+        ;sec
+        ;sbc p_2
         sta w_oam_lo_buffer,x       ;x pos
         
         lda $0001,y
         and #$00ff
         clc
         adc w_player_y_onscreen
+        ;sec
+        ;sbc p_4
         sta w_oam_lo_buffer+1,x     ;y pos
         
         lda $0002,y

@@ -136,7 +136,7 @@ org $c0ffc0                             ;game header
     db $31                              ;fastrom, hirom
     db $02                              ;rom + ram + sram
     db $0a                              ;rom size = 1mb
-    db $00                              ;sram size 0
+    db $01                              ;sram size = 2kb
     db $00                              ;country code
     db $ff                              ;developer code
     db $00                              ;rom version

@@ -191,6 +191,12 @@ setuptitle: {
     }
     rep #$20
     
+    lda.l s_roomptr         ;if saveram room ptr = 0, write default starting room
+    bne +
+    lda #!starting_room
+    sta.l s_roomptr
+    +
+    
     jsr enablenmi
     jsr waitfornmi
     
@@ -511,6 +517,9 @@ setupintro: {
     lda #!player_hp_default         ;number is bcd
     sta w_player_hp ;can't do this in loadgame cause that runs every room transition
     
+    lda #!starting_room
+    sta.l s_roomptr
+    
     lda #$01ff
     sta w_bg3yscroll
     
@@ -764,10 +773,11 @@ setupresumedgame: {
     
     ;eventaully get the following from save ram
     
-    ldx #scenedef_room1
+    lda.l s_roomptr
+    tax
     jsl scenetransition_long
     
-    lda #$0010
+    lda #!player_hp_default
     sta w_player_hp
         
     lda #!state_loadgame
@@ -1007,4 +1017,52 @@ fadein: {
         jsr fadein
         rtl
     }
+}
+
+checksram: {
+    phb
+    phx
+    
+    pea bank(s)<<8
+    plb
+    plb
+    
+    ldx #datasize(checksram_string)-2
+    -
+    lda s_string,x
+    cmp.l checksram_string,x
+    bne .init
+    dex
+    dex
+    bpl -
+    
+    plx
+    plb
+    rtl
+    
+    .init:
+    
+    ldx #!sram_size                     ;clear, then
+    -
+    stz s,x
+    dex
+    dex
+    bpl -
+    
+    ldx #datasize(checksram_string)-2     ;write string
+    -
+    lda.l checksram_string,x
+    sta s_string,x
+    dex
+    dex
+    bpl -
+    
+    plx
+    plb
+    rtl
+    
+    .string: {
+        db "robot past"     ;length = $0a
+    }
+    .dummylabel
 }

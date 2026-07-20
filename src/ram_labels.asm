@@ -15,24 +15,27 @@
 org $00
 
 p: {
-    ;0-f are reserved for pseudoregisters
+    ;pseudoregisters
     
-    .0  : skip 1
-    .1  : skip 1
-    .2  : skip 1
-    .3  : skip 1
-    .4  : skip 1
-    .5  : skip 1
-    .6  : skip 1
-    .7  : skip 1
-    .8  : skip 1
-    .9  : skip 1
-    .a  : skip 1
-    .b  : skip 1
-    .c  : skip 1
-    .d  : skip 1
-    .e  : skip 1
-    .f  : skip 1
+    .0   : skip 1
+    .1   : skip 1
+    .2   : skip 1
+    .3   : skip 1
+    .4   : skip 1
+    .5   : skip 1
+    .6   : skip 1
+    .7   : skip 1
+    .8   : skip 1
+    .9   : skip 1
+    .a   : skip 1
+    .b   : skip 1
+    .c   : skip 1
+    .d   : skip 1
+    .e   : skip 1
+    .f   : skip 1
+    .10  : skip 1
+    .11  : skip 1
+    .12  : skip 1
 }
 
 ;======================================= direct page =======================================
@@ -367,6 +370,11 @@ w: {
         ..colorindexstart   : skip 2*!glow_objects_count+2
     }
     
+    .savedata: {
+        ..room              : skip 2
+        ..playerhp          :   skip 2
+    }
+    
     .vram: {
         ;7 bytes entries
         !vram_queue_size    =   $0008
@@ -404,4 +412,13 @@ l: {
         
     }
     .decompressionbuffer    :   skip $8000  ;7f3000-7fb000
+}
+
+;save ram
+org $306000         ;$306000-$306800
+s: {
+    .string         :   skip 10 ;datasize(checksram_string)
+    .roomptr        :   skip 2
+    .playerhp       :   skip 2
+    
 }
