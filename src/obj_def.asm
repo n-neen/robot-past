@@ -67,7 +67,7 @@
         sta w_gameplayfadeoutstate
         ;sta w_programstate          ;indicated by scene data
         
-        jsl fadeout_long
+        ;jsl fadeout_long
         
         plx
         rts
@@ -224,9 +224,10 @@
         
         ;lda #!state_loadnongame
         lda w_scene_mode            ;transition to program state
-        sta w_programstate          ;indicated by scene data
+        ;sta w_programstate          ;indicated by scene data
+        sta w_gameplayfadeoutstate
         
-        jsl fadeout_long
+        ;jsl fadeout_long
         
         jsl msg_reset
         
