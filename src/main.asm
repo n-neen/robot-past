@@ -305,8 +305,11 @@ handleoptionsmenu: {
     lda w_programstate
     cmp #!state_handleoptionsmenu
     beq +
-    sta w_programstate
-    jsr fadeout
+    {   ;if state changed upstream,
+        sta w_programstate              ;proceed to that ... wait a minute
+        stz w_menu_state
+        jsr fadeout                     ;fadeout
+    }
     +
     rts
 }

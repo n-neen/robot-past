@@ -214,8 +214,11 @@ player: {
 ;===================================== CHECKFORDEATH =======================================
     .checkfordeath: {
         lda w_player_hp
+        bmi ++                          ;if negative, die
         bne +                           ;if not 0, exit
-        
+        bpl +                           ;if positive, exit
+                                        ;if 0, die
+        ++
         lda w_scene_ptr                 ;save room for resume game
         sta.l s_roomptr
         
