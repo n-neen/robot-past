@@ -63,6 +63,8 @@ gameplay: {
         ;stripped down gameplay to allow player to move during text
         ;but does not allow for collision
         
+        ;not currently used
+        
         stz w_player_direction
         stz w_scroll_direction
         

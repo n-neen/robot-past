@@ -17,6 +17,8 @@
 !state_handlegameoverscreen =   $0008
 !state_setuptitle           =   $0009
 !state_handletitlescreen    =   $000a
+!state_setupoptionsmenu     =   $000b
+!state_handleoptionsmenu    =   $000c
 
 ;pre-state
 ;currently not used

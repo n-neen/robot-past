@@ -36,7 +36,9 @@ main: {
             setupgameoverscreen,        ;7      ;do game over graphics and tilemap transfurs
             handlegameoverscreen,       ;8      ;display game over and handle interactions
             setuptitle,                 ;9      ;does not use loadscene structures
-            handletitlescreen           ;10     ;handle title menu interactions
+            handletitlescreen,          ;10     ;handle title menu interactions
+            setupoptionsmenu,           ;11
+            handleoptionsmenu           ;12
     }
 }
 
@@ -193,7 +195,7 @@ setuptitle: {
         sta w_colormathlayers
         sta $2131
         
-        lda #%00010111      ;main screen layers
+        lda #%00010101      ;main screen layers
         sta w_mainscreenlayers
         sta $212c
         
@@ -237,6 +239,75 @@ handletitlescreen: {
     
     jsl title_main
     
+    rts
+}
+
+;===========================================================================================
+;======================= STATE 11:    S E T U P O P T I O N S M E N U ======================
+;===========================================================================================
+
+setupoptionsmenu: {
+    ;fade, load bg3 tilemap, set up menu
+    ;retain bg1/2 from title
+    
+    sei
+    jsr irq_disable
+    jsr waitfornmi
+    jsr fadeout
+    jsr disablenmi
+    
+    ;============================== load bg3 graphics ============================
+    jsl load_bg3tilesupload
+    
+    ;============================== load bg3 tilemap =============================
+    lda #bank(titledata_optionsbg3map)
+    sta p_2
+        
+    lda #titledata_optionsbg3map                ;tilemap pointer
+    sta p_0
+        
+    lda #datasize(titledata_optionsbg3map)      ;tilemap size
+    jsl load_romtolevelbuffer                   ;copy tilemap to level buffer
+
+    ;load title bg3 tilemap to vram
+    lda #datasize(titledata_optionsbg3map)      ;tilemap size
+    ldx #!bg3tilemap                            ;destination in vram
+    jsl load_levelbuffertovram                  ;dma tilemap to vram
+    
+    ;
+    
+    stz w_oam_index
+    jsl oam_cleanbuffer
+    jsl oam_constructhibuffer
+    
+    jsr enablenmi
+    jsr waitfornmi
+    jsr fadein
+    cli
+    jsr irq_enable
+    
+    lda #!state_handleoptionsmenu
+    sta w_programstate
+    
+    rts
+}
+
+;===========================================================================================
+;===================== STATE 11:    H A N D L E O P T I O N S M E N U ======================
+;===========================================================================================
+
+
+handleoptionsmenu: {
+    jsl title_optionsmenu
+    
+    ;returned state depends on outcome of menu
+    
+    lda w_programstate
+    cmp #!state_handleoptionsmenu
+    beq +
+    sta w_programstate
+    jsr fadeout
+    +
     rts
 }
 

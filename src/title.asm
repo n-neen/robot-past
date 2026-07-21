@@ -3,9 +3,19 @@ title: {
         phk
         plb
         
+        lda w_menu_var2         ;bg2 y scroll subpixels
+        clc
+        adc w_menu_var3         ;bg2 y scroll subpixel speed
+        sta w_menu_var2
+        
+        lda w_bg2yscroll
+        adc #$0000
+        sta w_bg2yscroll
+        
 
         lda w_menu_var1         ;bg2 x scroll subpixels
-        adc #$2800              ;bg2 x scroll subpixel speed
+        clc
+        adc #$4000              ;bg2 x scroll subpixel speed
         sta w_menu_var1
         
         lda w_bg2xscroll
@@ -36,6 +46,11 @@ title: {
     }
     
     .menustartgame: {
+        lda #$0000
+        sta w_menu_var3
+        
+        
+        
         lda w_controller
         
         bit #!controller_dn
@@ -64,6 +79,10 @@ title: {
     }
     
     .menuresumegame: {
+        lda #$4000
+        sta w_menu_var3
+        
+        
         lda w_controller
         
         bit #!controller_up
@@ -109,6 +128,12 @@ title: {
     }
     
     .menuoptions: {
+        lda #$e000
+        sta w_menu_var3
+        
+        
+        
+        
         lda w_controller
         bit #!controller_up
         beq ..noup
@@ -127,7 +152,13 @@ title: {
             ;if dn pressed
             pha
             ;do options menu eventually
-            ;jsr title_options
+            
+            lda #$0001
+            sta w_fadebitmask
+            
+            lda #!state_setupoptionsmenu
+            sta w_programstate
+            
             pla
         }
         ..noa
@@ -257,4 +288,17 @@ title: {
         db $00, $00, $00, %01110010, $00
         db $00, $00, $01, %01110010, $00
     }
+    
+    
+    .optionsmenu: {
+        lda w_controller
+        beq +
+        
+        lda #!state_setuptitle
+        sta w_programstate
+        
+        +
+        rtl
+    }
 }
+

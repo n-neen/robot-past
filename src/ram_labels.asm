@@ -338,7 +338,8 @@ w: {
     .menu: {
         ..state             :   skip 2
         ..var1              :   skip 2      ;bg2 x subpixels on title screen
-        ..var2              :   skip 2
+        ..var2              :   skip 2      ;bg2 y subpixels on title screen
+        ..var3              :   skip 2      ;bg2 y scroll subpixel speed
     }
     
     .hdma: {                           ;w_hdma

@@ -1,0 +1,32 @@
+07.20.2026, 10:38pm
+
+work ram start: 7E0100
+player start 7E0136
+player end   7E0178
+obj start: 7E01D4
+obj end:   7E051A
+oam buffer: 7E051A
+fae start: 7E0801
+fae end:   7E0AEF
+shot start: 7E0AEF
+shot end:   7E0C23
+work ram end:   7E0D89                                              ;bytes used
+80 end: 80A9F6 main system bank                                     ;22,025
+81 end: 8184F5 fae code, spritemaps                                 ; 1,269
+c0 end: C00950 scenedef, obj/fae lists, strings                     ; 2,384
+c1 end: C146FC                                                      ;18,165
+c2 end: C252A6                                                      ;21,158
+c3 end: C3B542                                                      ;46,402
+c4 end: C49962                                                      ;39,266
+c5 end: C56FA4                                                      ;28,580
+c6 end: C68A42                                                      ;35,394
+c7 end: C77682                                                      ;30,338
+c8 end: C85000 collision maps                                       ;20,480
+c9 end: C95340 game over tilemaps, graphics, palettes               ;21,312
+ca end: CAA100                                                      ;41,216
+cb end: CBAFA0 title screen tilemaps, graphics, palettes            ;44,960
+cc end: CC0000                                                      ;0
+cd end: CD0000                                                      ;0
+ce end: CE0000                                                      ;0
+cf end: CF0000                                                      ;0
+total used bytes                                                    ;372,949
