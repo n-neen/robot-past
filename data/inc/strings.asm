@@ -30,6 +30,7 @@ str: {
         ..room1:        db "room1     "
         ..room2:        db "room2     "
         ..icecave1:     db "ice cave 1"
+        ..icecave2:     db "ice cave 2"
         ..town:         db "town      "
         ..moonroom:     db "moonroom  "
     }

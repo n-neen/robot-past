@@ -45,7 +45,17 @@ scenedef: {
         dw icecave1_map             ;tilemap                        ;7
         dw datasize(entrance_gfx)   ;graphics size                  ;9
         dw datasize(icecave1_map)   ;tilemap size                   ;b
-        dw properties_icecave1      ;gameplay properties            ;d  
+        dw properties_icecave1      ;gameplay properties            ;d
+        
+        
+    .icecave2:                      ;have to do this to reuse graphics :/
+        dl icecave1                 ;long pointer to the scene data ;0
+        dw entrance_pal             ;inbank pointer to palette,     ;3
+        dw entrance_gfx             ;graphics,                      ;5
+        dw icecave2_map             ;tilemap                        ;7
+        dw datasize(entrance_gfx)   ;graphics size                  ;9
+        dw datasize(icecave2_map)   ;tilemap size                   ;b
+        dw properties_icecave2      ;gameplay properties            ;d  
 }
 
 ;===========================================================================================
@@ -141,6 +151,16 @@ properties: {
         dw collisionmap_icecave1        ;
         dw faelist_icecave1             ;
         dw str_hudstring_icecave1       ;string to print on hud     ;$10
+    }
+    
+    .icecave2: {
+        dw !state_loadgame              ;program mode to use
+        dw $0000, $0000                 ;starting camera position x,y
+        dw $0080, $0080                 ;starting player position x,y
+        dw objlist_icecave2             ;object list pointer
+        dw collisionmap_icecave2        ;
+        dw faelist_icecave2             ;
+        dw str_hudstring_icecave2       ;string to print on hud     ;$10
     }
     
     .moonroom: {                        ;description                ;number of bytes in

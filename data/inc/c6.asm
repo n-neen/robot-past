@@ -19,5 +19,31 @@ icecave1: {
             incbin "./data/map/ice_cave1_4.map"
 }
 
+icecave2: {
+    .map: incbin "./data/map/ice_cave2_1.map"
+          incbin "./data/map/ice_cave2_2.map"
+          incbin "./data/map/ice_cave2_3.map"
+          incbin "./data/map/ice_cave2_4.map"
+}
+
+icecave3: {
+    .map: incbin "./data/map/ice_cave2_1.map"
+          incbin "./data/map/ice_cave2_2.map"
+          incbin "./data/map/ice_cave2_3.map"
+          incbin "./data/map/ice_cave2_4.map"
+}
+
+icecave4: {
+    .map: incbin "./data/map/ice_cave2_1.map"
+          incbin "./data/map/ice_cave2_2.map"
+          incbin "./data/map/ice_cave2_3.map"
+          incbin "./data/map/ice_cave2_4.map"
+}
+
+icecave5: {
+    .map: incbin "./data/map/ice_cave2_1.map"
+          incbin "./data/map/ice_cave2_2.map"
+}
+
 dummylabel:
     ;this is the last label in the project so need this to calculate the above size

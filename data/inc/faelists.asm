@@ -18,7 +18,10 @@ faelist: {
     
     
     .room1: {
-                        ;type       x      y      var1   var2   var3
+                        ;type       x      y     var1            var2   var3
+        %fae_list_entry (fae_door, $00f8, $00f8, scenedef_room2, $0000, $0000)   
+        
+        
         %fae_list_entry (fae_test, $0080, $0080, $0001, $0000, $0000)
         %fae_list_entry (fae_test, $0090, $0090, $0002, $0000, $0000)
         %fae_list_entry (fae_test, $00b0, $00b0, $0003, $0000, $0000)
@@ -46,6 +49,12 @@ faelist: {
         %fae_list_entry (fae_test, $0110, $0120, $0000, $0000, $0000)
         %fae_list_entry (fae_test, $0130, $0100, $0000, $0000, $0000)
         %fae_list_entry (fae_test, $0138, $0109, $0000, $0000, $0000)
+        dw $ffff
+    }
+    
+    .icecave2: {
+                        ;type       x      y      var1   var2   var3
+        ;
         dw $ffff
     }
     

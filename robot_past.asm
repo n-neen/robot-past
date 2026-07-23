@@ -45,6 +45,7 @@ org $818000
     incsrc "./src/fae/test.asm"
     incsrc "./src/fae/arrow.asm"
     incsrc "./src/fae/explosion.asm"
+    incsrc "./src/fae/door.asm"
     print "81 end: ", pc, " fae code, spritemaps"
     
 ;================================= data banks =======================================
