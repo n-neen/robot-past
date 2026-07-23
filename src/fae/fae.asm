@@ -280,7 +280,6 @@ fae: {
         jsr fae_collision_check
         bcc +
         jsr (w_fae_touchptr,x)
-        jsr fae_hitplayertest               ;test test not real
         jsr fae_collisionhudtest
         +
         dex
