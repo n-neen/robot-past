@@ -223,6 +223,11 @@ init: {
     
     jsl checksram
     
+    ;lda #$0000
+    ;sep #$20
+    ;jsl LoadAudioData
+    ;rep #$20
+    
     
     ;print pc, " decompression test"
     ;jsl decompressiontest

@@ -216,7 +216,6 @@ player: {
         lda w_player_hp
         bmi ++                          ;if negative, die
         bne +                           ;if not 0, exit
-        bpl +                           ;if positive, exit
                                         ;if 0, die
         ++
         lda w_scene_ptr                 ;save room for resume game
@@ -244,7 +243,7 @@ player: {
         jsr player_updatepreviousposition
         
         jsr player_input            ;get input. adds direction bits to w_player_direction
-        jsr player_boundscheck      ;hardcoded test harness for level bounds
+        ;jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_tickiframes      ;count iframes down to 0
         
         lda w_player_direction      ;suggested directions
@@ -254,7 +253,7 @@ player: {
         ldy #w_player_nexty
         jsr player_calchitbox       ;use for collision with tiles, use next suggested position
         
-        jsr player_collisionwrapper
+        jsr player_collisionwrapper ;comment out to test loading seam
         
         jsr player_applyvelocity    ;use subspeed and speed to affect player position
         jsr player_decelerate       ;use the same to do the same (but inverse, if dpad not held)

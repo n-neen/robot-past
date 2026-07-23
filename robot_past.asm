@@ -113,7 +113,9 @@ org $ce0000
     print "ce end: ", pc
     
 org $cf0000
-    ;
+    ;incsrc "./sound/example_project_test/example-project.inc"
+    ;incsrc "./sound/example_project_test/example-project.asm"
+    ;incbin "./sound/example_project_test/example-project.bin"
     print "cf end: ", pc
     
     

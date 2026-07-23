@@ -113,7 +113,7 @@ irq: {
             dw $0000                    ;0 null command
             dw !hud_first_row_y_pos-1   ;1 hud start
             dw !hud_second_row_y_pos+9  ;2 hud end
-            dw $0098                    ;3 speech start
+            dw $0097                    ;3 speech start
             dw $00d8                    ;3 speech end
         }
     }
@@ -356,6 +356,7 @@ nmi: {
     jsr nmippuregisters
     jsl oam_uploadbuffer
     jsl load_updatelevelscreen
+    ;jsl scroll_seam_main                   ;uncomment to test loading seam
     ;jsl hdma_nmihandler         ;unfinished
     
     lda w_msg_uploadflag

@@ -109,6 +109,7 @@ scroll: {
         lda w_level_cameray
         sta w_bg1yscroll
         
+        
         rtl
     }
     
@@ -161,7 +162,7 @@ scroll: {
         
         lda w_level_camerax
         cmp w_scroll_leftbound
-        bmi +
+        bmi +                       ;comment out to test loading seam
         
         lda w_level_camerasubx
         clc
@@ -183,17 +184,14 @@ scroll: {
         
         lda w_level_camerax
         cmp w_scroll_rightbound
-        bpl +
-        
+        bpl +                       ;comment out to test loading seam
         
         lda w_level_camerasubx
         clc
-        ;adc w_scroll_camerasubspeed
         adc w_player_xsubspeed
         sta w_level_camerasubx
         
         lda w_level_camerax
-        ;adc w_scroll_cameraspeed
         adc w_player_xspeed
         sta w_level_camerax
         
@@ -203,6 +201,218 @@ scroll: {
         rts
     }
     
+    
+;===================================== scrolling seam ======================================
+    .seam: {
+        ..main: {
+            ;check for seam update
+            ;nmi routine
+            
+            ;broken nonsense
+            
+            lda w_scroll_direction
+            
+            bit #!controller_lf
+            beq +
+            {
+                lda #-$0200
+                sta p_2
+                
+                lda #$0004
+                sta p_0
+                jsr scroll_seam_horizontal      ;behind camera
+            
+                lda #$0000
+                sta p_0
+                jsr scroll_seam_horizontal      ;camera position
+                
+                lda #$fffc
+                sta p_0
+                jsr scroll_seam_horizontal      ;ahead of camera
+                
+                lda #$fff8
+                sta p_0
+                jsr scroll_seam_horizontal
+                
+                ;lda #$fff4
+                ;sta p_0
+                ;jsr scroll_seam_horizontal
+            }
+            +
+            
+            bit #!controller_rt
+            beq +
+            {
+                lda #$0200
+                sta p_2
+                
+                lda #$fffc
+                sta p_0
+                jsr scroll_seam_horizontal      ;behind camera
+                
+                lda #$0000
+                sta p_0
+                jsr scroll_seam_horizontal      ;camera position
+                
+                lda #$0004
+                sta p_0
+                jsr scroll_seam_horizontal      ;ahead of camera
+                
+                lda #$0008
+                sta p_0
+                jsr scroll_seam_horizontal
+                
+                ;lda #$000c
+                ;sta p_0
+                ;jsr scroll_seam_horizontal
+                
+                ;
+            }
+            +
+            
+            
+            rtl
+        }
+        
+        ..fillbuffer: {
+            ;this doesn't work even a little bit
+            ;ok it kinda does now
+            
+            ldy #$0000
+            
+            lda w_level_camerax
+            clc
+            adc p_0
+            lsr
+            lsr
+            ;lsr
+            
+            sta p_6
+            
+            lda w_level_cameray     ;(/8, *$20)
+            asl
+            asl
+            clc
+            adc p_6
+            
+            tax
+            
+            -
+            lda.l l_level,x
+            ;lda.l room1_map,x
+            sta w_seambuffer,y
+            
+            txa
+            clc
+            adc #$0040
+            tax
+            
+            iny
+            iny
+            cpy #datasize(w_seambuffer)-2
+            bmi -
+            
+            
+            
+            rts
+        }
+        
+        
+        ..left: {
+            lda #$fff8
+            sta p_0
+            bra scroll_seam_horizontal
+        }
+        
+        ..right: {
+            lda #$0100
+            sta p_0
+            ;fall through
+        }
+        
+        
+        ..horizontal: {
+            ;p_0 = either w_bg1xscroll, or a space 4-8 pixels ahead of it
+            
+            ;broken nonsense
+            
+            jsr scroll_seam_fillbuffer
+            
+            phx
+            
+            lda w_bg1xscroll
+            clc
+            adc p_0
+            bit #$0007
+            bne ...skip
+            
+            ;clc
+            ;adc p_0             ;add offset for moving left (-$80) or right ($0180)
+            sec
+            sbc #$0180
+            
+            clc
+            adc p_2
+            
+            lsr
+            lsr
+            ;lsr
+            and #$00fe          ;how did this just work....
+            
+            tax
+            sep #$10
+            lda scroll_seam_horizontal_columnlist,x
+            ;clc
+            ;adc p_8
+            
+            clc
+            adc #!bg1tilemap
+            
+            sta $2116
+                                        ;width  register
+            ldx.b #$81                  ;1      write pattern: increment by 32 words
+            stx $2115
+            
+            ldx #$01                    ;1      transfur mode
+            stx $4300
+            
+            ldx #$18                    ;1      register dest (vram port)
+            stx $4301
+            
+            lda #w_seambuffer           ;2      source addr
+            sta $4302
+            
+            ldx.b #bank(w)              ;1      source bank
+            stx $4304
+            
+            lda #datasize(w_seambuffer) ;2      transfur size
+            sta $4305
+            
+            ldx #$01                    ;1      enable transfur on dma channel 0
+            stx $420b
+            
+            rep #$10
+            
+            ...skip
+            plx
+            rts
+            
+            ...columnlist:
+                dw $0400, $0401, $0402, $0403, $0404, $0405, $0406, $0407, $0408, $0409, $040a, $040b, $040c, $040d, $040e, $040f,
+                   $0410, $0411, $0412, $0413, $0414, $0415, $0416, $0417, $0418, $0419, $041a, $041b, $041c, $041d, $041e, $041f,
+                   
+                   $0000, $0001, $0002, $0003, $0004, $0005, $0006, $0007, $0008, $0009, $000a, $000b, $000c, $000d, $000e, $000f,
+                   $0010, $0011, $0012, $0013, $0014, $0015, $0016, $0017, $0018, $0019, $001a, $001b, $001c, $001d, $001e, $001f,
+                   
+                   $0400, $0401, $0402, $0403, $0404, $0405, $0406, $0407, $0408, $0409, $040a, $040b, $040c, $040d, $040e, $040f,
+                   $0410, $0411, $0412, $0413, $0414, $0415, $0416, $0417, $0418, $0419, $041a, $041b, $041c, $041d, $041e, $041f,
+                   
+                   $0000, $0001, $0002, $0003, $0004, $0005, $0006, $0007, $0008, $0009, $000a, $000b, $000c, $000d, $000e, $000f,
+                   $0010, $0011, $0012, $0013, $0014, $0015, $0016, $0017, $0018, $0019, $001a, $001b, $001c, $001d, $001e, $001f
+        }
+        
+        
+    }
     
     .bg2: {
         ;todo

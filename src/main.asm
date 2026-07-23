@@ -26,7 +26,7 @@ main: {
         ;don't forget to make a corresponding define in defines.asm
         ;!state_[name]
         
-        dw  setupintro,                 ;0      ;initial program setup after boot.asm happens
+        dw  setupintro,                 ;0      ;prepare intro text scene
             introhandler,               ;1      ;loads dialog scenes in order when button pressed
             loadintroscene,             ;2      ;load the individual scenes for above
             gameplayvector,             ;3      ;playing the game, top level routine in gameplay.asm
@@ -35,10 +35,10 @@ main: {
             nongameplayhandler,         ;6      ;handle running the above after loading
             setupgameoverscreen,        ;7      ;do game over graphics and tilemap transfurs
             handlegameoverscreen,       ;8      ;display game over and handle interactions
-            setuptitle,                 ;9      ;does not use loadscene structures
+            setuptitle,                 ;9      ;first state that is called. does not use loadscene structures
             handletitlescreen,          ;10     ;handle title menu interactions
-            setupoptionsmenu,           ;11
-            handleoptionsmenu           ;12
+            setupoptionsmenu,           ;11     ;load tilemap and bg3 graphics
+            handleoptionsmenu           ;12     ;not really written yet
     }
 }
 
@@ -275,6 +275,11 @@ setupoptionsmenu: {
     jsl load_levelbuffertovram                  ;dma tilemap to vram
     
     ;
+    
+    stz w_menu_state
+    stz w_menu_var1
+    stz w_menu_var2
+    stz w_menu_var3
     
     stz w_oam_index
     jsl oam_cleanbuffer

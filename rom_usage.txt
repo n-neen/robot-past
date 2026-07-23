@@ -10,7 +10,10 @@ fae start: 7E0801
 fae end:   7E0AEF
 shot start: 7E0AEF
 shot end:   7E0C23
-work ram end:   7E0D89                                              ;bytes used
+work ram end:   7E0D89 
+
+
+                                                                    ;bytes used
 80 end: 80A9F6 main system bank                                     ;22,025
 81 end: 8184F5 fae code, spritemaps                                 ; 1,269
 c0 end: C00950 scenedef, obj/fae lists, strings                     ; 2,384

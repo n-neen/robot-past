@@ -376,9 +376,11 @@ w: {
     }
     
     .savedata: {
-        ..room              : skip 2
+        ..room              :   skip 2
         ..playerhp          :   skip 2
     }
+    
+    .seambuffer             :   skip 64
     
     .vram: {
         ;7 bytes entries
