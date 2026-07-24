@@ -177,6 +177,12 @@ setuptitle: {
     jsl title_drawcursor_long
     jsl oam_cleanbuffer
     
+    lda #$0001
+    sta w_glow_enable
+    
+    ldy #glow_test
+    jsl glow_spawn
+    
     
     ;init ppu for title screen
     lda #$00ff
@@ -236,6 +242,7 @@ setuptitle: {
 ;===========================================================================================
 
 handletitlescreen: {
+    jsl glow_top
     
     jsl title_main
     
