@@ -184,7 +184,7 @@ setuptitle: {
     lda #$0001
     sta w_glow_enable
     
-    ldy #glow_title
+    ldy #glow_animationtest
     jsl glow_spawn
     
     ;init ppu for title screen
@@ -867,8 +867,8 @@ loadgame: {
         ;ldy #glow_title
         ;jsl glow_spawn
         
-        ;ldy #glow_shot
-        ;jsl glow_spawn
+        ldy #glow_animationtest
+        jsl glow_spawn
         
         lda #$0001
         sta w_glow_enable

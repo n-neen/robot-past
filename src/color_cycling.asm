@@ -125,6 +125,7 @@ glow: {
             
             rts
         }
+        
     }
     
     
@@ -233,6 +234,7 @@ glow: {
             dw $73BD, $6E01, glow_inst_done
             dw $73BD, $7201, glow_inst_done
             dw glow_inst_loop
+            ;dw glow_clear                      ;this does just work btw
         }
     }
     
@@ -274,6 +276,63 @@ glow: {
             dw $7fff, $0000, glow_inst_done
             dw $0000, $7fff, glow_inst_done
             dw glow_inst_loop
+        }
+    }
+    
+    
+    .animationtest: {
+        dw ..init, ..routine, ..list
+        
+        ..init:
+            rts
+        
+        ..routine:
+            rts
+            
+            
+        ..list: {
+            dw $0004    ;number of frames (timer nominal value)
+            dw $0022    ;starting color index from start of cg ram buffer
+            dw $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, glow_inst_done,
+               $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, glow_inst_done,
+               $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, glow_inst_done,
+               $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, glow_inst_done,
+               $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, glow_inst_done,
+               $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, glow_inst_done,
+               $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, glow_inst_done,
+               $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, glow_inst_done,
+               $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, glow_inst_done,
+               $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, $6E7C, glow_inst_done,
+               $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, $69FB, glow_inst_done,
+               $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, $657A, glow_inst_done,
+               $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, $60F9, glow_inst_done,
+               $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, $5C78, glow_inst_done,
+               $5C78, $60F9, $657A, $69FB, $6E7C, $72FD, $7FFF, $72FD, $6E7C, $69FB, $657A, $60F9, $5C78, $5818, $5818, glow_inst_done
+            dw glow_inst_loop
+        }
+            
+            
+        ..list2: {
+            dw $0004    ;number of frames (timer nominal value)
+            dw $0022    ;starting color index from start of cg ram buffer
+            ;the colors
+         dw $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, glow_inst_done,
+            $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, glow_inst_done,
+            $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, glow_inst_done,
+            $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, glow_inst_done,
+            $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, glow_inst_done,
+            $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, glow_inst_done,
+            $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, glow_inst_done,
+            $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, glow_inst_done,
+            $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, glow_inst_done,
+            $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, $400F, glow_inst_done,
+            $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, $4811, glow_inst_done,
+            $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, $4C12, glow_inst_done,
+            $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, $5414, glow_inst_done,
+            $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, $5815, glow_inst_done,
+            $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, $6017, glow_inst_done,
+            $6017, $5815, $5414, $4C12, $4811, $400F, $3C0E, $340D, $300B, $280A, $2408, $1C07, $1805, $0C02, $0000, glow_inst_done
+         dw glow_inst_loop
         }
     }
     
