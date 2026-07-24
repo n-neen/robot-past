@@ -13,6 +13,10 @@ the collision system is in a dire state
     well, not true. tile lookup in collision map works
     but that's it
 
+color cycling counter is off by one
+    i.e., counter of 0 means it writes colors for one frame
+    maybe this is fine cuz why would i ever ant actual 0?
+
 we need "newly pressed buttons"
     title screen dpad presses are awful because they use an nmi counter bitmask
     instead of newly pressed buttons
@@ -37,16 +41,17 @@ hdma handler
 
 
 
-color cycling system
-    color cycling objects
-    half written, doesn't work. crashes. addressing mode problem in instruction lists, oops
-    
 
 
 
 
 ====================================== SOLVED PROBLEMS ==================================
 
+
+color cycling system
+    color cycling objects
+    half written, doesn't work. crashes. addressing mode problem in instruction lists, oops
+    
 
 
 clean up boot code

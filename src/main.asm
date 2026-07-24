@@ -172,17 +172,20 @@ setuptitle: {
     
     
     ;initialize title menu state, draw sprites for fade-in
+    ;spawn glow objects and run once
+    
     stz w_oam_index
     stz w_menu_state
     jsl title_drawcursor_long
     jsl oam_cleanbuffer
     
+    jsl glow_clearall
+    
     lda #$0001
     sta w_glow_enable
     
-    ldy #glow_test
+    ldy #glow_title
     jsl glow_spawn
-    
     
     ;init ppu for title screen
     lda #$00ff
@@ -310,6 +313,8 @@ setupoptionsmenu: {
 
 
 handleoptionsmenu: {
+    jsl glow_top
+    
     jsl title_optionsmenu
     
     ;returned state depends on outcome of menu
@@ -640,9 +645,6 @@ setupintro: {
     
     jsl obj_clearall
     
-    ;ldy #glow_test
-    ;jsl glow_spawn
-    
     jsr enablenmi
     jsr waitfornmi
     
@@ -762,6 +764,8 @@ loadgame: {
     jsl load_scene                  ;depends on a call to scenetransition having been done
     
     ;stz w_hdma_enable
+    stz w_glow_enable
+    jsl glow_clearall
     
     stz w_hud_glow
     jsl hud_handleglow
@@ -855,6 +859,20 @@ loadgame: {
     jsl oam_cleanbuffer
     jsl oam_constructhibuffer
     jsl oam_uploadbuffer
+    
+    ;you could spawn color cycling objects here if you wanted
+    ;make sure to do it after objects and fae are spawned and run their init
+    ;because then you could have those spawn color cycling objects (glows)
+    {   ;test thing not real
+        ;ldy #glow_title
+        ;jsl glow_spawn
+        
+        ;ldy #glow_shot
+        ;jsl glow_spawn
+        
+        lda #$0001
+        sta w_glow_enable
+    }
     
     lda #$0001
     sta w_irq_command

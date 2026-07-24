@@ -46,6 +46,11 @@ gameplay: {
     jsl oam_cleanbuffer                 ;write $e0e0 to the remainder of the oam buffer not used by this frame
     jsl oam_constructhibuffer           ;construct the real (two bits per sprite) oam hi table from the byte table (one byte per sprite)
     
+    lda w_glow_enable
+    beq +
+    jsl glow_top
+    +
+    
     ;end of this gameplay frame's logic
     ;if we have a fadeout queued, do that now
     

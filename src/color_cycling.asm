@@ -4,12 +4,7 @@
 ;===========================================================================================
 ;===========================================================================================
 
-;unimplemented, untested
-;i think this is broken as shit
-
-;local defines
-    !glow_loop  =  $8001
-    !glow_done  =  $8000
+;finally works
 
 
 
@@ -161,9 +156,9 @@ glow: {
         rts
     }
     
-    ;print pc
-    .test: {
-        dw glow_test_init, glow_test_routine, glow_test_list
+    
+    .title: {
+        dw glow_title_init, glow_title_routine, glow_title_list
         
         ..init: {
             ;
@@ -176,44 +171,112 @@ glow: {
         }
         
         ..list: {
-            dw $0002    ;number of frames (timer nominal value)
-            dw $0020    ;starting color index from start of cg ram buffer
+            dw $0004    ;number of frames (timer nominal value)
+            dw $0028    ;starting color index from start of cg ram buffer
                 ;the colors
-            dw $0000, $1E73, $26E6, $422C, $4AA6, $6246, $0800, $2800, $54CA, $28EA, $44F3, $4A14, $2854, $1875, $3173, $082A, glow_inst_done
-            dw $0000, $1E52, $26C7, $3E0C, $4687, $5A47, $0400, $2400, $50E9, $24E9, $44F2, $4A13, $2852, $1C73, $3172, $0829, glow_inst_done
-            dw $0000, $2232, $2688, $3E0C, $4267, $5648, $0400, $2020, $4CE9, $24E9, $4111, $4A13, $2C71, $1C92, $3172, $0C28, glow_inst_done
-            dw $0000, $2612, $2669, $3E0D, $3E68, $5269, $0400, $2020, $4909, $24E9, $4130, $4A13, $2C90, $2091, $3571, $0C28, glow_inst_done
-            dw $0000, $2A11, $264A, $3E0D, $3E49, $4E6A, $0400, $1C40, $4529, $24E9, $4150, $4A13, $30AF, $24B0, $3591, $1047, glow_inst_done
-            dw $0000, $29F1, $262B, $3A0D, $3A4A, $4A6B, $0400, $1861, $4149, $2509, $414F, $4A32, $34CE, $28AF, $3990, $1047, glow_inst_done
-            dw $0000, $2DD1, $260C, $39ED, $362B, $466C, $0400, $1861, $3D68, $2508, $416E, $4A32, $34ED, $2CCE, $3990, $1446, glow_inst_done
-            dw $0000, $31B0, $25ED, $39EE, $322C, $428D, $0400, $1481, $3988, $2508, $418D, $4A32, $390C, $30ED, $3D8F, $1446, glow_inst_done
-            dw $0000, $35B0, $25CE, $39EE, $320D, $3E8F, $0420, $14A1, $35A8, $2508, $41AD, $4E32, $3D2B, $34EC, $3DAF, $1865, glow_inst_done
-            dw $0000, $3590, $25AF, $35EE, $2E0E, $3690, $0020, $10A1, $31C8, $2108, $41AC, $4E31, $3D29, $390A, $41AE, $1865, glow_inst_done
-            dw $0000, $396F, $2590, $35EF, $29EF, $32B1, $0020, $0CC1, $2DE8, $2108, $41CB, $4E31, $4148, $3D09, $41AE, $1C64, glow_inst_done
-            dw $0000, $3D4F, $2571, $35EF, $25D0, $2EB2, $0020, $0CC2, $2A08, $2128, $41EA, $4E51, $4167, $4128, $41AD, $1C63, glow_inst_done
-            dw $0000, $414F, $2552, $35CF, $25D1, $2AB3, $0020, $08E2, $2627, $2127, $420A, $4E51, $4586, $4527, $45CD, $2083, glow_inst_done
-            dw $0000, $412F, $2533, $31D0, $21B2, $26D4, $0020, $0502, $2247, $2127, $4209, $4E50, $49A5, $4946, $45CC, $2082, glow_inst_done
-            dw $0000, $450E, $2514, $31D0, $1DB3, $22D5, $0020, $0502, $1E67, $2127, $4228, $4E50, $49C4, $4D45, $49CC, $2482, glow_inst_done
-            dw $0000, $4CEE, $24D7, $31D1, $1995, $1AF8, $0040, $0143, $1AA7, $2147, $4267, $5270, $5202, $5583, $4DEB, $28A1, glow_inst_done
-            dw $0000, $450E, $2514, $31D0, $1DB3, $22D5, $0020, $0502, $1E67, $2127, $4228, $4E50, $49C4, $4D45, $49CC, $2482, glow_inst_done
-            dw $0000, $412F, $2533, $31D0, $21B2, $26D4, $0020, $0502, $2247, $2127, $4209, $4E50, $49A5, $4946, $45CC, $2082, glow_inst_done
-            dw $0000, $414F, $2552, $35CF, $25D1, $2AB3, $0020, $08E2, $2627, $2127, $420A, $4E51, $4586, $4527, $45CD, $2083, glow_inst_done
-            dw $0000, $3D4F, $2571, $35EF, $25D0, $2EB2, $0020, $0CC2, $2A08, $2128, $41EA, $4E51, $4167, $4128, $41AD, $1C63, glow_inst_done
-            dw $0000, $396F, $2590, $35EF, $29EF, $32B1, $0020, $0CC1, $2DE8, $2108, $41CB, $4E31, $4148, $3D09, $41AE, $1C64, glow_inst_done
-            dw $0000, $3590, $25AF, $35EE, $2E0E, $3690, $0020, $10A1, $31C8, $2108, $41AC, $4E31, $3D29, $390A, $41AE, $1865, glow_inst_done
-            dw $0000, $35B0, $25CE, $39EE, $320D, $3E8F, $0420, $14A1, $35A8, $2508, $41AD, $4E32, $3D2B, $34EC, $3DAF, $1865, glow_inst_done
-            dw $0000, $31B0, $25ED, $39EE, $322C, $428D, $0400, $1481, $3988, $2508, $418D, $4A32, $390C, $30ED, $3D8F, $1446, glow_inst_done
-            dw $0000, $2DD1, $260C, $39ED, $362B, $466C, $0400, $1861, $3D68, $2508, $416E, $4A32, $34ED, $2CCE, $3990, $1446, glow_inst_done
-            dw $0000, $29F1, $262B, $3A0D, $3A4A, $4A6B, $0400, $1861, $4149, $2509, $414F, $4A32, $34CE, $28AF, $3990, $1047, glow_inst_done
-            dw $0000, $2A11, $264A, $3E0D, $3E49, $4E6A, $0400, $1C40, $4529, $24E9, $4150, $4A13, $30AF, $24B0, $3591, $1047, glow_inst_done
-            dw $0000, $2612, $2669, $3E0D, $3E68, $5269, $0400, $2020, $4909, $24E9, $4130, $4A13, $2C90, $2091, $3571, $0C28, glow_inst_done
-            dw $0000, $2232, $2688, $3E0C, $4267, $5648, $0400, $2020, $4CE9, $24E9, $4111, $4A13, $2C71, $1C92, $3172, $0C28, glow_inst_done
-            dw $0000, $1E52, $26C7, $3E0C, $4687, $5A47, $0400, $2400, $50E9, $24E9, $44F2, $4A13, $2852, $1C73, $3172, $0829, glow_inst_done
-            dw $0000, $1E73, $26E6, $422C, $4AA6, $6246, $0800, $2800, $54CA, $28EA, $44F3, $4A14, $2854, $1875, $3173, $082A, glow_inst_done
+            ;dw $7BFF, $7E40, glow_inst_done
+            dw $77DE, $7A20, glow_inst_done
+            dw $73BD, $7201, glow_inst_done
+            dw $73BD, $6E01, glow_inst_done
+            dw $6F9C, $69E2, glow_inst_done
+            dw $6F7B, $65E2, glow_inst_done
+            dw $6B7B, $61C3, glow_inst_done
+            dw $6B5A, $5DA3, glow_inst_done
+            dw $6739, $59A4, glow_inst_done
+            dw $6739, $5584, glow_inst_done
+            dw $6318, $5185, glow_inst_done
+            dw $6318, $4D65, glow_inst_done
+            dw $5EF7, $4946, glow_inst_done
+            dw $5ED6, $4546, glow_inst_done
+            dw $5AD6, $4127, glow_inst_done
+            dw $5AB5, $3D28, glow_inst_done
+            dw $5694, $3908, glow_inst_done
+            dw $5294, $34E9, glow_inst_done
+            dw $5273, $30E9, glow_inst_done
+            dw $4E73, $2CCA, glow_inst_done
+            dw $4E52, $28CA, glow_inst_done
+            dw $4A31, $24AB, glow_inst_done
+            dw $4A31, $208B, glow_inst_done
+            dw $4610, $1C8C, glow_inst_done
+            dw $45EF, $186C, glow_inst_done
+            dw $41EF, $146D, glow_inst_done
+            dw $41CE, $104D, glow_inst_done
+            dw $3DAD, $0C2E, glow_inst_done
+            dw $3DAD, $082E, glow_inst_done
+            dw $398C, $0010, glow_inst_done
+            dw $398C, $040F, glow_inst_done
+            dw $3DAD, $082E, glow_inst_done
+            dw $3DAD, $0C2E, glow_inst_done
+            dw $41CE, $104D, glow_inst_done
+            dw $41EF, $146D, glow_inst_done
+            dw $45EF, $186C, glow_inst_done
+            dw $4610, $1C8C, glow_inst_done
+            dw $4A31, $208B, glow_inst_done
+            dw $4A31, $24AB, glow_inst_done
+            dw $4E52, $28CA, glow_inst_done
+            dw $4E73, $2CCA, glow_inst_done
+            dw $5273, $30E9, glow_inst_done
+            dw $5294, $34E9, glow_inst_done
+            dw $5694, $3908, glow_inst_done
+            dw $5AB5, $3D28, glow_inst_done
+            dw $5AD6, $4127, glow_inst_done
+            dw $5ED6, $4546, glow_inst_done
+            dw $5EF7, $4946, glow_inst_done
+            dw $6318, $4D65, glow_inst_done
+            dw $6318, $5185, glow_inst_done
+            dw $6739, $5584, glow_inst_done
+            dw $6739, $59A4, glow_inst_done
+            dw $6B5A, $5DA3, glow_inst_done
+            dw $6B7B, $61C3, glow_inst_done
+            dw $6F7B, $65E2, glow_inst_done
+            dw $6F9C, $69E2, glow_inst_done
+            dw $73BD, $6E01, glow_inst_done
+            dw $73BD, $7201, glow_inst_done
             dw glow_inst_loop
         }
     }
-    ;print pc
+    
+    
+    .shot: {
+        dw glow_shot_init, glow_shot_routine, glow_shot_list
+        
+        ..init: {
+            ;find out if shots exist?
+            rts
+        }
+        
+        ..routine: {
+            ;delete if no shots?
+            rts
+            
+            phx
+            phy
+            
+            ;uhhh
+            ;get max shot index
+            ;check if slot taken
+            ldy #!shot_count*2
+            lda w_shot_id,y
+            bne +
+            
+            jsr glow_clear
+            
+            +
+            ply
+            plx
+            rts
+        }
+        
+        ..list: {
+            dw $000a    ;number of frames (timer nominal value)
+            dw $01e2    ;starting index from start of cg ram buffer
+                ;the colors
+            dw $7fff, $0000, glow_inst_done
+            dw $0000, $7fff, glow_inst_done
+            dw glow_inst_loop
+        }
+    }
+    
     
     .spawn: {
         ;y = object id
@@ -276,6 +339,11 @@ glow: {
     
     
     .clearall: {
+        phb
+        
+        phk
+        plb
+        
         ldx.w #!glow_objects_count*2
         
         -
@@ -284,6 +352,7 @@ glow: {
         dex
         bpl -
         
+        plb
         rtl
     }
     
@@ -296,6 +365,9 @@ glow: {
         stz w_glow_routine,x
         stz w_glow_timer,x
         stz w_glow_colorindex,x
+        stz w_glow_list,x
+        stz w_glow_liststart,x
+        stz w_glow_colorindexstart,x
         
         rts
     }

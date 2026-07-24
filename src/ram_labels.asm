@@ -361,7 +361,7 @@ w: {
     }
     
     .glow: {
-        !glow_objects_count = $0008
+        !glow_objects_count = $0007
         
         ..enable        : skip 2
         
