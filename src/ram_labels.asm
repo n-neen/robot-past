@@ -146,6 +146,7 @@ w: {
         ..iframes               : skip 2    ;boolean
         ..hp                    : skip 2
         ..invertpalette         : skip 2    ;boolean
+        ..hurtglowcooldown      : skip 2    ;maybe this isn't needed? idk..
         
         print "player end   ", pc
     }

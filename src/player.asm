@@ -159,6 +159,14 @@ player: {
 ;
     
     .tickiframes: {
+        lda w_player_hurtglowcooldown
+        beq +
+        
+        dec
+        sta w_player_hurtglowcooldown
+        
+        +
+        
         lda w_player_iframes
         beq +
         dec
@@ -1262,7 +1270,7 @@ player: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c0, %00111110, $00
+            db $00, $00, $c0, %00111000, $00
             
         }
         
@@ -1270,56 +1278,56 @@ player: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c1, %00111110, $00
+            db $00, $00, $c1, %00111000, $00
         }
         
         ..2: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c2, %00111110, $00
+            db $00, $00, $c2, %00111000, $00
         }
         
         ..3: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c3, %00111110, $00
+            db $00, $00, $c3, %00111000, $00
         }
         
         ..4: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c4, %00111110, $00
+            db $00, $00, $c4, %00111000, $00
         }
         
         ..5: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c5, %00111110, $00
+            db $00, $00, $c5, %00111000, $00
         }
         
         ..6: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c6, %00111110, $00
+            db $00, $00, $c6, %00111000, $00
         }
         
         ..7: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c7, %00111110, $00
+            db $00, $00, $c7, %00111000, $00
         }
         
         ..8: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $c8, %00111110, $00
+            db $00, $00, $c8, %00111000, $00
         }
         
         ;horizontal ====================================================================================
@@ -1328,63 +1336,63 @@ player: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d0, %00111110, $00
+            db $00, $00, $d0, %00111000, $00
         }
         
         ..10: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d1, %00111110, $00
+            db $00, $00, $d1, %00111000, $00
         }
         
         ..11: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d2, %00111110, $00
+            db $00, $00, $d2, %00111000, $00
         }
         
         ..12: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d3, %00111110, $00
+            db $00, $00, $d3, %00111000, $00
         }
         
         ..13: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d4, %00111110, $00
+            db $00, $00, $d4, %00111000, $00
         }
         
         ..14: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d5, %00111110, $00
+            db $00, $00, $d5, %00111000, $00
         }
         
         ..15: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d6, %00111110, $00
+            db $00, $00, $d6, %00111000, $00
         }
         
         ..16: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d7, %00111110, $00
+            db $00, $00, $d7, %00111000, $00
         }
         
         ..17: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp         hh
-            db $00, $00, $d8, %00111110, $00
+            db $00, $00, $d8, %00111000, $00
         }
         
     }

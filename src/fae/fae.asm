@@ -265,6 +265,13 @@ fae: {
         sta w_player_hp
         
         cld
+        
+        lda w_player_hurtglowcooldown
+        bne +
+        ldy #glow_playerhurt
+        jsl glow_spawn
+        +
+        
         rts
     }
     
@@ -281,6 +288,7 @@ fae: {
         bcc +
         jsr (w_fae_touchptr,x)
         jsr fae_collisionhudtest
+        jsr fae_hitplayertest
         +
         dex
         dex

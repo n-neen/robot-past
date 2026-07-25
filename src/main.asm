@@ -184,7 +184,7 @@ setuptitle: {
     lda #$0001
     sta w_glow_enable
     
-    ldy #glow_animationtest
+    ldy #glow_title
     jsl glow_spawn
     
     ;init ppu for title screen
@@ -200,7 +200,7 @@ setuptitle: {
         sta w_colormathlogic
         sta $2130
         
-        lda #%00000110      ;color math layers: 1, 2, 3; additive mode
+        lda #%10000110      ;color math layers: 1, 2, 3; additive mode
         sta w_colormathlayers
         sta $2131
         

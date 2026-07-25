@@ -95,19 +95,19 @@
         ...0
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a0, %00111100, $02
+            db $00, $00, $a0, %00111010, $02
         ...1
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a2, %00111100, $02
+            db $00, $00, $a2, %00111010, $02
         ...2
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a4, %00111100, $02
+            db $00, $00, $a4, %00111010, $02
         ...3
             db 01
             ;  xx   yy   tt    vhrrpppt   hh 01 = extra x bit, 02 = size select
-            db $00, $00, $a6, %00111100, $02
+            db $00, $00, $a6, %00111010, $02
             
             ;switched palette
             
