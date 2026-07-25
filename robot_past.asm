@@ -16,6 +16,13 @@ incsrc "./src/ram_labels.asm"
 
 ;================================= code banks =======================================
 
+;indented incsrcs are ones which the label from the main module file carries into the
+;files whose incs are indented. the top file is for the system routines, and the
+;subsequent files are objects in the system.
+
+;so currently this is for the fae, shot, and color cycling systems
+;notably, the tile object system does not do this
+
 org $808000                             ;main system bank
     incsrc "./src/boot.asm"
     incsrc "./src/main.asm"
@@ -45,7 +52,10 @@ org $818000
         incsrc "./src/fae/arrow.asm"
         incsrc "./src/fae/explosion.asm"
         incsrc "./src/fae/door.asm"
-    incsrc "./src/color_cycling.asm"
+    incsrc "./src/color_cycling/color_cycling.asm"
+        incsrc "./src/color_cycling/title.asm"
+        incsrc "./src/color_cycling/animationtest.asm"
+        incsrc "./src/color_cycling/playerhurt.asm"
     print "81 end: ", pc, " fae code, spritemaps; color cycling"
     
 ;================================= data banks =======================================
