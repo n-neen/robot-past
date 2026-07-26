@@ -53,28 +53,31 @@ hdma: {
             !regbitmask #= (<channel>)<<4               ;obj slot 3 = bitmask $30
                                                         ;mask onto hdma reg addr
             lda.w w_hdma_id+((<channel>)<<1)
-            beq +++
+            beq ?+++
             
             lda.w w_hdma_params+((<channel>)<<1)        ;$43x0/43x1
             sta.w $4300|!regbitmask
             
             bit.w #$0040
-            beq +
+            beq ?+
             
             lda.w w_hdma_bank+((<channel>)<<1)          ;if indirect
             and.w #$ff00                                ;set indirect bank (high byte)
             xba
+            sta.w $4307|!regbitmask
+            
+            lda.w w_hdma_table+((<channel>)<<1)
             sta.w $4305|!regbitmask
             
-            bra ++
+            bra ?++
             
-            +                                           ;if direct
+            ?+                                           ;if direct
             
             lda.w w_hdma_bank+((<channel>)<<1)
             and.w #$00ff
             sta.w $4304|!regbitmask
             
-            ++
+            ?++
             lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
             sta.w $4302|!regbitmask
             
@@ -82,7 +85,7 @@ hdma: {
             ora.w w_hdma_channels
             sta.w w_hdma_channels
             
-            +++
+            ?+++
         endmacro
         
         lda.w w_hdma_enable
@@ -99,11 +102,17 @@ hdma: {
         %hdmachannelconfig(6)
         %hdmachannelconfig(7)
         
-        lda.w w_hdma_channels
+        .merge:
+        sep #$20
+        lda w_hdma_channels
         sta $420c
+        rep #$20
+        
+        rtl
         
         .disabled:
-        rtl
+        lda #$0000
+        bra .merge
     }
     
     
@@ -192,26 +201,81 @@ hdma: {
     .clear: {
         ;x = object index
         
-        ;we could probably do without setting db here
-        ;but we're a hirom program, so it's best to do this
-        
         stz w_hdma_id,x
         stz w_hdma_init,x
         stz w_hdma_routine,x
         stz w_hdma_timer,x
         stz w_hdma_table,x
         stz w_hdma_params,x
-        
-        sep #$20
-        {
-            stz w_hdma_bank,x       ;how to get around this sep?
-        }
-        rep #$20
+        stz w_hdma_bank,x
         
         rts
     }
     
     
+    .clearchannels: {
+        phb
+        
+        phk
+        plb
+        
+        ;stz $4300
+        ;stz $4302
+        ;stz $4304
+        ;stz $4306
+        ;stz $4308
+        
+        stz w_hdma_channels
+        
+        stz $4310
+        stz $4312
+        stz $4314
+        stz $4316
+        stz $4318
+        
+        stz $4320
+        stz $4322
+        stz $4324
+        stz $4326
+        stz $4328
+        
+        stz $4330
+        stz $4332
+        stz $4334
+        stz $4336
+        stz $4338
+        
+        stz $4340
+        stz $4342
+        stz $4344
+        stz $4346
+        stz $4348
+        
+        stz $4350
+        stz $4352
+        stz $4354
+        stz $4356
+        stz $4358
+        
+        stz $4360
+        stz $4362
+        stz $4364
+        stz $4366
+        stz $4368
+        
+        stz $4370
+        stz $4372
+        stz $4374
+        stz $4376
+        stz $4378
+        
+        sep #$20
+        stz $420c
+        rep #$20
+        
+        plb
+        rtl
+    }
     
     
     
@@ -326,41 +390,116 @@ hdma: {
     }
     
     
-    .testobject_coldata_indirect: {
+    .testobject_bg1x_indirect: {
+        ;this doesn't really logically work but it's my fault for messing up the table logic
+        ;as a way to test that hdma functions, it was a success
+        
+        
         dw ..init, ..routine
         dl ..table                  ;bank byte is written last
         
         ..init: {
-            lda #$3240              ;target is high byte ($2100), params 00
+            lda #$0d42              ;target is high byte ($210d), params $40 (indirect)
             sta w_hdma_params,x
             
             lda w_hdma_bank,x       ;set indirect bank
             ora #$7e00
             sta w_hdma_bank,x
             
-            rts
+            ;fall through
         }
         
         ..routine: {
             phb
+            phx
+            phy
             
             pea $7e7e
             plb
             plb
             
+            ;build the table
             
-            inc
+            sep #$10
             
+            lda w_nmicounter
+            asl
+            tax
+            
+            ldy #$ba
+            ;print pc
+            -
+            lda.l hdma_1fsinetable,x
+            sta.w w_indirecthdmatable,y
+            
+            lda.l hdma_1fsinetable+$40,x
+            sta.w w_indirecthdmatable+$40,y
+            
+            lda.l hdma_1fsinetable+$80,x
+            sta.w w_indirecthdmatable+$80,y
+            
+            lda.l hdma_1fsinetable+$c0,x
+            sta.w w_indirecthdmatable+$c0,y
+            dex
+            dex
+            dey
+            dey
+            bne -
+            
+            rep #$10
+            ply
+            plx
             plb
             rts
         }
         
         ..table: {
-            db $40 : dw $2000
-            db $40 : dw $2002
-            db $40 : dw $2004
+            macro indirecthdmatable(startaddr)
+                !a #= 0
+                while !a < $1b4
+                    db $01 : dw <startaddr>+!a
+                    !a #= !a+2
+                endwhile
+                
+            endmacro
+            %indirecthdmatable($2000)
             db $00
         }
+    }
+    
+    .1fsinetable: {
+         dw $10, $10, $10, $11, $11, $11, $12, $12,
+            $13, $13, $13, $14, $14, $14, $15, $15,
+            $15, $16, $16, $16, $17, $17, $17, $18,
+            $18, $18, $19, $19, $19, $1a, $1a, $1a,
+            $1a, $1b, $1b, $1b, $1b, $1c, $1c, $1c,
+            $1c, $1d, $1d, $1d, $1d, $1d, $1e, $1e,
+            $1e, $1e, $1e, $1e, $1e, $1e, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1e, $1e, $1e, $1e, $1e,
+            $1e, $1e, $1e, $1d, $1d, $1d, $1d, $1d,
+            $1c, $1c, $1c, $1c, $1b, $1b, $1b, $1b,
+            $1a, $1a, $1a, $1a, $19, $19, $19, $18,
+            $18, $18, $17, $17, $17, $16, $16, $16,
+            $15, $15, $15, $14, $14, $14, $13, $13,
+            $13, $12, $12, $11, $11, $11, $10, $10,
+            $10, $0f, $0f, $0e, $0e, $0e, $0d, $0d,
+            $0c, $0c, $0c, $0b, $0b, $0b, $0a, $0a,
+            $0a, $09, $09, $09, $08, $08, $08, $07,
+            $07, $07, $06, $06, $06, $05, $05, $05,
+            $05, $04, $04, $04, $04, $03, $03, $03,
+            $03, $02, $02, $02, $02, $02, $01, $01,
+            $01, $01, $01, $01, $01, $01, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $01, $01, $01, $01, $01,
+            $01, $01, $01, $02, $02, $02, $02, $02,
+            $03, $03, $03, $03, $04, $04, $04, $04,
+            $05, $05, $05, $05, $06, $06, $06, $07,
+            $07, $07, $08, $08, $08, $09, $09, $09,
+            $0a, $0a, $0a, $0b, $0b, $0b, $0c, $0c,
+            $0c, $0d, $0d, $0e, $0e, $0e, $0f, $0f
     }
     
     
@@ -374,6 +513,7 @@ hdma: {
             
             lda #$3200              ;target is high byte ($2100), params 00
             sta w_hdma_params,x
+            
             
             rts
         }

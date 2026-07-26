@@ -179,6 +179,8 @@ setuptitle: {
     jsl title_drawcursor_long
     jsl oam_cleanbuffer
     
+    ;
+    
     jsl glow_clearall
     
     lda #$0001
@@ -186,6 +188,22 @@ setuptitle: {
     
     ldy #glow_title
     jsl glow_spawn
+    
+    ;
+    
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    
+    ldy #hdma_testobject_bg1x_indirect
+    ldx #$0002
+    jsl hdma_spawn
+    
+    lda #$0001
+    sta w_hdma_enable
+    
+    jsl hdma_top
+    
+    ;
     
     ;init ppu for title screen
     lda #$00ff
@@ -246,6 +264,7 @@ setuptitle: {
 
 handletitlescreen: {
     jsl glow_top
+    jsl hdma_top
     
     jsl title_main
     
@@ -571,6 +590,9 @@ loadintroscene: {
 setupintro: {
     sei
     
+    phk
+    plb
+    
     jsr waitfornmi
     jsr disablenmi
     jsr screenoff
@@ -600,10 +622,11 @@ setupintro: {
     
     stz w_oam_index
     
-    jsl hdma_clearall
-    jsl glow_clearall
-    
     stz w_hdma_enable
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    
+    jsl glow_clearall
     stz w_glow_enable
     
     jsl hud_init
@@ -763,7 +786,10 @@ loadgame: {
     
     jsl load_scene                  ;depends on a call to scenetransition having been done
     
-    ;stz w_hdma_enable
+    stz w_hdma_enable
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    
     stz w_glow_enable
     jsl glow_clearall
     

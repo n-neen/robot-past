@@ -392,14 +392,17 @@ w: {
     
     print "work ram end:   ", pc
     
+    org $7e2000
+    .indirecthdmatable      :   skip $1c0
+    
     org $7ec000
-    .cgrambuffer    :   skip !k_cgrambuffersize
+    .cgrambuffer            :   skip !k_cgrambuffersize
     
     org $7ee000
-    .msgbuffer      :   skip $800
+    .msgbuffer              :   skip $800
     
     org $7ef000
-    .cgblastbuffer  :   skip $80
+    .cgblastbuffer          :   skip $80
 }
 
 org $7f0000
