@@ -790,6 +790,12 @@ loadgame: {
     jsl hdma_clearall
     jsl hdma_clearchannels
     
+    ldy #hdma_testobject_coldata
+    ldx #$0004
+    jsl hdma_spawn
+    lda #$0001
+    sta w_hdma_enable
+    
     stz w_glow_enable
     jsl glow_clearall
     
@@ -882,6 +888,7 @@ loadgame: {
     
     jsl shot_clearall
     
+    ;finalize oam and upload the initial buffer for the fade-in of gameplay
     jsl oam_cleanbuffer
     jsl oam_constructhibuffer
     jsl oam_uploadbuffer
@@ -900,6 +907,7 @@ loadgame: {
         sta w_glow_enable
     }
     
+    ;set gameplay's irq command (for hud) and turn on irq
     lda #$0001
     sta w_irq_command
     jsr irq_settarget

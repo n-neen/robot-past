@@ -58,8 +58,12 @@ hdma: {
             lda.w w_hdma_params+((<channel>)<<1)        ;$43x0/43x1
             sta.w $4300|!regbitmask
             
-            bit.w #$0040
-            beq ?+
+            lda.w w_hdma_bank+((<channel>)<<1)
+            and.w #$00ff
+            sta.w $4304|!regbitmask
+            
+            ;bit.w #$0040
+            ;beq ?+
             
             lda.w w_hdma_bank+((<channel>)<<1)          ;if indirect
             and.w #$ff00                                ;set indirect bank (high byte)
@@ -73,9 +77,9 @@ hdma: {
             
             ?+                                           ;if direct
             
-            lda.w w_hdma_bank+((<channel>)<<1)
-            and.w #$00ff
-            sta.w $4304|!regbitmask
+            ;lda.w w_hdma_bank+((<channel>)<<1)
+            ;and.w #$00ff
+            ;sta.w $4304|!regbitmask
             
             ?++
             lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
@@ -120,6 +124,7 @@ hdma: {
         ;main routine for when gameplay is happening
         ;iterate over slots
         ;run main routine for each
+        phb
         
         phk
         plb
@@ -139,6 +144,7 @@ hdma: {
         dex
         bpl -
         
+        plb
         rtl
     }
     
@@ -278,195 +284,6 @@ hdma: {
     }
     
     
-    
-    .testobject_inidisp: {
-        ;to create the structure
-        dw ..init, ..routine
-        dl ..table                  ;bank byte is written last
-        
-        ..init: {
-            ;x = object index
-            
-            lda #$0000              ;target is high byte ($2100), params 00
-            sta w_hdma_params,x
-            
-            rts
-        }
-        
-        ..routine: {
-            rts
-        }
-        
-        ..table: {
-            ;gradient of screen brightness
-            ;3 lines each value
-            
-            db $01, $00
-            db $01, $01
-            db $01, $02
-            db $01, $03
-            db $01, $04
-            db $01, $05
-            db $01, $06
-            db $01, $07
-            db $01, $08
-            db $01, $09
-            db $01, $0a
-            db $01, $0b
-            db $01, $0c
-            db $01, $0d
-            db $01, $0e
-            db $01, $0f
-
-            db $02, $0f
-            db $02, $0e
-            db $02, $0d
-            db $02, $0c
-            db $02, $0b
-            db $02, $0a
-            db $02, $09
-            db $02, $08
-            db $02, $07
-            db $02, $06
-            db $02, $05
-            db $02, $04
-            db $02, $03
-            db $02, $02
-            db $02, $01
-            
-            db $03, $00
-            db $03, $01
-            db $03, $02
-            db $03, $03
-            db $03, $04
-            db $03, $05
-            db $03, $06
-            db $03, $07
-            db $03, $08
-            db $03, $09
-            db $03, $0a
-            db $03, $0b
-            db $03, $0c
-            db $03, $0d
-            db $03, $0e
-            db $03, $0f
-            
-            db $04, $0f
-            db $04, $0e
-            db $04, $0d
-            db $04, $0c
-            db $04, $0b
-            db $04, $0a
-            db $04, $09
-            db $04, $08
-            db $04, $07
-            db $04, $06
-            db $04, $05
-            db $04, $04
-            db $04, $03
-            db $04, $02
-            db $04, $01
-            
-            db $05, $00
-            db $05, $01
-            db $05, $02
-            db $05, $03
-            db $05, $04
-            db $05, $05
-            db $05, $06
-            db $05, $07
-            db $05, $08
-            db $05, $09
-            db $05, $0a
-            db $05, $0b
-            db $05, $0c
-            db $05, $0d
-            db $05, $0e
-            db $05, $0f
-            
-            db $00
-        }
-        
-    }
-    
-    
-    .testobject_bg1x_indirect: {
-        ;this doesn't really logically work but it's my fault for messing up the table logic
-        ;as a way to test that hdma functions, it was a success
-        
-        
-        dw ..init, ..routine
-        dl ..table                  ;bank byte is written last
-        
-        ..init: {
-            lda #$0d42              ;target is high byte ($210d), params $40 (indirect)
-            sta w_hdma_params,x
-            
-            lda w_hdma_bank,x       ;set indirect bank
-            ora #$7e00
-            sta w_hdma_bank,x
-            
-            ;fall through
-        }
-        
-        ..routine: {
-            phb
-            phx
-            phy
-            
-            pea $7e7e
-            plb
-            plb
-            
-            ;build the table
-            
-            sep #$10
-            
-            lda w_nmicounter
-            asl
-            tax
-            
-            ldy #$ba
-            ;print pc
-            -
-            lda.l hdma_1fsinetable,x
-            sta.w w_indirecthdmatable,y
-            
-            lda.l hdma_1fsinetable+$40,x
-            sta.w w_indirecthdmatable+$40,y
-            
-            lda.l hdma_1fsinetable+$80,x
-            sta.w w_indirecthdmatable+$80,y
-            
-            lda.l hdma_1fsinetable+$c0,x
-            sta.w w_indirecthdmatable+$c0,y
-            dex
-            dex
-            dey
-            dey
-            bne -
-            
-            rep #$10
-            ply
-            plx
-            plb
-            rts
-        }
-        
-        ..table: {
-            macro indirecthdmatable(startaddr)
-                !a #= 0
-                while !a < $1b4
-                    db $01 : dw <startaddr>+!a
-                    !a #= !a+2
-                endwhile
-                
-            endmacro
-            %indirecthdmatable($2000)
-            db $00
-        }
-    }
-    
     .1fsinetable: {
          dw $10, $10, $10, $11, $11, $11, $12, $12,
             $13, $13, $13, $14, $14, $14, $15, $15,
@@ -501,41 +318,4 @@ hdma: {
             $0a, $0a, $0a, $0b, $0b, $0b, $0c, $0c,
             $0c, $0d, $0d, $0e, $0e, $0e, $0f, $0f
     }
-    
-    
-    .testobject_coldata: {
-        ;to create the structure
-        dw ..init, ..routine
-        dl ..table                  ;bank byte is written last
-        
-        ..init: {
-            ;x = object index
-            
-            lda #$3200              ;target is high byte ($2100), params 00
-            sta w_hdma_params,x
-            
-            
-            rts
-        }
-        
-        ..routine: {
-            rts
-        }
-        
-        ..table: {
-            db $70, $01
-            db $70, $1f
-
-            db $00
-        }
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
 }

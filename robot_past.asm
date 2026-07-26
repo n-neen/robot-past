@@ -31,18 +31,19 @@ org $808000                             ;main system bank
     incsrc "./src/interrupts.asm"
     incsrc "./src/dma.asm"
     incsrc "./src/oam.asm"
-    incsrc "./src/hdma.asm"             ;broken, unfinished
     incsrc "./src/scroll.asm"
     incsrc "./src/loading.asm"
     incsrc "./src/player.asm"
     incsrc "./src/messagebox.asm"
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     incsrc "./src/hud.asm"
+    incsrc "./src/speech.asm"
+    incsrc "./src/title.asm"
+    
     incsrc "./src/shot/shot.asm"
         incsrc "./src/shot/common.asm"
         incsrc "./src/shot/bubble.asm"
-    incsrc "./src/speech.asm"
-    incsrc "./src/title.asm"
+        
     print "80 end: ", pc, " main system bank"
     
 org $818000
@@ -52,11 +53,18 @@ org $818000
         incsrc "./src/fae/arrow.asm"
         incsrc "./src/fae/explosion.asm"
         incsrc "./src/fae/door.asm"
+        
     incsrc "./src/color_cycling/color_cycling.asm"
         incsrc "./src/color_cycling/title.asm"
         incsrc "./src/color_cycling/animationtest.asm"
         incsrc "./src/color_cycling/playerhurt.asm"
-    print "81 end: ", pc, " fae code, spritemaps; color cycling"
+        
+    incsrc "./src/hdma/hdma.asm"
+        incsrc "./src/hdma/testobject_bg1x.asm"
+        incsrc "./src/hdma/testobject_inidisp.asm"
+        incsrc "./src/hdma/testobject_coldata.asm"
+        
+    print "81 end: ", pc, " fae code, spritemaps; color cycling; hdma"
     
 ;================================= data banks =======================================
     
