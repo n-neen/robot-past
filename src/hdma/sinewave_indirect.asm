@@ -1,6 +1,6 @@
 ;top level label is "hdma"
 
-.testobject_bg1x_indirect: {
+.sinewave_indirect: {
     ;this doesn't really logically work but it's my fault for messing up the table logic
     ;as a way to test that hdma functions, it was a success
     
@@ -9,7 +9,7 @@
     dl ..table                  ;bank byte is written last
     
     ..init: {
-        lda #$0d42              ;target is high byte ($210d), params $42 (indirect, write twice)
+        lda #$1042              ;target is high byte ($2110), params $42 (indirect, write twice)
         sta w_hdma_params,x
         
         lda w_hdma_bank,x       ;set indirect bank (kept in high byte of w_hdma_bank)

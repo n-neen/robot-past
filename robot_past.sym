@@ -445,11 +445,11 @@ C9:4B00 gameoverdata_pal
 81:941A hdma_screensplit_init
 81:9421 hdma_screensplit_routine
 81:9422 hdma_screensplit_table
+81:905B hdma_sinewave_indirect
+81:9062 hdma_sinewave_indirect_init
+81:9071 hdma_sinewave_indirect_routine
+81:90C2 hdma_sinewave_indirect_table
 81:8D91 hdma_spawn
-81:905B hdma_testobject_bg1x_indirect
-81:9062 hdma_testobject_bg1x_indirect_init
-81:9071 hdma_testobject_bg1x_indirect_routine
-81:90C2 hdma_testobject_bg1x_indirect_table
 81:93FD hdma_testobject_coldata
 81:9404 hdma_testobject_coldata_init
 81:940B hdma_testobject_coldata_routine
@@ -1223,7 +1223,7 @@ C2:52A4 town_props
 
 [source files]
 0000 13bffa6f c:/users/keenan/desktop/robot_past/robot_past/src/boot.asm
-0001 ada90cee c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
+0001 d3ca657f c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
 0002 ef7f4291 c:/users/keenan/desktop/robot_past/robot_past/src/gameover.asm
 0003 4f567525 c:/users/keenan/desktop/robot_past/robot_past/src/gameplay.asm
 0004 6f9d4720 c:/users/keenan/desktop/robot_past/robot_past/src/interrupts.asm
@@ -1252,7 +1252,7 @@ C2:52A4 town_props
 001b 852e97bc c:/users/keenan/desktop/robot_past/robot_past/src/color_cycling/animationtest.asm
 001c 320b839a c:/users/keenan/desktop/robot_past/robot_past/src/color_cycling/playerhurt.asm
 001d 97d6034e c:/users/keenan/desktop/robot_past/robot_past/src/hdma/hdma.asm
-001e 0a0d0850 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/testobject_bg1x.asm
+001e 97e44139 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/sinewave_indirect.asm
 001f 475730f8 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/testobject_inidisp.asm
 0020 d9603065 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/testobject_coldata.asm
 0021 e3515574 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/screensplit.asm
@@ -1271,10 +1271,10 @@ C2:52A4 town_props
 002e ad69c23b c:/users/keenan/desktop/robot_past/robot_past/data/inc/c9.asm
 002f 138c94d1 c:/users/keenan/desktop/robot_past/robot_past/data/inc/ca.asm
 0030 9836d657 c:/users/keenan/desktop/robot_past/robot_past/data/inc/cb.asm
-0031 861dd616 c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
+0031 ce34e4a4 c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-ad4eb0f1
+e88e4ddb
 
 [addr-to-line mapping]
 80:8000 0000:00000003

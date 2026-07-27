@@ -60,7 +60,7 @@ org $818000
         incsrc "./src/color_cycling/playerhurt.asm"
         
     incsrc "./src/hdma/hdma.asm"
-        incsrc "./src/hdma/testobject_bg1x.asm"
+        incsrc "./src/hdma/sinewave_indirect.asm"
         incsrc "./src/hdma/testobject_inidisp.asm"
         incsrc "./src/hdma/testobject_coldata.asm"
         incsrc "./src/hdma/screensplit.asm"

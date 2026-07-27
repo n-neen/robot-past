@@ -194,7 +194,7 @@ setuptitle: {
     jsl hdma_clearall
     jsl hdma_clearchannels
     
-    ldy #hdma_testobject_bg1x_indirect
+    ldy #hdma_sinewave_indirect
     ldx #$0002
     jsl hdma_spawn
     
