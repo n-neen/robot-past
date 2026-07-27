@@ -194,14 +194,14 @@ setuptitle: {
     jsl hdma_clearall
     jsl hdma_clearchannels
     
-    ;ldy #hdma_testobject_bg1x_indirect
-    ;ldx #$0002
-    ;jsl hdma_spawn
+    ldy #hdma_testobject_bg1x_indirect
+    ldx #$0002
+    jsl hdma_spawn
     
-    ;lda #$0001
-    ;sta w_hdma_enable
+    lda #$0001
+    sta w_hdma_enable
     
-    ;jsl hdma_top
+    jsl hdma_top
     
     ;
     

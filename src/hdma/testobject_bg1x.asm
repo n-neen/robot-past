@@ -33,19 +33,18 @@
         
         ;print pc
         
-        sep #$10
         
-        lda w_nmicounter
-        and #$00ff
-        asl
-        cmp #$00ff
-        bmi +
-        
-        eor #$ffff
+        lda w_hdma_timer,x
         inc
+        ;cmp #$00ff
+        ;bmi +
+        ;lda #$0000
+        ;+
+        sta w_hdma_timer,x
         
-        +
         tax
+        
+        sep #$30
         
         ldy #$40
         -
@@ -61,13 +60,13 @@
         lda.l hdma_1fsinetable+$c0,x
         sta.w w_indirecthdmatable+$c0,y
         
-        lda.l hdma_1fsinetable+$100,x
+        lda.l hdma_1fsinetable+$0,x
         sta.w w_indirecthdmatable+$100,y
         
-        lda.l hdma_1fsinetable+$140,x
+        lda.l hdma_1fsinetable+$40,x
         sta.w w_indirecthdmatable+$140,y
         
-        lda.l hdma_1fsinetable+$180,x
+        lda.l hdma_1fsinetable+$80,x
         sta.w w_indirecthdmatable+$180,y
         
         dex
@@ -76,7 +75,7 @@
         dey
         bne -
         
-        rep #$10
+        rep #$30
         ply
         plx
         plb

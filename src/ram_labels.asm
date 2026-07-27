@@ -358,7 +358,6 @@ w: {
         ..params    :   skip 2*!k_hdma_objects_count+2  ;for $4300 and $4301 write at once
         ..var       :   skip 2*!k_hdma_objects_count+2
         ..bank      :   skip 2*!k_hdma_objects_count+2  ;low byte = direct bank, high byte = indirect bank
-        
     }
     
     .glow: {
