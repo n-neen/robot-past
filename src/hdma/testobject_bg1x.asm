@@ -9,11 +9,11 @@
     dl ..table                  ;bank byte is written last
     
     ..init: {
-        lda #$0d42              ;target is high byte ($210d), params $40 (indirect)
+        lda #$0d42              ;target is high byte ($210d), params $42 (indirect, write twice)
         sta w_hdma_params,x
         
-        lda w_hdma_bank,x       ;set indirect bank
-        ora #$7e00
+        lda w_hdma_bank,x       ;set indirect bank (kept in high byte of w_hdma_bank)
+        ora #bank(w_indirecthdmatable)<<8
         sta w_hdma_bank,x
         
         ;fall through and run the main routine once
@@ -24,7 +24,7 @@
         phx
         phy
         
-        pea $7e7e
+        pea.w bank(w_indirecthdmatable)<<8
         plb
         plb
         
@@ -91,7 +91,7 @@
             endwhile
             
         endmacro
-        %indirecthdmatable($2000)
+        %indirecthdmatable(w_indirecthdmatable)
         db $00
     }
 }
