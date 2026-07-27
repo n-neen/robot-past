@@ -16,7 +16,7 @@
         ora #$7e00
         sta w_hdma_bank,x
         
-        ;fall through
+        ;fall through and run the main routine once
     }
     
     ..routine: {
@@ -29,15 +29,25 @@
         plb
         
         ;build the table
+        ;only kinda works
+        
+        ;print pc
         
         sep #$10
         
         lda w_nmicounter
+        and #$00ff
         asl
+        cmp #$00ff
+        bmi +
+        
+        eor #$ffff
+        inc
+        
+        +
         tax
         
-        ldy #$ba
-        ;print pc
+        ldy #$40
         -
         lda.l hdma_1fsinetable,x
         sta.w w_indirecthdmatable,y
@@ -50,6 +60,16 @@
         
         lda.l hdma_1fsinetable+$c0,x
         sta.w w_indirecthdmatable+$c0,y
+        
+        lda.l hdma_1fsinetable+$100,x
+        sta.w w_indirecthdmatable+$100,y
+        
+        lda.l hdma_1fsinetable+$140,x
+        sta.w w_indirecthdmatable+$140,y
+        
+        lda.l hdma_1fsinetable+$180,x
+        sta.w w_indirecthdmatable+$180,y
+        
         dex
         dex
         dey

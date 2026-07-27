@@ -194,14 +194,14 @@ setuptitle: {
     jsl hdma_clearall
     jsl hdma_clearchannels
     
-    ldy #hdma_testobject_bg1x_indirect
-    ldx #$0002
-    jsl hdma_spawn
+    ;ldy #hdma_testobject_bg1x_indirect
+    ;ldx #$0002
+    ;jsl hdma_spawn
     
-    lda #$0001
-    sta w_hdma_enable
+    ;lda #$0001
+    ;sta w_hdma_enable
     
-    jsl hdma_top
+    ;jsl hdma_top
     
     ;
     
@@ -786,15 +786,24 @@ loadgame: {
     
     jsl load_scene                  ;depends on a call to scenetransition having been done
     
+    ;clear all hdma related stuff:
+    ;object slots, registers, and channel enable bits
     stz w_hdma_enable
     jsl hdma_clearall
     jsl hdma_clearchannels
     
-    ldy #hdma_testobject_coldata
-    ldx #$0004
-    jsl hdma_spawn
-    lda #$0001
-    sta w_hdma_enable
+    {   ;test harness for spawning an hdma object for gameplay
+        ;ldy #hdma_testobject_coldata
+        ;ldx #$0004
+        ;jsl hdma_spawn
+        
+        ;ldy #hdma_screensplit
+        ;ldx #$0002
+        ;jsl hdma_spawn
+        
+        ;lda #$0001
+        ;sta w_hdma_enable
+    }
     
     stz w_glow_enable
     jsl glow_clearall

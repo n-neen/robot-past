@@ -63,6 +63,7 @@ org $818000
         incsrc "./src/hdma/testobject_bg1x.asm"
         incsrc "./src/hdma/testobject_inidisp.asm"
         incsrc "./src/hdma/testobject_coldata.asm"
+        incsrc "./src/hdma/screensplit.asm"
         
     print "81 end: ", pc, " fae code, spritemaps; color cycling; hdma"
     

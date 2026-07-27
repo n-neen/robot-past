@@ -10,34 +10,30 @@
     ;table source bank
     ;(object's index in hdma system arrays)/2 is used as hdma channel
     
+    ;do not use channel 0 for hdma
+    ;channel 0 is reserved for regular dma
+    
     ;w_hdma_params contains data to write to both $4300 and $4301
         ;ttpp
         ;p = params
         ;t = ppu target
 
+    ;spawning an object:
 
-    ;ldy.w #hdma_testobject_inidisp
-    ;ldx #$0002
-    ;jsl hdma_spawn
+        ;ldy.w #hdma_testobject_bg1x_indirect
+        ;ldx #$0006     ;channel*2
+        ;jsl hdma_spawn
     
-    ;ldy.w #hdma_testobject_coldata
-    ;ldx #$0004
-    ;jsl hdma_spawn
+    ;enabling hdma:
     
-    ;ldy.w #hdma_testobject_coldata_indirect
-    ;ldx #$0006
-    ;jsl hdma_spawn
+        ;lda #$0001
+        ;sta w_hdma_enable
+
+    ;disabling hdma:
     
-    ;lda #$0001
-    ;sta w_hdma_enable
-
-
-
-
-
-
-;this kinda doesn't work. i forgt what exactly
-;maybe indirect is broken
+        ;stz w_hdma_enable
+        ;jsl hdma_clearall
+        ;jsl hdma_clearchannels     ;needs blanking, writes to $43xx
 
 
 hdma: {
@@ -73,16 +69,16 @@ hdma: {
             lda.w w_hdma_table+((<channel>)<<1)
             sta.w $4305|!regbitmask
             
-            bra ?++
+            ;bra ?++
             
-            ?+                                           ;if direct
+            ?+                                           ;if direct (woops this is nonsense)
             
             ;lda.w w_hdma_bank+((<channel>)<<1)
             ;and.w #$00ff
             ;sta.w $4304|!regbitmask
             
             ?++
-            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
+            lda.w w_hdma_table+((<channel>)<<1)
             sta.w $4302|!regbitmask
             
             lda.w #($0100)|($0001<<(<channel>))
@@ -152,6 +148,9 @@ hdma: {
     .spawn: {
         ;y = pointer to object header
         ;x = object index
+        ;x also = hdma channel
+        ;x cannot be 0
+        ;x cannot be > 7
         
         phb
         
@@ -285,6 +284,39 @@ hdma: {
     
     
     .1fsinetable: {
+         dw $10, $10, $10, $11, $11, $11, $12, $12,
+            $13, $13, $13, $14, $14, $14, $15, $15,
+            $15, $16, $16, $16, $17, $17, $17, $18,
+            $18, $18, $19, $19, $19, $1a, $1a, $1a,
+            $1a, $1b, $1b, $1b, $1b, $1c, $1c, $1c,
+            $1c, $1d, $1d, $1d, $1d, $1d, $1e, $1e,
+            $1e, $1e, $1e, $1e, $1e, $1e, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1f, $1f, $1f, $1f, $1f,
+            $1f, $1f, $1f, $1e, $1e, $1e, $1e, $1e,
+            $1e, $1e, $1e, $1d, $1d, $1d, $1d, $1d,
+            $1c, $1c, $1c, $1c, $1b, $1b, $1b, $1b,
+            $1a, $1a, $1a, $1a, $19, $19, $19, $18,
+            $18, $18, $17, $17, $17, $16, $16, $16,
+            $15, $15, $15, $14, $14, $14, $13, $13,
+            $13, $12, $12, $11, $11, $11, $10, $10,
+            $10, $0f, $0f, $0e, $0e, $0e, $0d, $0d,
+            $0c, $0c, $0c, $0b, $0b, $0b, $0a, $0a,
+            $0a, $09, $09, $09, $08, $08, $08, $07,
+            $07, $07, $06, $06, $06, $05, $05, $05,
+            $05, $04, $04, $04, $04, $03, $03, $03,
+            $03, $02, $02, $02, $02, $02, $01, $01,
+            $01, $01, $01, $01, $01, $01, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $00, $00, $00, $00, $00,
+            $00, $00, $00, $01, $01, $01, $01, $01,
+            $01, $01, $01, $02, $02, $02, $02, $02,
+            $03, $03, $03, $03, $04, $04, $04, $04,
+            $05, $05, $05, $05, $06, $06, $06, $07,
+            $07, $07, $08, $08, $08, $09, $09, $09,
+            $0a, $0a, $0a, $0b, $0b, $0b, $0c, $0c,
+            $0c, $0d, $0d, $0e, $0e, $0e, $0f, $0f
+            
          dw $10, $10, $10, $11, $11, $11, $12, $12,
             $13, $13, $13, $14, $14, $14, $15, $15,
             $15, $16, $16, $16, $17, $17, $17, $18,
