@@ -272,6 +272,13 @@ fae: {
         jsl glow_spawn
         +
         
+        ;lda w_player_iframes
+        ;bne +
+        
+        ;lda #shot_shield
+        ;jsl shot_spawn
+        ;+
+        
         rts
     }
     

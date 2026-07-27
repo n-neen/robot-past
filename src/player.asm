@@ -23,7 +23,6 @@ player: {
         
         stz w_player_iframes
         
-        
         ;jsr player_olddraw             ;test sprite not real
         ;jsr player_draw                ;don't think this is necessary anymore
         
@@ -164,15 +163,14 @@ player: {
         
         dec
         sta w_player_hurtglowcooldown
-        
         +
         
         lda w_player_iframes
         beq +
         dec
         sta w_player_iframes
-        
         +
+        
         rts
     }
     

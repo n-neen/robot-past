@@ -1154,6 +1154,19 @@ fadeout: {
     jsr screenon        ;in fact just do this to be sure
     
     -
+    
+    {   ;hopefully this isn't a bad idea
+        lda w_hdma_enable
+        beq +
+        jsl hdma_top
+        +
+        
+        lda w_glow_enable
+        beq +
+        jsl glow_top
+        +
+    }
+    
     jsr waitfornmi
     
     lda w_nmicounter
@@ -1180,6 +1193,19 @@ fadein: {
     stz w_screenbrightness
     
     -
+    
+    {   ;hopefully thisn't a bad idea
+        lda w_hdma_enable
+        beq +
+        jsl hdma_top
+        +
+        
+        lda w_glow_enable
+        beq +
+        jsl glow_top
+        +
+    }
+    
     jsr waitfornmi
     
     lda w_nmicounter
@@ -1232,7 +1258,7 @@ checksram: {
     dex
     bpl -
     
-    ldx #datasize(checksram_string)-2     ;write string
+    ldx #datasize(checksram_string)-2   ;write string
     -
     lda.l checksram_string,x
     sta s_string,x
