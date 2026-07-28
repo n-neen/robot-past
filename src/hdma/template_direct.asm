@@ -2,7 +2,8 @@
 
 .template_direct: {
     dw ..init, ..routine
-    dl ..table                  ;bank byte is written last
+    dl ..table          ;bank byte is written last
+    dw $3200            ;parameters for $43x0/43x1: ppu target is high byte. transfur type is low byte
     
     ..init: {
         ;x = object index

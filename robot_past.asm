@@ -39,6 +39,7 @@ org $808000                             ;main system bank
     incsrc "./src/hud.asm"
     incsrc "./src/speech.asm"
     incsrc "./src/title.asm"
+    incsrc "./src/scene_init_routines.asm"
     
     incsrc "./src/shot/shot.asm"
         incsrc "./src/shot/common.asm"

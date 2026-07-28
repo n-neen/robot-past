@@ -136,6 +136,10 @@ str: {
         ..10: db "10 ok this is end line $201", !msg_end
     }
     
+    .piecestext: {
+        db "write soemthin cool here", !msg_end
+    }
+    
     .testtext: {
         ;used in a text trigger object
         db !msg_newline

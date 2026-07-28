@@ -5,10 +5,10 @@ player character, without offscreen handling
 tile objects
 room transitions
 sprite actor system (fae), with offscreen handling
-projectiles (just started), without offscreen handling
+projectiles, without offscreen handling
 hud
-color cycling (broken, unimplemented)
-hdma (broken, unimplemented)
+color cycling
+hdma
 
 
 

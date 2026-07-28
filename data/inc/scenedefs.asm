@@ -31,6 +31,7 @@ scenedef: {
     
     ;nongameplay scenes (gameplay subscenes)
     .entrance:          %scenedefentry(entrance)
+    .pieces:            %scenedefentry(pieces)
     
     ;gameplay rooms
     .room1:             %scenedefentry(room1)
@@ -73,7 +74,7 @@ properties: {
         dw !state_loadintroscene    ;program state to enter
         dw str_intro1               ;text string pointer
         db $08                      ;starting line for text
-        dw hdma_testobject_inidisp  ;hdma object to spawn and run
+        dw $0000                    ;init routine
         dw str_credits              ;scrolling text commands (ptr to strings.asm)
     }
     
@@ -81,7 +82,7 @@ properties: {
         dw !state_loadintroscene
         dw str_intro2
         db $16
-        dw $0000                    ;hdma object to spawn and run
+        dw $0000                    ;init routine
         dw str_scrollingintro       ;scrolling text commands
     }
     
@@ -89,7 +90,7 @@ properties: {
         dw !state_loadintroscene
         dw str_intro3
         db $18
-        dw $0000                    ;hdma object to spawn and run
+        dw $0000                    ;init routine
         dw $0000                    ;scrolling text commands
     }
     
@@ -97,7 +98,7 @@ properties: {
         dw !state_loadintroscene    ;program state to enter
         dw str_intro4               ;text string pointer
         db $04                      ;starting line for text
-        dw $0000                    ;hdma object to spawn and run
+        dw $0000                    ;init routine
         dw $0000                    ;scrolling text commands
     }
     
@@ -105,8 +106,16 @@ properties: {
         dw !state_loadnongame
         dw str_entrance
         db $0a                      ;starting line
-        dw $0000                    ;hdma object to spawn and run
+        dw $0000                    ;init routine
         dw str_scrolltest           ;scrolling text commands
+    }
+    
+    .pieces: {
+        dw !state_loadnongame
+        dw str_entrance
+        db $0a                      ;starting line
+        dw sceneinit_pieces         ;init routine
+        dw $0000                    ;scrolling text commands
     }
 
 

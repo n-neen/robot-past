@@ -3,13 +3,14 @@
 .testobject_inidisp: {
     ;to create the structure
     dw ..init, ..routine
-    dl ..table                  ;bank byte is written last
+    dl ..table          ;bank byte is written last
+    dw $0000            ;parameters for $43x0/43x1: ppu target is high byte. transfur type is low byte
     
     ..init: {
         ;x = object index
         
-        lda #$3200              ;target is high byte ($2100), params 00
-        sta w_hdma_params,x
+        ;lda #$0000              ;target is high byte ($2100), params 00
+        ;sta w_hdma_params,x
         
         rts
     }

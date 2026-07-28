@@ -1,16 +1,13 @@
 ;top level label is "hdma"
 
 .sinewave_indirect: {
-    ;this doesn't really logically work but it's my fault for messing up the table logic
-    ;as a way to test that hdma functions, it was a success
-    
-    
     dw ..init, ..routine
     dl ..table                  ;bank byte is written last
+    dw $1042                    ;parameters for $43x0/43x1
     
     ..init: {
-        lda #$1042              ;target is high byte ($2110), params $42 (indirect, write twice)
-        sta w_hdma_params,x
+        ;lda #$1042              ;target is high byte ($2110), params $42 (indirect, write twice)
+        ;sta w_hdma_params,x
         
         lda w_hdma_bank,x       ;set indirect bank (kept in high byte of w_hdma_bank)
         ora #bank(w_indirecthdmatable)<<8

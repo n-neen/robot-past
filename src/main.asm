@@ -196,7 +196,14 @@ setuptitle: {
     
     ldy #hdma_sinewave_indirect
     ldx #$0002
+    lda #!hdma_params_default
+    ;lda #$0e42
     jsl hdma_spawn
+    
+    ;ldy #hdma_sinewave_indirect
+    ;ldx #$0004
+    ;lda #$0d42
+    ;jsl hdma_spawn
     
     lda #$0001
     sta w_hdma_enable
@@ -457,7 +464,7 @@ scenetransition: {
     sta.l w_scene_strline       ;what line to start text on
     
     lda $0005,x
-    sta.l w_scene_hdmaobj       ;not currently implemented
+    sta.l w_scene_init
     
     lda $0007,x
     sta.l w_scene_scrolltextptr ;ptr to scroll commands in strings.asm
@@ -479,12 +486,15 @@ scenetransition: {
 
 loadnongameplayscene: {
     sei
+    phk
+    plb
+    
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
     
-    stz w_hdma_enable
-    stz w_glow_enable
+    ;stz w_hdma_enable
+    ;stz w_glow_enable
     stz w_scene_timer
     
     stz w_bg1xscroll
@@ -502,6 +512,13 @@ loadnongameplayscene: {
     
     jsr layer3on
     jsr spritesoff
+    
+    ;db = program bank from above
+    lda w_scene_init
+    beq +
+    ldx #$0000
+    jsr (w_scene_init,x)      ;use rts from here to return to this routine's caller
+    +
     
     jsr enablenmi
     jsr waitfornmi
@@ -527,6 +544,8 @@ nongameplayhandler: {
     ldy w_scene_strline
     jsl msg_display
     +
+    
+    jsl hdma_top
     
     ;lda w_scene_scrolltextptr
     ;beq +
@@ -795,10 +814,12 @@ loadgame: {
     {   ;test harness for spawning an hdma object for gameplay
         ;ldy #hdma_testobject_coldata
         ;ldx #$0004
+        ;lda #!hdma_params_default
         ;jsl hdma_spawn
         
         ;ldy #hdma_screensplit
         ;ldx #$0002
+        ;lda #!hdma_params_default
         ;jsl hdma_spawn
         
         ;lda #$0001
@@ -851,7 +872,7 @@ loadgame: {
     jsl hud_draw
     
     sep #$20
-    {
+    {   ;default screen configuration. could write something to do this at some point
         lda #%00000000
         sta w_colormathlogic
         sta $2130

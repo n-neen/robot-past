@@ -147,15 +147,31 @@ hdma: {
     
     .spawn: {
         ;y = pointer to object header
+        
         ;x = object index
         ;x also = hdma channel
         ;x cannot be 0
         ;x cannot be > 7
         
+        ;A = properties for $43x0/43x1
+        ;if A = $ffff, then use properties from hdma object definition instead
+        
         phb
         
         phk
         plb
+        
+        cmp #!hdma_params_default
+        beq .default
+        
+        sta w_hdma_params,x
+        bra .nodefault
+        
+        .default:
+        lda $0007,y
+        sta w_hdma_params,x
+        
+        .nodefault:
         
         tya
         sta w_hdma_id,x         ;object id (pointer to header)
@@ -175,9 +191,7 @@ hdma: {
         sta w_hdma_bank,x
         rep #$20
         
-        phx
         jsr (w_hdma_init,x)     ;run init routine
-        plx
         
         plb
         rtl

@@ -205,7 +205,7 @@ w: {
         ..strptr        : skip 2
         ..strline       : skip 2
         ..timer         : skip 2
-        ..hdmaobj       : skip 2        ;unused currently
+        ..init          : skip 2
         ..scrolltextptr : skip 2        ;base pointer, use w_msg_scrollptr for base ptr+index=current ptr
     }
     

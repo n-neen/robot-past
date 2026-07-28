@@ -26,3 +26,11 @@ city: {
 bg2test: {
     .map:   incbin "./data/map/bg2.map"
 }
+
+pieces: {
+    .pal:   incbin "./data/pal/pieces.pal"
+    .gfx:   incbin "./data/gfx/pieces.gfx"
+    .map:   incbin "./data/map/pieces.map"
+    .bg2:   incbin "./data/map/pieces_bg2.map"
+    .dummylabel
+}

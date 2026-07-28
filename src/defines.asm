@@ -117,6 +117,10 @@
 !irq_command_speech_start   = $03
 !irq_command_speech_end     = $04
 
+;================================ hdma
+
+!hdma_params_default        = $ffff
+
 ;================================ object
 
 !obj_count      =   $001f

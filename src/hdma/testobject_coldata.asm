@@ -2,13 +2,14 @@
 
 .testobject_coldata: {
     dw ..init, ..routine
-    dl ..table                  ;bank byte is written last
+    dl ..table          ;bank byte is written last
+    dw $3200            ;parameters for $43x0/43x1: ppu target is high byte. transfur type is low byte
     
     ..init: {
         ;x = object index
         
-        lda #$3200              ;target is high byte ($2100), params 00
-        sta w_hdma_params,x
+        ;lda #$3200              ;target is high byte ($2100), params 00
+        ;sta w_hdma_params,x
         
         
         rts
