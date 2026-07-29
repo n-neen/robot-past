@@ -1,9 +1,15 @@
 ;top level label is "hdma"
 
-.sinewave_indirect: {
+.glitch_bands_indirect: {
+    ;this is the same as sinewave_indirect but does some horrible wrong math
+    ;on the table writes
+    ;looks pretty cool so i forked it out to here
+    ;uses the same indirect table
+    ;....is what i would say if i didn't need to make a second table! ah ha ha
+    
     dw ..init, ..routine
-    dl ..table                  ;bank byte is written last
-    dw $1042                    ;parameters for $43x0/43x1
+    dl ..table                              ;bank byte is written last
+    dw $1042                                ;parameters for $43x0/43x1
     
     ..init: {
         ;lda #$1042              ;target is high byte ($2110), params $42 (indirect, write twice)
@@ -29,6 +35,12 @@
         inc
         sta w_hdma_timer,x
         
+        lda w_nmicounter
+        sta p_0
+        eor #$ffff
+        inc
+        sta p_2
+        
         tax
         
         sep #$30
@@ -36,25 +48,32 @@
         ldy #$40
         -
         lda.l hdma_1fsinetable,x
-        sta.w w_indirecthdmatable,y
+        eor p_0
+        sta.w w_indirecthdmatable2,y
         
         lda.l hdma_1fsinetable+$40,x
-        sta.w w_indirecthdmatable+$40,y
+        eor p_2
+        sta.w w_indirecthdmatable2+$40,y
         
         lda.l hdma_1fsinetable+$80,x
-        sta.w w_indirecthdmatable+$80,y
+        eor p_0
+        sta.w w_indirecthdmatable2+$80,y
         
         lda.l hdma_1fsinetable+$c0,x
-        sta.w w_indirecthdmatable+$c0,y
+        eor p_2
+        sta.w w_indirecthdmatable2+$c0,y
         
         lda.l hdma_1fsinetable+$0,x
-        sta.w w_indirecthdmatable+$100,y
+        eor p_0
+        sta.w w_indirecthdmatable2+$100,y
         
         lda.l hdma_1fsinetable+$40,x
-        sta.w w_indirecthdmatable+$140,y
+        eor p_2
+        sta.w w_indirecthdmatable2+$140,y
         
         lda.l hdma_1fsinetable+$80,x
-        sta.w w_indirecthdmatable+$180,y
+        eor p_0
+        sta.w w_indirecthdmatable2+$180,y
         
         dex
         dex
@@ -70,7 +89,7 @@
     }
     
     ..table: {
-        %indirecthdmatable(w_indirecthdmatable)
+        %indirecthdmatable(w_indirecthdmatable2)
         db $00
     }
 }

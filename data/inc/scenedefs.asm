@@ -31,7 +31,7 @@ scenedef: {
     
     ;nongameplay scenes (gameplay subscenes)
     .entrance:          %scenedefentry(entrance)
-    .pieces:            %scenedefentry(pieces)
+    .pieces:            %scenedefentry(pieces2)
     
     ;gameplay rooms
     .room1:             %scenedefentry(room1)
@@ -110,7 +110,7 @@ properties: {
         dw str_scrolltest           ;scrolling text commands
     }
     
-    .pieces: {
+    .pieces2: {
         dw !state_loadnongame
         dw str_entrance
         db $0a                      ;starting line

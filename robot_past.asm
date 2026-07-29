@@ -63,6 +63,7 @@ org $818000
         
     incsrc "./src/hdma/hdma.asm"
         incsrc "./src/hdma/sinewave_indirect.asm"
+        incsrc "./src/hdma/glitch_bands_indirect.asm"
         incsrc "./src/hdma/testobject_inidisp.asm"
         incsrc "./src/hdma/testobject_coldata.asm"
         incsrc "./src/hdma/screensplit.asm"

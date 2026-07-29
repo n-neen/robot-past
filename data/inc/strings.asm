@@ -35,6 +35,18 @@ str: {
         ..moonroom:     db "moonroom  "
     }
     
+    .piecesspeech: {
+        db "      x", !msg_newline
+        db "      x", !msg_newline
+        db "      x", !msg_newline
+        db "      x", !msg_newline
+        db "      x", !msg_newline
+        db "      x", !msg_newline
+        db "xxxxxxx", !msg_newline
+        db "xxxxxxx", !msg_newline
+        db !msg_end
+    }
+    
     .speechtest: {
         db "      hey, there are words here", !msg_newline
         db "      and down here too okay", !msg_newline
@@ -137,7 +149,7 @@ str: {
     }
     
     .piecestext: {
-        db "write soemthin cool here", !msg_end
+        db !msg_end
     }
     
     .testtext: {

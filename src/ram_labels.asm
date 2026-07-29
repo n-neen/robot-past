@@ -392,7 +392,8 @@ w: {
     print "work ram end:   ", pc
     
     org $7e2000
-    .indirecthdmatable      :   skip $1c0
+    .indirecthdmatable      :   skip $1e0       ;there is some padding here that can maybe be trimmed
+    .indirecthdmatable2     :   skip $1e0
     
     org $7ec000
     .cgrambuffer            :   skip !k_cgrambuffersize

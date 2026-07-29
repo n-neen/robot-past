@@ -1,3 +1,3 @@
-C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing_quant.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing_quant.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing_quant.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing_quant.gfx" --palette-base-offset 1 --color-zero 000000
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing2_quant.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing2_quant.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing2_quant.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\thing\thing2_quant.gfx" --palette-base-offset 1 --color-zero 000000
 
 pause

@@ -36,6 +36,20 @@
         ;jsl hdma_clearchannels     ;needs blanking, writes to $43xx
 
 
+;todo: move this somehwere sane
+        macro indirecthdmatable(startaddr)
+            !a #= 0
+            while !a < $1b4
+                db $01 : dw <startaddr>+!a
+                !a #= !a+2
+            endwhile
+        endmacro
+
+
+
+
+
+
 hdma: {
     .nmihandler: {
         ;look for object slots that are occupied
