@@ -807,6 +807,7 @@ loadgame: {
     plb
     
     jsl load_scene                  ;depends on a call to scenetransition having been done
+    jsl load_bg3colortobuffer
     
     ;clear all hdma related stuff:
     ;object slots, registers, and channel enable bits
@@ -941,7 +942,7 @@ loadgame: {
     }
     
     ;set gameplay's irq command (for hud) and turn on irq
-    lda #$0001
+    lda.w #!irq_command_hud_start
     sta w_irq_command
     jsr irq_settarget
     jsr irq_enable
