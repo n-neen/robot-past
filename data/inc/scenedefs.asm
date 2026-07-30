@@ -32,6 +32,7 @@ scenedef: {
     ;nongameplay scenes (gameplay subscenes)
     .entrance:          %scenedefentry(entrance)
     .pieces:            %scenedefentry(pieces2)
+    .agony:             %scenedefentry(agony)
     
     ;gameplay rooms
     .room1:             %scenedefentry(room1)
@@ -115,6 +116,14 @@ properties: {
         dw str_entrance
         db $0a                      ;starting line
         dw sceneinit_pieces         ;init routine
+        dw $0000                    ;scrolling text commands
+    }
+    
+    .agony: {
+        dw !state_loadnongame
+        dw str_agony
+        db $02                      ;starting line
+        dw sceneinit_agony          ;init routine
         dw $0000                    ;scrolling text commands
     }
 

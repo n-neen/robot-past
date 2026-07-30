@@ -152,6 +152,10 @@ str: {
         db !msg_end
     }
     
+    .agony: {
+        db "             test", !msg_end
+    }
+    
     .testtext: {
         ;used in a text trigger object
         db !msg_newline

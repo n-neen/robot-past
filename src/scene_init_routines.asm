@@ -11,35 +11,6 @@ sceneinit: {
         ;systems to write. i imagine a lot of routines like this
         ;should not be this massive
         
-        
-        ldy #hdma_sinewave_indirect
-        ldx #$0002
-        lda #$1042              ;bg2 y
-        jsl hdma_spawn
-        
-        ldy #hdma_glitch_bands_indirect
-        ldx #$0004
-        lda #$0f42              ;bg2 x
-        jsl hdma_spawn
-        
-        ldy #hdma_sinewave_indirect
-        ldx #$0006
-        lda #$0e42              ;bg1 y
-        jsl hdma_spawn
-        
-        ldy #hdma_sinewave_indirect
-        ldx #$0008
-        lda #$0d42              ;bg1 x
-        jsl hdma_spawn
-        
-        ;ldy #hdma_glitch_bands_indirect
-        ;ldx #$000a
-        ;lda #$0640              ;mosaic
-        ;jsl hdma_spawn
-        
-        lda #$0001
-        sta w_hdma_enable
-        
         ldy #glow_incrementing
         jsl glow_spawn
         
@@ -83,6 +54,7 @@ sceneinit: {
         ldx #!bg1tilemap+$c00       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
+        
         sep #$20
         {
             lda #%00000010
@@ -108,5 +80,96 @@ sceneinit: {
         
         stz w_bg2xscroll
         
+        ldy #hdma_sinewave_indirect
+        ldx #$0002
+        lda #$1042              ;bg2 y
+        jsl hdma_spawn
+        
+        ldy #hdma_glitch_bands_indirect
+        ldx #$0004
+        lda #$0f42              ;bg2 x
+        jsl hdma_spawn
+        
+        ldy #hdma_sinewave_indirect
+        ldx #$0006
+        lda #$0e42              ;bg1 y
+        jsl hdma_spawn
+        
+        ldy #hdma_sinewave_indirect
+        ldx #$0008
+        lda #$0d42              ;bg1 x
+        jsl hdma_spawn
+        
+        ;ldy #hdma_glitch_bands_indirect
+        ;ldx #$000a
+        ;lda #$0640              ;mosaic
+        ;jsl hdma_spawn
+        
+        lda #$0001
+        sta w_hdma_enable
+        
+        rts
+        
+        
+        .agony: {
+        ;load bg2 stuff
+        {
+            lda #agony_bg2map
+            sta p_0
+            
+            lda #bank(agony)
+            sta p_2
+            
+            lda #datasize(agony_bg2map)
+            jsl load_romtobuffer
+        }
+        
+        lda #datasize(agony_bg2map) ;tilemap size
+        ldx #!bg2tilemap            ;destination in vram
+        jsl load_buffertovram       ;dma tilemap to vram
+        
+        sep #$20
+        {
+            lda #%00000010
+            sta w_colormathlogic
+            sta $2130
+            
+            lda #%00100011      ;color math layers
+            sta w_colormathlayers
+            sta $2131
+            
+            lda #%00000111      ;main screen layers
+            sta w_mainscreenlayers
+            sta $212c
+            
+            lda #%00000010      ;subscreen layers
+            sta w_subscreenlayers
+            sta $212d
+        }
+        rep #$20
+        
+        lda #$01ff
+        sta w_bg2yscroll
+        
+        stz w_bg2xscroll
+        
+        ldy #hdma_sinewave_indirect
+        ldx #$0002
+        lda #$1042              ;bg2 y
+        jsl hdma_spawn
+        
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0008
+        ;lda #$0e42              ;bg1 y
+        ;jsl hdma_spawn
+        
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0004
+        ;lda #$0f42              ;bg2 x
+        ;jsl hdma_spawn
+        
+        lda #$0001
+        sta w_hdma_enable
+            
         rts
 }

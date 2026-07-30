@@ -9,4 +9,11 @@ light: {
         dw $0000
 }
 
-dummylabel2:
+agony: {
+    .pal:       incbin "./data/pal/agony.pal"
+    .gfx:       incbin "./data/gfx/agony.gfx"
+    .map:       incbin "./data/map/agony_bg1.map"
+    .bg2map:    incbin "./data/map/agony_bg2.map"
+    
+    .dummylabel:
+}

@@ -35,6 +35,12 @@
         ;jsl hdma_clearall
         ;jsl hdma_clearchannels     ;needs blanking, writes to $43xx
 
+;because the [hdma object slot]/2 = hdma channel, and we're not using channel 0 (reserved for regular dma),
+;the end of the arrays are never going to be used by an object
+;so, w_hdma_timer could be considered a global timer that all objects can increase and reference
+;this would ease some of the logical problem of having two instances of the same object do the exact same thing
+
+
 
 ;todo: move this somehwere sane
         macro indirecthdmatable(startaddr)
