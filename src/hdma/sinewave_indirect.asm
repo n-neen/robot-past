@@ -35,31 +35,33 @@
         
         ldy #$40
         -
-        lda.l hdma_1fsinetable,x
+        lda.l hdma_neg30sinetable,x                ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
         sta.w w_indirecthdmatable,y
         
-        lda.l hdma_1fsinetable+$40,x
+        lda.l hdma_neg30sinetable+$40,x
         sta.w w_indirecthdmatable+$40,y
         
-        lda.l hdma_1fsinetable+$80,x
+        lda.l hdma_neg30sinetable+$80,x
         sta.w w_indirecthdmatable+$80,y
         
-        lda.l hdma_1fsinetable+$c0,x
+        lda.l hdma_neg30sinetable+$c0,x
         sta.w w_indirecthdmatable+$c0,y
         
-        lda.l hdma_1fsinetable+$0,x
+        lda.l hdma_neg30sinetable+$0,x
         sta.w w_indirecthdmatable+$100,y
         
-        lda.l hdma_1fsinetable+$40,x
+        lda.l hdma_neg30sinetable+$40,x
         sta.w w_indirecthdmatable+$140,y
         
-        lda.l hdma_1fsinetable+$80,x
+        lda.l hdma_neg30sinetable+$80,x
         sta.w w_indirecthdmatable+$180,y
         
         dex
         dex
         dey
         dey
+        
+        cpy #$fe
         bne -
         
         rep #$30

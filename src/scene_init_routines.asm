@@ -12,7 +12,7 @@ sceneinit: {
         ;should not be this massive
         
         
-        ldy #hdma_glitch_bands_indirect
+        ldy #hdma_sinewave_indirect
         ldx #$0002
         lda #$1042              ;bg2 y
         jsl hdma_spawn
@@ -39,6 +39,9 @@ sceneinit: {
         
         lda #$0001
         sta w_hdma_enable
+        
+        ldy #glow_incrementing
+        jsl glow_spawn
         
         ;load bg2 stuff
         {
@@ -72,21 +75,29 @@ sceneinit: {
         ldx #!bg1tilemap+$400       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
+        lda #datasize(pieces2_map)  ;tilemap size
+        ldx #!bg1tilemap+$800       ;destination in vram
+        jsl load_buffertovram       ;dma tilemap to vram
+        
+        lda #datasize(pieces2_map)  ;tilemap size
+        ldx #!bg1tilemap+$c00       ;destination in vram
+        jsl load_buffertovram       ;dma tilemap to vram
+        
         sep #$20
         {
             lda #%00000010
             sta w_colormathlogic
             sta $2130
             
-            lda #%00100011      ;color math layers
+            lda #%10100011      ;color math layers
             sta w_colormathlayers
             sta $2131
             
-            lda #%00000110      ;main screen layers
+            lda #%00000101      ;main screen layers
             sta w_mainscreenlayers
             sta $212c
             
-            lda #%00000001      ;subscreen layers
+            lda #%00000010      ;subscreen layers
             sta w_subscreenlayers
             sta $212d
         }
@@ -94,6 +105,8 @@ sceneinit: {
         
         lda #$01ff
         sta w_bg2yscroll
+        
+        stz w_bg2xscroll
         
         rts
 }

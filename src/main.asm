@@ -513,6 +513,8 @@ loadnongameplayscene: {
     jsr layer3on
     jsr spritesoff
     
+    jsl glow_clearall
+    
     ;db = program bank from above
     lda w_scene_init
     beq +
@@ -546,6 +548,7 @@ nongameplayhandler: {
     +
     
     jsl hdma_top
+    jsl glow_top
     
     ;lda w_scene_scrolltextptr
     ;beq +

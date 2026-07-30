@@ -79,6 +79,8 @@
         dex
         dey
         dey
+        
+        cpy #$fe
         bne -
         
         rep #$30
