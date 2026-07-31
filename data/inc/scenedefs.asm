@@ -1,13 +1,16 @@
 
 scenedef: {
     macro scenedefentry(label)
-        dl <label>                  ;long pointer to the scene data ;0
-        dw <label>_pal              ;inbank pointer to palette,     ;3
-        dw <label>_gfx              ;graphics,                      ;5
-        dw <label>_map              ;tilemap                        ;7
-        dw datasize(<label>_gfx)    ;graphics size                  ;9
-        dw datasize(<label>_map)    ;tilemap size                   ;b
-        dw properties_<label>       ;gameplay properties            ;d
+        dl <label>                  ;long pointer to the scene data ;$0
+        dw <label>_pal              ;inbank pointer to palette,     ;$3
+        dw <label>_gfx              ;graphics,                      ;$5
+        dw <label>_map              ;tilemap                        ;$7
+        dw datasize(<label>_gfx)    ;graphics size                  ;$9
+        dw datasize(<label>_map)    ;tilemap size                   ;$b
+        dw properties_<label>       ;gameplay properties            ;$d; in scenedef
+        ;unimplemented
+        ;dw hdmalist_<label>         ;list of hdma objects to spawn  ;$f; in scenedef
+        ;dw glowlist_<label>         ;list of glow objects to spawn  ;$11
     endmacro
     
     ;run superfamiconv to output every scene using at most the bottom 7 palettes
@@ -197,4 +200,17 @@ properties: {
     .light: {
         dw !state_loadintroscene
     }
+}
+
+
+;=================================== HDMA OBJECTS LISTS ====================================
+
+hdmalist: {
+    .agony: {
+        ;todo
+        
+        
+        
+    }
+    
 }

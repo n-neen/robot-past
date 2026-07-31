@@ -54,26 +54,8 @@ sceneinit: {
         ldx #!bg1tilemap+$c00       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
-        
-        sep #$20
-        {
-            lda #%00000010
-            sta w_colormathlogic
-            sta $2130
-            
-            lda #%10100011      ;color math layers
-            sta w_colormathlayers
-            sta $2131
-            
-            lda #%00000101      ;main screen layers
-            sta w_mainscreenlayers
-            sta $212c
-            
-            lda #%00000010      ;subscreen layers
-            sta w_subscreenlayers
-            sta $212d
-        }
-        rep #$20
+        lda #!layer_blend_scene_pieces
+        sta w_layerblendmode
         
         lda #$01ff
         sta w_bg2yscroll
@@ -128,25 +110,8 @@ sceneinit: {
         ldx #!bg2tilemap            ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
-        sep #$20
-        {
-            lda #%00000010
-            sta w_colormathlogic
-            sta $2130
-            
-            lda #%00100011      ;color math layers
-            sta w_colormathlayers
-            sta $2131
-            
-            lda #%10000101      ;main screen layers
-            sta w_mainscreenlayers
-            sta $212c
-            
-            lda #%00000010      ;subscreen layers
-            sta w_subscreenlayers
-            sta $212d
-        }
-        rep #$20
+        lda #!layer_blend_scene_agony
+        sta w_layerblendmode
         
         lda #$01ff
         sta w_bg2yscroll

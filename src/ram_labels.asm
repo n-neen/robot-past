@@ -100,6 +100,8 @@ w: {
         ..command           : skip 2
     }
     
+    .layerblendmode         : skip 2
+    
     .player: {
         print "player start ", pc
         ..x                     : skip 2

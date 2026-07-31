@@ -121,6 +121,17 @@
 
 !hdma_params_default        = $ffff
 
+;================================ layer blending
+
+!layer_blend_default        = $0000
+!layer_blend_weird          = $0001
+!layer_blend_titlescreen    = $0002
+!layer_blend_intro          = $0003
+!layer_blend_gameover       = $0004
+!layer_blend_scene_pieces   = $0005     ;scene specific mode, has "scene" in name
+!layer_blend_scene_agony    = $0006     ;scene specific mode, has "scene" in name
+
+
 ;================================ object
 
 !obj_count      =   $001f

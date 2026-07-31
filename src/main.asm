@@ -13,14 +13,16 @@ main: {
     plb
     
     lda w_glow_enable
-    beq +
+    beq .noglow
     jsl glow_top
-    +
+    .noglow:
     
     lda w_hdma_enable
-    beq +
+    beq .nohdma
     jsl hdma_top
-    +
+    .nohdma:
+    
+    jsr layerblending
     
     lda w_programstate
     asl
@@ -51,6 +53,166 @@ main: {
             handleoptionsmenu           ;12     ;not really written yet
     }
 }
+
+
+;===========================================================================================
+;=============================== LAYER BLENDING HANDLER ====================================
+;===========================================================================================
+
+layerblending: {
+    lda w_layerblendmode
+    asl
+    tax
+    
+    sep #$20
+    jsr (layerblending_list,x)
+    rep #$20
+    
+    rts
+    
+    .list: {
+        dw  .default,           ;0
+            .weird,             ;1
+            .titlescreen,       ;2
+            .intro,             ;3
+            .gameover,          ;4
+            .scene_pieces,      ;5
+            .scene_agony        ;6
+    }
+    
+    .scene_agony: {
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%00100011      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%10000101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000010      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .scene_pieces: {
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10100011      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00000101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000010      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .gameover: {
+        ;lda.b #!bg1tileshifted|(!spritegfxshifted<<4)     ;sprites and bg2 use same graphics here
+        ;sta $210b
+        
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10000011      ;color math layers: 1, 2; subtractive mode
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00010001      ;main screen layers: 1
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers: nothing
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .default: {
+        ;default screen configuration, used in main gameplay
+        
+        lda #%00000000
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10100001      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00010101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .weird: {
+        ;
+        rts
+    }
+    
+    .intro: {
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%00000000      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00000101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .titlescreen: {
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10000110      ;color math layers: 1, 2, 3; additive mode
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00010101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000010      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+}
+
+
+
 
 ;===========================================================================================
 ;============================ STATE 9:    S E T U P T I T L E ==============================
@@ -229,27 +391,8 @@ setuptitle: {
     lda #$0070
     sta w_bg2yscroll
     
-    sep #$20
-    {
-        lda #%00000010
-        sta w_colormathlogic
-        sta $2130
-        
-        lda #%10000110      ;color math layers: 1, 2, 3; additive mode
-        sta w_colormathlayers
-        sta $2131
-        
-        lda #%00010101      ;main screen layers
-        sta w_mainscreenlayers
-        sta $212c
-        
-        lda #%00000010      ;subscreen layers
-        sta w_subscreenlayers
-        sta $212d
-        
-        
-    }
-    rep #$20
+    lda #!layer_blend_titlescreen
+    sta w_layerblendmode
     
     lda.l s_roomptr         ;if saveram room ptr = 0, write default starting room
     bne +
@@ -629,26 +772,8 @@ setupintro: {
     jsr disablenmi
     jsr screenoff
     
-    sep #$20
-    {
-        lda #%00000010
-        sta w_colormathlogic
-        sta $2130
-        
-        lda #%00000000      ;color math layers
-        sta w_colormathlayers
-        sta $2131
-        
-        lda #%00000101      ;main screen layers
-        sta w_mainscreenlayers
-        sta $212c
-        
-        lda #%00000000      ;subscreen layers
-        sta w_subscreenlayers
-        sta $212d
-        
-    }
-    rep #$20
+    lda #!layer_blend_intro
+    sta w_layerblendmode
     
     ;load graphics, palette, tilemap
     
@@ -885,26 +1010,8 @@ loadgame: {
     
     jsl hud_draw
     
-    sep #$20
-    {   ;default screen configuration. could write something to do this at some point
-        lda #%00000000
-        sta w_colormathlogic
-        sta $2130
-        
-        lda #%10100001      ;color math layers
-        sta w_colormathlayers
-        sta $2131
-        
-        lda #%00010101      ;main screen layers
-        sta w_mainscreenlayers
-        sta $212c
-        
-        lda #%00000000      ;subscreen layers
-        sta w_subscreenlayers
-        sta $212d
-        
-    }
-    rep #$20
+    lda #!layer_blend_default
+    sta w_layerblendmode
     
     ;jsl load_bg2test
     
@@ -1079,31 +1186,11 @@ setupgameoverscreen: {
     jsl oam_cleanhibytebuffer
     jsl oam_constructhibuffer
     
-    sep #$20
-    {
-        ;lda.b #!bg1tileshifted|(!spritegfxshifted<<4)     ;sprites and bg2 use same graphics here
-        ;sta $210b
-        
-        lda #%00000010
-        sta w_colormathlogic
-        sta $2130
-        
-        lda #%10000011      ;color math layers: 1, 2; subtractive mode
-        sta w_colormathlayers
-        sta $2131
-        
-        lda #%00010001      ;main screen layers: 1
-        sta w_mainscreenlayers
-        sta $212c
-        
-        lda #%00000000      ;subscreen layers: nothing
-        sta w_subscreenlayers
-        sta $212d
-    }
-    rep #$20
-    
     phk
     plb
+    
+    lda #!layer_blend_gameover
+    sta w_layerblendmode
     
     stz w_menu_state
     jsl gameover_drawcursor_long
@@ -1190,17 +1277,7 @@ fadeout: {
     
     -
     
-    {   ;hopefully this isn't a bad idea
-        lda w_hdma_enable
-        beq +
-        jsl hdma_top
-        +
-        
-        lda w_glow_enable
-        beq +
-        jsl glow_top
-        +
-    }
+    jsr handlevfxduringfade
     
     jsr waitfornmi
     
@@ -1229,17 +1306,7 @@ fadein: {
     
     -
     
-    {   ;hopefully thisn't a bad idea
-        lda w_hdma_enable
-        beq +
-        jsl hdma_top
-        +
-        
-        lda w_glow_enable
-        beq +
-        jsl glow_top
-        +
-    }
+    jsr handlevfxduringfade
     
     jsr waitfornmi
     
@@ -1261,6 +1328,23 @@ fadein: {
         jsr fadein
         rtl
     }
+}
+
+handlevfxduringfade: {
+    ;handle visual effects during fade in or out
+    lda w_hdma_enable
+    beq +
+    jsl hdma_top
+    +
+    
+    lda w_glow_enable
+    beq +
+    jsl glow_top
+    +
+    
+    jsr layerblending
+    
+    rts
 }
 
 checksram: {

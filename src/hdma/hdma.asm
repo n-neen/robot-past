@@ -248,6 +248,22 @@ hdma: {
         stz w_hdma_params,x
         stz w_hdma_bank,x
         
+        ;need to write 0 to related hdma registers to stop the channel from being active
+        ;should this be a separate routine or not?
+        
+        txa     ;hdma channel << 4
+        asl
+        asl
+        asl
+        asl
+        tax
+        
+        stz $4300,x
+        stz $4302,x
+        stz $4304,x
+        stz $4306,x
+        stz $4308,x
+        
         rts
     }
     
