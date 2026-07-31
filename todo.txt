@@ -1,3 +1,12 @@
+delete pillar_room from /data/inc/c2.asm
+to make space for bank $82 to become another code bank
+    gonna now be:
+    80: main, gampleay, player, interrupts, etc
+    81: fae
+    82: color cycling, hdma only (keep this way due to huge tables, lists space)
+
+
+
 objects to write:
     change scroll bounds when touched
         will probably need to add this to room data in ram

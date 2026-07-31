@@ -204,13 +204,38 @@ properties: {
 
 
 ;=================================== HDMA OBJECTS LISTS ====================================
+;not implemented yet
 
 hdmalist: {
-    .agony: {
-        ;todo
-        
+    .pieces: {                                      ;channel
+        dw hdma_sinewave_indirect, $1042            ;1
+        dw hdma_glitch_bands_indirect, $0f42        ;2
+        dw hdma_sinewave_indirect, $0e42            ;3
+        dw hdma_sinewave_indirect, $0d42            ;4
+        dw $ffff                                    ;end
         
         
     }
     
+    .agony: {
+        dw hdma_sinewave_indirect, $1042            ;1
+        dw $ffff
+    }
+    
+}
+
+
+;=================================== GLOW OBJECTS LISTS ====================================
+;not implemented yet
+
+glowlist: {
+    .pieces: {
+        dw glow_incrementing                        ;0
+        dw $ffff                                    ;end
+    }
+    
+    .agony: {
+        dw glow_agony                               ;0
+        dw $ffff                                    ;end
+    }
 }
