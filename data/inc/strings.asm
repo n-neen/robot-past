@@ -153,7 +153,31 @@ str: {
     }
     
     .agony: {
-        db "             test", !msg_end
+        db "                   test1", !msg_newline
+        db "                   test2", !msg_newline
+        db "                   test3", !msg_newline
+        db "                   test4", !msg_newline
+        db "                   test5", !msg_newline
+        db "                   test6", !msg_newline
+        db "                   test7", !msg_newline
+        db "                   test8", !msg_newline
+        db "                   test9", !msg_newline
+        db "                   test10", !msg_newline
+        db "this line is longertest11", !msg_newline
+        db "this line is longertest12", !msg_newline
+        db "this line is longertest13", !msg_newline
+        db "this line is longertest13", !msg_newline
+        db "this line is longertest13", !msg_newline
+        db "this line is longertest13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db "                   test13", !msg_newline
+        db !msg_end
     }
     
     .testtext: {

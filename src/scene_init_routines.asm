@@ -138,7 +138,7 @@ sceneinit: {
             sta w_colormathlayers
             sta $2131
             
-            lda #%00000111      ;main screen layers
+            lda #%10000101      ;main screen layers
             sta w_mainscreenlayers
             sta $212c
             
@@ -170,6 +170,9 @@ sceneinit: {
         
         lda #$0001
         sta w_hdma_enable
+        
+        ldy #glow_agony
+        jsl glow_spawn
             
         rts
 }

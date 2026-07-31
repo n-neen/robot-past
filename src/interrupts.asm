@@ -331,6 +331,7 @@ irq: {
 
 
 nmi: {
+    rep #$30
     phb
     pha
     phx

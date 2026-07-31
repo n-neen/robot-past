@@ -10,6 +10,13 @@ player->fae collisions are visually off because object center is used
 
 layer blending handler to call from main or top level states
 
+need some kind of system (like the above) to reduce the size and copypasteness of init routines:
+    add to scenedef:
+        layer blending (jump table index)
+        hdma object spawning (pointer to list of objects)
+        color cycling spawning (pointer to list of objects)
+        layer 2 backgrounds (pointer to tilemap)
+
 the collision system is in a dire state
     nothing works
     well, not true. tile lookup in collision map works

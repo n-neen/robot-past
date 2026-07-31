@@ -22,7 +22,7 @@ msg: {
         tax                     ;x = starting index in tilemap (line * 32)*2 again for tilemap (2 bytes per tile)
         ldy #$0000              ;y = starting index in source text
         
-        -
+        ..loop:
         lda [p_0],y
         and #$00ff
         beq ..done
@@ -30,7 +30,7 @@ msg: {
         cmp #$0020                      ;characters < $20 are control characters
         bpl ..notcontrol
         jsr msg_handlecontrolchars
-        bra +
+        bra ..control
         ..notcontrol:
         
         sec
@@ -52,8 +52,20 @@ msg: {
             
             lda w_msg_waitflag
             bne ..nowait
+            
+            lda w_hdma_enable
+            beq +
+            jsl hdma_top
+            +
+            
+            lda w_glow_enable
+            beq +
+            jsl glow_top
+            +
+            
             jsl waitfornmi_long
             ..nowait
+            
             
             ;jsl gameplay               ;could call gameplay here too
             
@@ -74,9 +86,9 @@ msg: {
         
         inx
         inx
-        +
+        ..control:
         iny     ;if it was a control character, inc source index but not destination index
-        bra -
+        bra ..loop
         
         
         ..done:

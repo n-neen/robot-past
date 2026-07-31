@@ -12,6 +12,16 @@ main: {
     phk
     plb
     
+    lda w_glow_enable
+    beq +
+    jsl glow_top
+    +
+    
+    lda w_hdma_enable
+    beq +
+    jsl hdma_top
+    +
+    
     lda w_programstate
     asl
     tax
@@ -270,8 +280,8 @@ setuptitle: {
 ;===========================================================================================
 
 handletitlescreen: {
-    jsl glow_top
-    jsl hdma_top
+    ;jsl glow_top       ;happens in main now
+    ;jsl hdma_top
     
     jsl title_main
     
@@ -339,7 +349,7 @@ setupoptionsmenu: {
 
 
 handleoptionsmenu: {
-    jsl glow_top
+    ;jsl glow_top
     
     jsl title_optionsmenu
     
@@ -515,6 +525,9 @@ loadnongameplayscene: {
     
     jsl glow_clearall
     
+    ;lda #$0001
+    ;sta w_msg_waitflag
+    
     ;db = program bank from above
     lda w_scene_init
     beq +
@@ -546,9 +559,6 @@ nongameplayhandler: {
     ldy w_scene_strline
     jsl msg_display
     +
-    
-    jsl hdma_top
-    jsl glow_top
     
     ;lda w_scene_scrolltextptr
     ;beq +
