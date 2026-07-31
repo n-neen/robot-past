@@ -1,4 +1,4 @@
-game engine has some progress:
+game engine features:
 
 gameplay rooms, text dialog scenes
 player character, without offscreen handling
@@ -9,6 +9,11 @@ projectiles, without offscreen handling
 hud
 color cycling
 hdma
+title screen, game over screen
+saves room on death and can resume there
+
+
+be sure to check out the visual effects test areas in ice cave 2
 
 
 
