@@ -1,9 +1,3 @@
-delete pillar_room from /data/inc/c2.asm
-to make space for bank $82 to become another code bank
-    gonna now be:
-    80: main, gampleay, player, interrupts, etc
-    81: fae
-    82: color cycling, hdma only (keep this way due to huge tables, lists space?)
 
 
 
@@ -17,14 +11,17 @@ player->fae collisions are visually off because object center is used
     probably draw off by player_xsize/2 and player_ysize/2?
     same for all fae spritemaps
 
-layer blending handler to call from main or top level states
+BUG
+    color cycling runs at half speed during scrolling text
+    lag?
+    no it was deliberateky slowed down by waiting for nmi again
 
 need some kind of system (like the above) to reduce the size and copypasteness of init routines:
     add to scenedef:
-        layer blending (jump table index)
-        hdma object spawning (pointer to list of objects)
-        color cycling spawning (pointer to list of objects)
-        layer 2 backgrounds (pointer to tilemap)
+        layer blending (jump table index) DONE
+        hdma object spawning (pointer to list of objects) DOEN
+        color cycling spawning (pointer to list of objects) DONE
+        layer 2 backgrounds (pointer to tilemap) TODO
 
 the collision system is in a dire state
     nothing works
@@ -65,9 +62,6 @@ irq should be disabled anywhere where cpu multiply is used
 RLE compression for tilemaps
     wrote decompression first. need to write python for compression
     
-hdma handler
-    hdma object system with preinstrucions, etc
-    half written, kinda works. indirect doesn't work
 
 
 
@@ -76,7 +70,19 @@ hdma handler
 
 
 ====================================== SOLVED PROBLEMS ==================================
+delete pillar_room from /data/inc/c2.asm
+to make space for bank $82 to become another code bank
+    gonna now be:
+    80: main, gampleay, player, interrupts, etc
+    81: fae
+    82: color cycling, hdma only (keep this way due to huge tables, lists space?)
 
+
+
+hdma handler
+    hdma object system with preinstrucions, etc
+
+layer blending handler to call from main or top level states
 
 color cycling system
     color cycling objects

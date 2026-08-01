@@ -27,7 +27,7 @@ bg2test: {
     .map:   incbin "./data/map/bg2.map"
 }
 
-pieces2: {
+pieces: {
     .pal:   incbin "./data/pal/pieces2.pal"
     .gfx:   incbin "./data/gfx/pieces2.gfx"
     .map:   incbin "./data/map/pieces2.map"

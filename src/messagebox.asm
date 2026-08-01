@@ -225,9 +225,12 @@ msg: {
             ;thankfully it doesn't end up mattering
     
     
+    
+    
     .scroll: {
-        ..main: {
+    
 ;============================== SCROLL_MAIN ================================================
+        ..main: {
             
             phk
             plb
@@ -255,8 +258,9 @@ msg: {
             rtl
         }
         
-        ..advance: {
+        
 ;============================== SCROLL_ADVANCE =============================================
+        ..advance: {
             ;call is commented out, don't use this.
             
             ;subpixel implementation
@@ -367,8 +371,9 @@ msg: {
             rts
         }
         
-        ..handlenontextcommand: {
+        
 ;================================== HANDLENONTEXTCOMMAND ===================================
+        ..handlenontextcommand: {
             ;the scrolling text lists use one word for line counts to indicate the line
             ;to write text on. the $8000 bit is a flag to indicate that we need to run
             ;one of these functions instead. the bottom 15 bits are an index into this jump table
@@ -434,9 +439,8 @@ msg: {
         }
         
         
-        
-        ..writeline: {
 ;================================== SCROLL_WRITELINE =======================================
+        ..writeline: {
             ;w_bg3yscroll will be 1 less than having the $0008 bit
             ;x = index into w_msgbuffer
             ;y is free to use
@@ -551,8 +555,8 @@ msg: {
             rts
         }
         
-        ..seam: {
 ;================================== SCROLL_SEAM ============================================
+        ..seam: {
             ;this is the only call from scroll_main
             ;and we figure out here if we have bg3yscroll%8
             ;and if so, get the line's index into the $800 byte array at w_msgbuffer

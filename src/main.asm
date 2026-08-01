@@ -564,8 +564,22 @@ scenetransition: {
     lda $000b,x
     sta.l w_scene_tilemapsize
     
+    lda $000f,x
+    sta.l w_scene_hdmalistptr
+    
+    lda $0011,x
+    sta.l w_scene_glowlistptr
+    
+    lda $0013,x
+    sta.l w_scene_bgdataptr
+    
+    lda $0015,x
+    and #$00ff
+    sta.l w_scene_layerblend
+    
     lda $000d,x
-    sta.l w_scene_gameprops
+    sta.l w_scene_gameprops     ;keep this last regardless of what new things get added
+                                ;to scenedef. because this is a pointer to all folowing data
     
     tax     ;x = pointer to gameplay properties, if it's a gameplay room
             ;otherwise, it's a dialogue scene properties list
@@ -604,12 +618,6 @@ scenetransition: {
     lda $0010,x
     sta.l w_level_hudstring_ptr
     
-    lda $0012,x
-    sta.l w_scene_hdmalistptr
-    
-    lda $0014,x
-    sta.l w_scene_glowlistptr
-    
     plb
     rts
     
@@ -627,12 +635,6 @@ scenetransition: {
     
     lda $0007,x
     sta.l w_scene_scrolltextptr ;ptr to scroll commands in strings.asm
-    
-    lda $0009,x
-    sta.l w_scene_hdmalistptr
-    
-    lda $000b,x
-    sta.l w_scene_glowlistptr
     
     plb
     rts
@@ -676,20 +678,14 @@ loadnongameplayscene: {
     jsr layer3on
     jsr spritesoff
     
-    
     ;db = program bank from above
     lda w_scene_init
     beq +
     ldx #$0000
-    jsr (w_scene_init,x)      ;use rts from here to return to this routine's caller
+    jsr (w_scene_init,x)        ;use rts from here to return to this routine's caller
     +
     
-    jsl glow_clearall
-    jsl glow_spawnfromlist
-    
-    jsl hdma_clearall
-    jsl hdma_clearchannels
-    jsl hdma_spawnfromlist
+    jsr initspecialfx           ;glow, hdma, bg2
     
     lda #!state_nongamehandler
     sta w_programstate
@@ -763,12 +759,7 @@ loadintroscene: {
     
     jsl load_scene
     
-    jsl glow_clearall
-    jsl glow_spawnfromlist
-    
-    jsl hdma_clearall
-    jsl hdma_clearchannels
-    jsl hdma_spawnfromlist
+    jsr initspecialfx
     
     jsr layer3on
     
@@ -795,9 +786,6 @@ setupintro: {
     jsr waitfornmi
     jsr disablenmi
     jsr screenoff
-    
-    lda #!layer_blend_intro
-    sta w_layerblendmode
     
     ;load graphics, palette, tilemap
     
@@ -879,15 +867,6 @@ gameplayvector: {
 
 
 introhandler: {
-    ;lda w_scene_hdmaobj
-    ;beq +
-    ;lda #$0001
-    ;sta w_hdma_enable
-    ;bra ++
-    ;+
-    ;stz w_hdma_enable
-    ;++
-    
     sei
     
     lda w_scene_timer
@@ -968,29 +947,7 @@ loadgame: {
     jsl load_scene                  ;depends on a call to scenetransition having been done
     jsl load_bg3colortobuffer
     
-    ;clear all hdma related stuff:
-    ;object slots, registers, and channel enable bits
-    stz w_hdma_enable
-    jsl hdma_clearall
-    jsl hdma_clearchannels
-    
-    {   ;test harness for spawning an hdma object for gameplay
-        ;ldy #hdma_testobject_coldata
-        ;ldx #$0004
-        ;lda #!hdma_params_default
-        ;jsl hdma_spawn
-        
-        ;ldy #hdma_screensplit
-        ;ldx #$0002
-        ;lda #!hdma_params_default
-        ;jsl hdma_spawn
-        
-        ;lda #$0001
-        ;sta w_hdma_enable
-    }
-    
-    stz w_glow_enable
-    jsl glow_clearall
+    jsr initspecialfx               ;hdma, glows, bg2 tilemap
     
     stz w_hud_glow
     jsl hud_handleglow
@@ -1034,11 +991,6 @@ loadgame: {
     
     jsl hud_draw
     
-    lda #!layer_blend_default
-    sta w_layerblendmode
-    
-    ;jsl load_bg2test
-    
     lda w_level_camerastartx
     sta w_level_camerax
     sta w_bg1xscroll
@@ -1068,20 +1020,6 @@ loadgame: {
     jsl oam_constructhibuffer
     jsl oam_uploadbuffer
     
-    ;you could spawn color cycling objects here if you wanted
-    ;make sure to do it after objects and fae are spawned and run their init
-    ;because then you could have those spawn color cycling objects (glows)
-    {   ;test thing not real
-        ;ldy #glow_title
-        ;jsl glow_spawn
-        
-        ldy #glow_animationtest
-        jsl glow_spawn
-        
-        lda #$0001
-        sta w_glow_enable
-    }
-    
     ;set gameplay's irq command (for hud) and turn on irq
     lda.w #!irq_command_hud_start
     sta w_irq_command
@@ -1089,13 +1027,13 @@ loadgame: {
     jsr irq_enable
     cli
     
+    lda #!state_gameplay
+    sta w_programstate
+    
     jsr enablenmi
     jsr waitfornmi
     jsr fadein
     jsr screenon
-    
-    lda #!state_gameplay
-    sta w_programstate
     
     rts
 }
@@ -1287,6 +1225,31 @@ layer3off: {
         jsr layer3off
         rtl
     }
+}
+
+;===========================================================================================
+;              common calls for loading gameplay, nongameplay, and intro scenes
+;===========================================================================================
+
+initspecialfx: {
+    ;initialize special effects for new scene
+    
+    lda w_scene_layerblend
+    sta w_layerblendmode
+    
+    jsl glow_clearall
+    jsl glow_spawnfromlist
+    
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    jsl hdma_spawnfromlist
+    
+    lda w_scene_bgdataptr
+    beq +
+    jsl load_bg2fromscenedata
+    +
+    
+    rts
 }
 
 ;===========================================================================================

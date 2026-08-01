@@ -7,47 +7,27 @@ sceneinit: {
     ;runs with forced blank so can dma to vram
     
     .pieces: {
-        ;this should probably serve as decent prototyping for
-        ;systems to write. i imagine a lot of routines like this
-        ;should not be this massive
-        
-        ;load bg2 stuff
+        ;load cop\ies of bg1 tilemap to the right and down of the screen
         {
-            lda #pieces2_bg2
+            lda #pieces_map
             sta p_0
             
-            lda #bank(pieces2)
+            lda #bank(pieces_map)
             sta p_2
             
-            lda #datasize(pieces2_bg2)
+            lda #datasize(pieces_map)
             jsl load_romtobuffer
         }
         
-        lda #datasize(pieces2_bg2)  ;tilemap size
-        ldx #!bg2tilemap            ;destination in vram
-        jsl load_buffertovram       ;dma tilemap to vram
-        
-        ;load copy of bg1 tilemap to the right
-        {
-            lda #pieces2_map
-            sta p_0
-            
-            lda #bank(pieces2_map)
-            sta p_2
-            
-            lda #datasize(pieces2_map)
-            jsl load_romtobuffer
-        }
-        
-        lda #datasize(pieces2_map)  ;tilemap size
+        lda #datasize(pieces_map)   ;tilemap size
         ldx #!bg1tilemap+$400       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
-        lda #datasize(pieces2_map)  ;tilemap size
+        lda #datasize(pieces_map)   ;tilemap size
         ldx #!bg1tilemap+$800       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
-        lda #datasize(pieces2_map)  ;tilemap size
+        lda #datasize(pieces_map)   ;tilemap size
         ldx #!bg1tilemap+$c00       ;destination in vram
         jsl load_buffertovram       ;dma tilemap to vram
         
@@ -64,21 +44,6 @@ sceneinit: {
         ;==============================================================================
         
         .agony: {
-        ;load bg2 stuff
-        {
-            lda #agony_bg2map
-            sta p_0
-            
-            lda #bank(agony)
-            sta p_2
-            
-            lda #datasize(agony_bg2map)
-            jsl load_romtobuffer
-        }
-        
-        lda #datasize(agony_bg2map) ;tilemap size
-        ldx #!bg2tilemap            ;destination in vram
-        jsl load_buffertovram       ;dma tilemap to vram
         
         lda #!layer_blend_scene_agony
         sta w_layerblendmode
@@ -87,6 +52,6 @@ sceneinit: {
         sta w_bg2yscroll
         
         stz w_bg2xscroll
-            
+        
         rts
 }

@@ -56,6 +56,10 @@ org $818000
         incsrc "./src/fae/explosion.asm"
         incsrc "./src/fae/door.asm"
         
+    print "81 end: ", pc, " fae code, spritemaps"
+    
+    
+org $828000
     incsrc "./src/color_cycling/color_cycling.asm"
         incsrc "./src/color_cycling/title.asm"
         incsrc "./src/color_cycling/animationtest.asm"
@@ -71,7 +75,7 @@ org $818000
         incsrc "./src/hdma/testobject_coldata.asm"
         incsrc "./src/hdma/screensplit.asm"
         
-    print "81 end: ", pc, " fae code, spritemaps; color cycling; hdma"
+print "82 end: ", pc, " color cycling, hdma"
     
 ;================================= data banks =======================================
     

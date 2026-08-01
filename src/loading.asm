@@ -53,19 +53,44 @@ load: {
         ldx w_scene_palptr
         jsl load_romtocolorbuffer
         
-        ;lda w_scene_hdmaobj
-        ;beq +
-        ;{
-        ;    tay
-        ;    ldx #$0002
-        ;    jsl hdma_spawn
-        ;}
-        ;+
-        
         jsr enablenmi
         jsr waitfornmi
         
         plx
+        plb
+        rtl
+    }
+    
+    .bg2fromscenedata: {
+        phb
+        phx
+        phy
+        
+        pea.w bank(scenedef)<<8
+        plb
+        plb
+        
+        lda.l w_scene_bgdataptr
+        tax
+        
+        lda $0000,x         ;ptr to background tilemap
+        sta p_0
+        
+        lda $0002,x         ;bank for same
+        and #$00ff
+        sta p_2
+        
+        lda $0003,x         ;size
+        pha
+        jsl load_romtobuffer
+        pla
+        
+        ;A = tilemap size from stack, above
+        ldx #!bg2tilemap            ;destination in vram
+        jsl load_buffertovram       ;dma tilemap to vram
+        
+        plx
+        ply
         plb
         rtl
     }

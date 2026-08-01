@@ -4,25 +4,11 @@
 ;===========================================================================================
 
 
-pillar_room: {
-    .pal:   incbin "./data/pal/pillar_room.pal"
-    .gfx:   incbin "./data/gfx/pillar_room.gfx"
-    .map:   incbin "./data/map/pillar_room.map"
-    
-    .props:
-        dw $ffff
-}
-
-
 meetsisters: {
     .pal:   incbin "./data/pal/meetsisters.pal"
     .gfx:   incbin "./data/gfx/meetsisters.gfx"
     .map:   incbin "./data/map/meetsisters.map"
     
-    
-    .props:
-        ;gameplay aspects of this scene
-        dw $ffff
 }
 
 
@@ -30,9 +16,5 @@ town: {
     .pal:   incbin "./data/pal/town.pal"
     .gfx:   incbin "./data/gfx/town.gfx"
     .map:   incbin "./data/map/town.map"
-    
-    
-    .props:
-        ;gameplay aspects of this scene
-        dw $ffff
+    .dummylabel
 }

@@ -123,7 +123,7 @@
 
 ;================================ layer blending
 
-!layer_blend_default        = $0000
+!layer_blend_default        = $0000     ;for gameplay
 !layer_blend_weird          = $0001
 !layer_blend_titlescreen    = $0002
 !layer_blend_intro          = $0003

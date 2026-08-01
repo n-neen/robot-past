@@ -14,7 +14,6 @@
     }
     
     ..list: {
-        print hex(w_glow_timer)
         dw $0006    ;number of frames (timer nominal value)
         dw $0020    ;starting index from start of cg ram buffer
         
