@@ -185,7 +185,7 @@ hdma: {
             
             lda $0000,x
             cmp #$ffff
-            beq ..return
+            beq ..returnandenable
             
             tay                             ;y = object id
             
@@ -206,6 +206,7 @@ hdma: {
             bne ..loop
         }
         
+        ..returnandenable
         lda #$0001
         sta w_hdma_enable
         
