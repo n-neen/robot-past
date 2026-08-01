@@ -209,6 +209,8 @@ w: {
         ..timer         : skip 2
         ..init          : skip 2
         ..scrolltextptr : skip 2        ;base pointer, use w_msg_scrollptr for base ptr+index=current ptr
+        ..hdmalistptr   : skip 2
+        ..glowlistptr   : skip 2
     }
     
     .msg: {
@@ -371,6 +373,7 @@ w: {
         ..init              : skip 2*!glow_objects_count+2
         ..routine           : skip 2*!glow_objects_count+2
         ..timer             : skip 2*!glow_objects_count+2
+        ..timerstart        : skip 2*!glow_objects_count+2
         ..colorindex        : skip 2*!glow_objects_count+2
         ..list              : skip 2*!glow_objects_count+2
         ..liststart         : skip 2*!glow_objects_count+2

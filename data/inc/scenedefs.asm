@@ -8,9 +8,6 @@ scenedef: {
         dw datasize(<label>_gfx)    ;graphics size                  ;$9
         dw datasize(<label>_map)    ;tilemap size                   ;$b
         dw properties_<label>       ;gameplay properties            ;$d; in scenedef
-        ;unimplemented
-        ;dw hdmalist_<label>         ;list of hdma objects to spawn  ;$f; in scenedef
-        ;dw glowlist_<label>         ;list of glow objects to spawn  ;$11
     endmacro
     
     ;run superfamiconv to output every scene using at most the bottom 7 palettes
@@ -80,6 +77,9 @@ properties: {
         db $08                      ;starting line for text
         dw $0000                    ;init routine
         dw str_credits              ;scrolling text commands (ptr to strings.asm)
+        dw $0000                    ;list of hdma objects to spawn
+        dw $0000                    ;list of glow objects to spawn
+
     }
     
     .bloodlotus: {                  ;intro 2
@@ -88,6 +88,8 @@ properties: {
         db $16
         dw $0000                    ;init routine
         dw str_scrollingintro       ;scrolling text commands
+        dw $0000                    ;list of hdma objects to spawn
+        dw $0000                    ;list of glow objects to spawn
     }
     
     .flamecircle: {                 ;intro 3
@@ -96,6 +98,8 @@ properties: {
         db $18
         dw $0000                    ;init routine
         dw $0000                    ;scrolling text commands
+        dw $0000                    ;list of hdma objects to spawn
+        dw $0000                    ;list of glow objects to spawn
     }
     
     .city: {                        ;intro 4
@@ -104,6 +108,8 @@ properties: {
         db $04                      ;starting line for text
         dw $0000                    ;init routine
         dw $0000                    ;scrolling text commands
+        dw $0000                    ;list of hdma objects to spawn
+        dw $0000                    ;list of glow objects to spawn
     }
     
     .entrance: {
@@ -112,6 +118,8 @@ properties: {
         db $0a                      ;starting line
         dw $0000                    ;init routine
         dw str_scrolltest           ;scrolling text commands
+        dw $0000                    ;list of hdma objects to spawn
+        dw $0000                    ;list of glow objects to spawn
     }
     
     .pieces2: {
@@ -120,6 +128,8 @@ properties: {
         db $0a                      ;starting line
         dw sceneinit_pieces         ;init routine
         dw $0000                    ;scrolling text commands
+        dw hdmalist_pieces          ;list of hdma objects to spawn
+        dw glowlist_pieces          ;list of glow objects to spawn
     }
     
     .agony: {
@@ -128,6 +138,8 @@ properties: {
         db $02                      ;starting line
         dw sceneinit_agony          ;init routine
         dw $0000                    ;scrolling text commands
+        dw hdmalist_agony           ;list of hdma objects to spawn
+        dw glowlist_agony           ;list of glow objects to spawn
     }
 
 
@@ -142,6 +154,8 @@ properties: {
         dw collisionmap_room1           ;                           ;c
         dw faelist_room1                ;list of fae for the room   ;e
         dw str_hudstring_room1          ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     .room2: {
@@ -152,6 +166,8 @@ properties: {
         dw collisionmap_room2           ;
         dw faelist_room2                ;
         dw str_hudstring_room2          ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     .town: {
@@ -162,6 +178,8 @@ properties: {
         dw collisionmap_town            ;
         dw faelist_town                 ;
         dw str_hudstring_town           ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     .icecave1: {
@@ -172,6 +190,8 @@ properties: {
         dw collisionmap_icecave1        ;
         dw faelist_icecave1             ;
         dw str_hudstring_icecave1       ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     .icecave2: {
@@ -182,6 +202,8 @@ properties: {
         dw collisionmap_icecave2        ;
         dw faelist_icecave2             ;
         dw str_hudstring_icecave2       ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     .moonroom: {                        ;description                ;number of bytes in
@@ -192,6 +214,8 @@ properties: {
         dw collisionmap_moonroom        ;                           ;c
         dw faelist_moonroom             ;list of fae for the room   ;e
         dw str_hudstring_moonroom       ;string to print on hud     ;$10
+        dw $0000                        ;list of hdma objects to spawn
+        dw $0000                        ;list of glow objects to spawn
     }
     
     
@@ -213,8 +237,6 @@ hdmalist: {
         dw hdma_sinewave_indirect, $0e42            ;3
         dw hdma_sinewave_indirect, $0d42            ;4
         dw $ffff                                    ;end
-        
-        
     }
     
     .agony: {

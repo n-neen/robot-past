@@ -11,8 +11,8 @@ sceneinit: {
         ;systems to write. i imagine a lot of routines like this
         ;should not be this massive
         
-        ldy #glow_incrementing
-        jsl glow_spawn
+        ;ldy #glow_incrementing
+        ;jsl glow_spawn
         
         ;load bg2 stuff
         {
@@ -62,25 +62,25 @@ sceneinit: {
         
         stz w_bg2xscroll
         
-        ldy #hdma_sinewave_indirect
-        ldx #$0002
-        lda #$1042              ;bg2 y
-        jsl hdma_spawn
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0002
+        ;lda #$1042              ;bg2 y
+        ;jsl hdma_spawn
         
-        ldy #hdma_glitch_bands_indirect
-        ldx #$0004
-        lda #$0f42              ;bg2 x
-        jsl hdma_spawn
+        ;ldy #hdma_glitch_bands_indirect
+        ;ldx #$0004
+        ;lda #$0f42              ;bg2 x
+        ;jsl hdma_spawn
         
-        ldy #hdma_sinewave_indirect
-        ldx #$0006
-        lda #$0e42              ;bg1 y
-        jsl hdma_spawn
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0006
+        ;lda #$0e42              ;bg1 y
+        ;jsl hdma_spawn
         
-        ldy #hdma_sinewave_indirect
-        ldx #$0008
-        lda #$0d42              ;bg1 x
-        jsl hdma_spawn
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0008
+        ;lda #$0d42              ;bg1 x
+        ;jsl hdma_spawn
         
         ;ldy #hdma_glitch_bands_indirect
         ;ldx #$000a
@@ -119,10 +119,10 @@ sceneinit: {
         
         stz w_bg2xscroll
         
-        ldy #hdma_sinewave_indirect
-        ldx #$0002
-        lda #$1042              ;bg2 y
-        jsl hdma_spawn
+        ;ldy #hdma_sinewave_indirect
+        ;ldx #$0002
+        ;lda #$1042              ;bg2 y
+        ;jsl hdma_spawn
         
         ;ldy #hdma_sinewave_indirect
         ;ldx #$0008
@@ -137,8 +137,8 @@ sceneinit: {
         lda #$0001
         sta w_hdma_enable
         
-        ldy #glow_agony
-        jsl glow_spawn
+        ;ldy #glow_agony
+        ;jsl glow_spawn
             
         rts
 }

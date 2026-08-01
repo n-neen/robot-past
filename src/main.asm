@@ -604,6 +604,12 @@ scenetransition: {
     lda $0010,x
     sta.l w_level_hudstring_ptr
     
+    lda $0012,x
+    sta.l w_scene_hdmalistptr
+    
+    lda $0014,x
+    sta.l w_scene_glowlistptr
+    
     plb
     rts
     
@@ -621,6 +627,12 @@ scenetransition: {
     
     lda $0007,x
     sta.l w_scene_scrolltextptr ;ptr to scroll commands in strings.asm
+    
+    lda $0009,x
+    sta.l w_scene_hdmalistptr
+    
+    lda $000b,x
+    sta.l w_scene_glowlistptr
     
     plb
     rts
@@ -646,8 +658,9 @@ loadnongameplayscene: {
     jsr screenoff
     jsr disablenmi
     
-    ;stz w_hdma_enable
-    ;stz w_glow_enable
+    stz w_hdma_enable       ;both of these get set to true in hdma/glow_spawnfromlist
+    stz w_glow_enable       ;calls later. if no objects get spawned (due to null ptr)
+                            ;then it stays disabled from these here
     stz w_scene_timer
     
     stz w_bg1xscroll
@@ -660,16 +673,9 @@ loadnongameplayscene: {
     stz w_msg_scrollindex
     stz w_msg_scrollpixels
     
-    lda #!state_nongamehandler
-    sta w_programstate
-    
     jsr layer3on
     jsr spritesoff
     
-    jsl glow_clearall
-    
-    ;lda #$0001
-    ;sta w_msg_waitflag
     
     ;db = program bank from above
     lda w_scene_init
@@ -677,6 +683,16 @@ loadnongameplayscene: {
     ldx #$0000
     jsr (w_scene_init,x)      ;use rts from here to return to this routine's caller
     +
+    
+    jsl glow_clearall
+    jsl glow_spawnfromlist
+    
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    jsl hdma_spawnfromlist
+    
+    lda #!state_nongamehandler
+    sta w_programstate
     
     jsr enablenmi
     jsr waitfornmi

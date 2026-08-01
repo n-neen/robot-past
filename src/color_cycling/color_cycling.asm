@@ -4,8 +4,20 @@
 ;===========================================================================================
 ;===========================================================================================
 
-;finally works
+;spawning an object:
+    ;ldy #glow_incrementing
+    ;jsl glow_spawn
+    
+    ;or
+    
+    ;ldy #glow_incrementing
+    ;ldx #$0004
+    ;jsl glow_spawn_knownslot
 
+    ;or
+    
+    ;add an entry to a scene's glowlist and it will be spawned during scene loading
+    ;currently only implemented for nongameplay/intro scenes
 
 glow: {
     .top: {
@@ -84,17 +96,8 @@ glow: {
             ;x = glow object index
             ;y = instruction list ptr
             
-            ;print pc
-            
-            phy
-            
-            ldy w_glow_id,x
-            lda $0004,y
-            tay
-            lda $0000,y
+            lda w_glow_timerstart,x
             sta w_glow_timer,x
-            
-            ply
             
             lda w_glow_list,x
             inc
@@ -116,9 +119,28 @@ glow: {
             lda w_glow_colorindexstart,x
             sta w_glow_colorindex,x
             
+            lda w_glow_timerstart,x
+            sta w_glow_timer,x
+            
             rts
         }
         
+        
+        ..settimer: {
+            ;x = glow object index
+            ;y = instruction list ptr
+            
+            lda $0002,y
+            sta w_glow_timer,x
+            sta w_glow_timerstart,x
+            
+            lda w_glow_list,x
+            clc
+            adc #$0004
+            sta w_glow_list,x
+            
+            rts
+        }
     }
     
     
@@ -148,6 +170,49 @@ glow: {
         
         ply
         rts
+    }
+    
+    
+    .spawnfromlist: {
+        phb
+        
+        phk
+        plb
+        
+        ldx w_scene_glowlistptr
+        beq ..return
+        
+        lda #!glow_objects_count*2
+        sta p_8
+        {
+            ..loop:
+            
+            lda.l (bank(scenedef)<<16)+0,x
+            cmp #$ffff
+            beq ..returnandenable
+            
+            tay                     ;y = glow object id
+            
+            phx
+            ldx p_8                 ;x = glow object index
+            jsl glow_spawn_knownslot
+            plx
+            
+            inx
+            inx
+            
+            dec p_8
+            dec p_8
+            bpl ..loop
+        }
+        
+        ..returnandenable:
+        lda #$0001
+        sta w_glow_enable
+        
+        ..return
+        plb
+        rtl
     }
     
     
@@ -193,6 +258,7 @@ glow: {
         
         lda $0000,y                 ;timer
         sta w_glow_timer,x
+        sta w_glow_timerstart,x
         
         lda $0002,y                 ;starting color index
         sta w_glow_colorindex,x
@@ -211,6 +277,18 @@ glow: {
         
         plb
         rtl
+        
+        ..knownslot: {
+            ;x is a known value from glow_spawnfromlist
+            ;and so exludes the for loop in glow_spawn
+            
+            phb
+            
+            phk
+            plb
+            
+            bra glow_spawn_foundslot
+        }
     }
     
     

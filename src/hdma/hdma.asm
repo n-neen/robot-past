@@ -33,13 +33,15 @@
     
         ;stz w_hdma_enable
         ;jsl hdma_clearall
-        ;jsl hdma_clearchannels     ;needs blanking, writes to $43xx
+        ;jsl hdma_clearchannels     ;needs blanking?, writes to $43xx
 
 ;because the [hdma object slot]/2 = hdma channel, and we're not using channel 0 (reserved for regular dma),
 ;the end of the arrays are never going to be used by an object
 ;so, w_hdma_timer could be considered a global timer that all objects can increase and reference
 ;this would ease some of the logical problem of having two instances of the same object do the exact same thing
 
+
+;scenedef has lists of hdma objects to spawn for scenes (currently only implemented in nongameplay/intro scenes
 
 
 ;todo: move this somehwere sane
@@ -164,6 +166,53 @@ hdma: {
         rtl
     }
     
+    .spawnfromlist: {
+        phb
+        
+        lda w_scene_hdmalistptr
+        beq ..return
+        
+        tax                                 ;x = ptr to list in scenedef
+        
+        pea.w bank(scenedef)<<8
+        plb
+        plb
+        
+        lda #!k_hdma_objects_count*2        ;not enough registers :D
+        sta p_8
+        {
+            ..loop
+            
+            lda $0000,x
+            cmp #$ffff
+            beq ..return
+            
+            tay                             ;y = object id
+            
+            lda $0002,x                     ;A = hdma properties
+            
+            phx
+            ldx p_8                         ;x = object index
+            jsl hdma_spawn
+            plx
+            
+            inx
+            inx
+            inx
+            inx
+            
+            dec p_8
+            dec p_8
+            bne ..loop
+        }
+        
+        lda #$0001
+        sta w_hdma_enable
+        
+        ..return:
+        plb
+        rtl
+    }
     
     .spawn: {
         ;y = pointer to object header
@@ -248,8 +297,16 @@ hdma: {
         stz w_hdma_params,x
         stz w_hdma_bank,x
         
-        ;need to write 0 to related hdma registers to stop the channel from being active
-        ;should this be a separate routine or not?
+        rts
+    }
+    
+    .clearchannel: {
+        ;x = hdma object index
+        
+        ;wait... this probably isn't lining up with register addresses
+        ;because obj index is *2 of hdma channel
+        ;oops
+        ;fix that before using this
         
         txa     ;hdma channel << 4
         asl
