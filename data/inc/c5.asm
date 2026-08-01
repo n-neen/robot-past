@@ -23,9 +23,8 @@ city: {
         dw $ffff
 }
 
-bg2test: {
-    .map:   incbin "./data/map/bg2.map"
-}
+bg2test:
+room1bg2map:    incbin "./data/map/room1_bg2.map"
 
 pieces: {
     .pal:   incbin "./data/pal/pieces2.pal"

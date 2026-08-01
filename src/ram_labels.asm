@@ -211,7 +211,7 @@ w: {
         ..scrolltextptr : skip 2        ;base pointer, use w_msg_scrollptr for base ptr+index=current ptr
         ..hdmalistptr   : skip 2
         ..glowlistptr   : skip 2
-        ..bgdataptr     : skip 2
+        ..bg2dataptr    : skip 2
         ..layerblend    : skip 2
     }
     

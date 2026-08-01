@@ -123,13 +123,15 @@
 
 ;================================ layer blending
 
-!layer_blend_default        = $0000     ;for gameplay
-!layer_blend_weird          = $0001
-!layer_blend_titlescreen    = $0002
-!layer_blend_intro          = $0003
-!layer_blend_gameover       = $0004
-!layer_blend_scene_pieces   = $0005     ;scene specific mode, has "scene" in name
-!layer_blend_scene_agony    = $0006     ;scene specific mode, has "scene" in name
+!layer_blend_default            = $0000     ;for gameplay
+!layer_blend_weird              = $0001
+!layer_blend_titlescreen        = $0002
+!layer_blend_intro              = $0003
+!layer_blend_gameover           = $0004
+!layer_blend_scene_pieces       = $0005     ;scene specific mode, has "scene" in name
+!layer_blend_scene_agony        = $0006     ;scene specific mode, has "scene" in name
+!layer_blend_default_withbg2m   = $0007     ;for gameplay with bg2 in main screen
+!layer_blend_default_nosprites  = $0008     ;for nongameplay scenes without sprites
 
 
 ;================================ object

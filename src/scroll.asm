@@ -419,9 +419,11 @@ scroll: {
         
         lda w_bg1xscroll
         lsr
+        lsr
         sta w_bg2xscroll
         
         lda w_bg1yscroll
+        lsr
         lsr
         sta w_bg2yscroll
         

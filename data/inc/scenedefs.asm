@@ -27,200 +27,200 @@ scenedef: {
     
     ;unused
     .light:
-        dl light                        ;long pointer to the scene data ;$0
-        dw light_pal                    ;inbank pointer to palette,     ;$3
-        dw light_gfx                    ;graphics,                      ;$5
-        dw light_map                    ;tilemap                        ;$7
-        dw datasize(light_gfx)          ;graphics size                  ;$9
-        dw datasize(light_map)          ;tilemap size                   ;$b
-        dw properties_light             ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;f
-        dw $0000                        ;list of glow objects to spawn  ;11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_intro           ;one byte, index for main.asm   ;$15
+        dl light                            ;long pointer to the scene data ;$0
+        dw light_pal                        ;inbank pointer to palette,     ;$3
+        dw light_gfx                        ;graphics,                      ;$5
+        dw light_map                        ;tilemap                        ;$7
+        dw datasize(light_gfx)              ;graphics size                  ;$9
+        dw datasize(light_map)              ;tilemap size                   ;$b
+        dw properties_light                 ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;f
+        dw $0000                            ;list of glow objects to spawn  ;11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_intro               ;one byte, index for main.asm   ;$15
     
 ;====================================== intro scenes =======================================
     .meetsisters:       ;%scenedefentry(meetsisters)
-        dl meetsisters                  ;long pointer to the scene data ;$0
-        dw meetsisters_pal              ;inbank pointer to palette,     ;$3
-        dw meetsisters_gfx              ;graphics,                      ;$5
-        dw meetsisters_map              ;tilemap                        ;$7
-        dw datasize(meetsisters_gfx)    ;graphics size                  ;$9
-        dw datasize(meetsisters_map)    ;tilemap size                   ;$b
-        dw properties_meetsisters       ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_meetsisters         ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_intro           ;one byte, index for handler    ;$15
+        dl meetsisters                      ;long pointer to the scene data ;$0
+        dw meetsisters_pal                  ;inbank pointer to palette,     ;$3
+        dw meetsisters_gfx                  ;graphics,                      ;$5
+        dw meetsisters_map                  ;tilemap                        ;$7
+        dw datasize(meetsisters_gfx)        ;graphics size                  ;$9
+        dw datasize(meetsisters_map)        ;tilemap size                   ;$b
+        dw properties_meetsisters           ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_meetsisters             ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_intro               ;one byte, index for handler    ;$15
     
     
     .bloodlotus:        ;%scenedefentry(bloodlotus)
-        dl bloodlotus                   ;long pointer to the scene data ;$0
-        dw bloodlotus_pal               ;inbank pointer to palette,     ;$3
-        dw bloodlotus_gfx               ;graphics,                      ;$5
-        dw bloodlotus_map               ;tilemap                        ;$7
-        dw datasize(bloodlotus_gfx)     ;graphics size                  ;$9
-        dw datasize(bloodlotus_map)     ;tilemap size                   ;$b
-        dw properties_bloodlotus        ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw $0000                        ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_intro           ;one byte, index for handler    ;$15
+        dl bloodlotus                       ;long pointer to the scene data ;$0
+        dw bloodlotus_pal                   ;inbank pointer to palette,     ;$3
+        dw bloodlotus_gfx                   ;graphics,                      ;$5
+        dw bloodlotus_map                   ;tilemap                        ;$7
+        dw datasize(bloodlotus_gfx)         ;graphics size                  ;$9
+        dw datasize(bloodlotus_map)         ;tilemap size                   ;$b
+        dw properties_bloodlotus            ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw $0000                            ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_intro               ;one byte, index for handler    ;$15
     
     
     .flamecircle:       ;%scenedefentry(flamecircle)
-        dl flamecircle                  ;long pointer to the scene data ;$0
-        dw flamecircle_pal              ;inbank pointer to palette,     ;$3
-        dw flamecircle_gfx              ;graphics,                      ;$5
-        dw flamecircle_map              ;tilemap                        ;$7
-        dw datasize(flamecircle_gfx)    ;graphics size                  ;$9
-        dw datasize(flamecircle_map)    ;tilemap size                   ;$b
-        dw properties_flamecircle       ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw $0000                        ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_intro           ;one byte, index for handler    ;$15
+        dl flamecircle                      ;long pointer to the scene data ;$0
+        dw flamecircle_pal                  ;inbank pointer to palette,     ;$3
+        dw flamecircle_gfx                  ;graphics,                      ;$5
+        dw flamecircle_map                  ;tilemap                        ;$7
+        dw datasize(flamecircle_gfx)        ;graphics size                  ;$9
+        dw datasize(flamecircle_map)        ;tilemap size                   ;$b
+        dw properties_flamecircle           ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw $0000                            ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_intro               ;one byte, index for handler    ;$15
     
 
     .city:              ;%scenedefentry(city)
-        dl city                         ;long pointer to the scene data ;$0
-        dw city_pal                     ;inbank pointer to palette,     ;$3
-        dw city_gfx                     ;graphics,                      ;$5
-        dw city_map                     ;tilemap                        ;$7
-        dw datasize(city_gfx)           ;graphics size                  ;$9
-        dw datasize(city_map)           ;tilemap size                   ;$b
-        dw properties_city              ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw $0000                        ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_intro           ;one byte, index for handler    ;$15
-
+        dl city                             ;long pointer to the scene data ;$0
+        dw city_pal                         ;inbank pointer to palette,     ;$3
+        dw city_gfx                         ;graphics,                      ;$5
+        dw city_map                         ;tilemap                        ;$7
+        dw datasize(city_gfx)               ;graphics size                  ;$9
+        dw datasize(city_map)               ;tilemap size                   ;$b
+        dw properties_city                  ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw $0000                            ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_intro               ;one byte, index for handler    ;$15
+    
 ;================================  nongameplay scenes ======================================
     .entrance:          ;%scenedefentry(entrance)
-        dl entrance                    ;long pointer to the scene data ;$0
-        dw entrance_pal                ;inbank pointer to palette,     ;$3
-        dw entrance_gfx                ;graphics,                      ;$5
-        dw entrance_map                ;tilemap                        ;$7
-        dw datasize(entrance_gfx)      ;graphics size                  ;$9
-        dw datasize(entrance_map)      ;tilemap size                   ;$b
-        dw properties_entrance         ;gameplay properties            ;$d; in scenedef
-        dw $0000                       ;list of hdma objects to spawn  ;$f
-        dw $0000                       ;list of glow objects to spawn  ;$11
-        dw $0000                       ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl entrance                         ;long pointer to the scene data ;$0
+        dw entrance_pal                     ;inbank pointer to palette,     ;$3
+        dw entrance_gfx                     ;graphics,                      ;$5
+        dw entrance_map                     ;tilemap                        ;$7
+        dw datasize(entrance_gfx)           ;graphics size                  ;$9
+        dw datasize(entrance_map)           ;tilemap size                   ;$b
+        dw properties_entrance              ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw $0000                            ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default_nosprites   ;one byte, index for handler    ;$15
         
         
     .pieces:            ;%scenedefentry(pieces2)
-        dl pieces                     ;long pointer to the scene data ;$0
-        dw pieces_pal                 ;inbank pointer to palette,     ;$3
-        dw pieces_gfx                 ;graphics,                      ;$5
-        dw pieces_map                 ;tilemap                        ;$7
-        dw datasize(pieces_gfx)       ;graphics size                  ;$9
-        dw datasize(pieces_map)       ;tilemap size                   ;$b
-        dw properties_pieces          ;gameplay properties            ;$d; in scenedef
-        dw hdmalist_pieces            ;list of hdma objects to spawn  ;$f
-        dw glowlist_pieces            ;list of glow objects to spawn  ;$11
-        dw bgdata_pieces              ;background data list           ;$13
-        db !layer_blend_scene_pieces  ;one byte, index for handler    ;$15
+        dl pieces                           ;long pointer to the scene data ;$0
+        dw pieces_pal                       ;inbank pointer to palette,     ;$3
+        dw pieces_gfx                       ;graphics,                      ;$5
+        dw pieces_map                       ;tilemap                        ;$7
+        dw datasize(pieces_gfx)             ;graphics size                  ;$9
+        dw datasize(pieces_map)             ;tilemap size                   ;$b
+        dw properties_pieces                ;gameplay properties            ;$d; in scenedef
+        dw hdmalist_pieces                  ;list of hdma objects to spawn  ;$f
+        dw glowlist_pieces                  ;list of glow objects to spawn  ;$11
+        dw bgdata_pieces                    ;background data list           ;$13
+        db !layer_blend_scene_pieces        ;one byte, index for handler    ;$15
     
     
     .agony:             ;%scenedefentry(agony)
-        dl agony                      ;long pointer to the scene data ;$0
-        dw agony_pal                  ;inbank pointer to palette,     ;$3
-        dw agony_gfx                  ;graphics,                      ;$5
-        dw agony_map                  ;tilemap                        ;$7
-        dw datasize(agony_gfx)        ;graphics size                  ;$9
-        dw datasize(agony_map)        ;tilemap size                   ;$b
-        dw properties_agony           ;gameplay properties            ;$d; in scenedef
-        dw hdmalist_agony             ;list of hdma objects to spawn  ;$f
-        dw glowlist_agony             ;list of glow objects to spawn  ;$11
-        dw bgdata_agony               ;background data list           ;$13
-        db !layer_blend_scene_agony   ;one byte, index for handler    ;$15
+        dl agony                            ;long pointer to the scene data ;$0
+        dw agony_pal                        ;inbank pointer to palette,     ;$3
+        dw agony_gfx                        ;graphics,                      ;$5
+        dw agony_map                        ;tilemap                        ;$7
+        dw datasize(agony_gfx)              ;graphics size                  ;$9
+        dw datasize(agony_map)              ;tilemap size                   ;$b
+        dw properties_agony                 ;gameplay properties            ;$d; in scenedef
+        dw hdmalist_agony                   ;list of hdma objects to spawn  ;$f
+        dw glowlist_agony                   ;list of glow objects to spawn  ;$11
+        dw bgdata_agony                     ;background data list           ;$13
+        db !layer_blend_scene_agony         ;one byte, index for handler    ;$15
         
     
 ;=================================== gameplay rooms ========================================
     .room1:             ;%scenedefentry(room1)
-        dl room1                        ;long pointer to the scene data ;$0
-        dw room1_pal                    ;inbank pointer to palette,     ;$3
-        dw room1_gfx                    ;graphics,                      ;$5
-        dw room1_map                    ;tilemap                        ;$7
-        dw datasize(room1_gfx)          ;graphics size                  ;$9
-        dw datasize(room1_map)          ;tilemap size                   ;$b
-        dw properties_room1             ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_gameplaydefault     ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl room1                            ;long pointer to the scene data ;$0
+        dw room1_pal                        ;inbank pointer to palette,     ;$3
+        dw room1_gfx                        ;graphics,                      ;$5
+        dw room1_map                        ;tilemap                        ;$7
+        dw datasize(room1_gfx)              ;graphics size                  ;$9
+        dw datasize(room1_map)              ;tilemap size                   ;$b
+        dw properties_room1                 ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11
+        dw bgdata_room1                     ;background data list           ;$13
+        db !layer_blend_default_withbg2m    ;one byte, index for handler    ;$15
     
     
     .room2:             ;%scenedefentry(room2)
-        dl room2                        ;long pointer to the scene data ;$0
-        dw room2_pal                    ;inbank pointer to palette,     ;$3
-        dw room2_gfx                    ;graphics,                      ;$5
-        dw room2_map                    ;tilemap                        ;$7
-        dw datasize(room2_gfx)          ;graphics size                  ;$9
-        dw datasize(room2_map)          ;tilemap size                   ;$b
-        dw properties_room2             ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_gameplaydefault     ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl room2                            ;long pointer to the scene data ;$0
+        dw room2_pal                        ;inbank pointer to palette,     ;$3
+        dw room2_gfx                        ;graphics,                      ;$5
+        dw room2_map                        ;tilemap                        ;$7
+        dw datasize(room2_gfx)              ;graphics size                  ;$9
+        dw datasize(room2_map)              ;tilemap size                   ;$b
+        dw properties_room2                 ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default             ;one byte, index for handler    ;$15
     
     
     .town:              ;%scenedefentry(town)
-        dl town                         ;long pointer to the scene data ;$0
-        dw town_pal                     ;inbank pointer to palette,     ;$3
-        dw town_gfx                     ;graphics,                      ;$5
-        dw town_map                     ;tilemap                        ;$7
-        dw datasize(town_gfx)           ;graphics size                  ;$9
-        dw datasize(town_map)           ;tilemap size                   ;$b
-        dw properties_town              ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_gameplaydefault     ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl town                             ;long pointer to the scene data ;$0
+        dw town_pal                         ;inbank pointer to palette,     ;$3
+        dw town_gfx                         ;graphics,                      ;$5
+        dw town_map                         ;tilemap                        ;$7
+        dw datasize(town_gfx)               ;graphics size                  ;$9
+        dw datasize(town_map)               ;tilemap size                   ;$b
+        dw properties_town                  ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default             ;one byte, index for handler    ;$15
         
     
     .moonroom:          ;%scenedefentry(moonroom)
-        dl moonroom                     ;long pointer to the scene data ;$0
-        dw moonroom_pal                 ;inbank pointer to palette,     ;$3
-        dw moonroom_gfx                 ;graphics,                      ;$5
-        dw moonroom_map                 ;tilemap                        ;$7
-        dw datasize(moonroom_gfx)       ;graphics size                  ;$9
-        dw datasize(moonroom_map)       ;tilemap size                   ;$b
-        dw properties_moonroom          ;gameplay properties            ;$d; in scenedef
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_gameplaydefault     ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl moonroom                         ;long pointer to the scene data ;$0
+        dw moonroom_pal                     ;inbank pointer to palette,     ;$3
+        dw moonroom_gfx                     ;graphics,                      ;$5
+        dw moonroom_map                     ;tilemap                        ;$7
+        dw datasize(moonroom_gfx)           ;graphics size                  ;$9
+        dw datasize(moonroom_map)           ;tilemap size                   ;$b
+        dw properties_moonroom              ;gameplay properties            ;$d; in scenedef
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default             ;one byte, index for handler    ;$15
     
     
     .icecave1:
-        dl icecave1                     ;long pointer to the scene data ;$0
-        dw entrance_pal                 ;inbank pointer to palette,     ;$3
-        dw entrance_gfx                 ;graphics,                      ;$5
-        dw icecave1_map                 ;tilemap                        ;$7
-        dw datasize(entrance_gfx)       ;graphics size                  ;$9
-        dw datasize(icecave1_map)       ;tilemap size                   ;$b
-        dw properties_icecave1          ;gameplay properties            ;$d
-        dw $0000                        ;list of hdma objects to spawn  ;$f 
-        dw glowlist_gameplaydefault     ;list of glow objects to spawn  ;$11 
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl icecave1                         ;long pointer to the scene data ;$0
+        dw entrance_pal                     ;inbank pointer to palette,     ;$3
+        dw entrance_gfx                     ;graphics,                      ;$5
+        dw icecave1_map                     ;tilemap                        ;$7
+        dw datasize(entrance_gfx)           ;graphics size                  ;$9
+        dw datasize(icecave1_map)           ;tilemap size                   ;$b
+        dw properties_icecave1              ;gameplay properties            ;$d
+        dw $0000                            ;list of hdma objects to spawn  ;$f 
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11 
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default             ;one byte, index for handler    ;$15
         
         
     .icecave2:
-        dl icecave1                     ;long pointer to the scene data ;$0
-        dw entrance_pal                 ;inbank pointer to palette,     ;$3
-        dw entrance_gfx                 ;graphics,                      ;$5
-        dw icecave2_map                 ;tilemap                        ;$7
-        dw datasize(entrance_gfx)       ;graphics size                  ;$9
-        dw datasize(icecave2_map)       ;tilemap size                   ;$b
-        dw properties_icecave2          ;gameplay properties            ;$d
-        dw $0000                        ;list of hdma objects to spawn  ;$f
-        dw glowlist_gameplaydefault ;list of glow objects to spawn  ;$11
-        dw $0000                        ;background data list           ;$13
-        db !layer_blend_default         ;one byte, index for handler    ;$15
+        dl icecave1                         ;long pointer to the scene data ;$0
+        dw entrance_pal                     ;inbank pointer to palette,     ;$3
+        dw entrance_gfx                     ;graphics,                      ;$5
+        dw icecave2_map                     ;tilemap                        ;$7
+        dw datasize(entrance_gfx)           ;graphics size                  ;$9
+        dw datasize(icecave2_map)           ;tilemap size                   ;$b
+        dw properties_icecave2              ;gameplay properties            ;$d
+        dw $0000                            ;list of hdma objects to spawn  ;$f
+        dw glowlist_gameplaydefault         ;list of glow objects to spawn  ;$11
+        dw $0000                            ;background data list           ;$13
+        db !layer_blend_default             ;one byte, index for handler    ;$15
 }
 
 ;===========================================================================================
@@ -418,4 +418,8 @@ bgdata: {
     .pieces:
         dl pieces_bg2
         dw datasize(pieces_bg2)
+        
+    .room1:
+        dl room1bg2map
+        dw datasize(room1bg2map)
 }

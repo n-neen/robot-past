@@ -70,7 +70,7 @@ load: {
         plb
         plb
         
-        lda.l w_scene_bgdataptr
+        lda.l w_scene_bg2dataptr
         tax
         
         lda $0000,x         ;ptr to background tilemap

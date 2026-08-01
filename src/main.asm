@@ -77,7 +77,75 @@ layerblending: {
             .intro,             ;3
             .gameover,          ;4
             .scene_pieces,      ;5
-            .scene_agony        ;6
+            .scene_agony,       ;6
+            .default_withbg2m,  ;7
+            .default_nosprites  ;8
+    }
+    
+    .default_withbg2m: {
+        ;default screen configuration, used in main gameplay
+        ;also with bg2 in main screen
+        
+        lda #%00000000
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10100011      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00010111      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        rts
+    }
+    
+    .default: {
+        ;default screen configuration, used in main gameplay
+        
+        lda #%00000000
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10100001      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00010101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .default_nosprites: {
+        ;default screen configuration, used in main gameplay
+        
+        lda #%00000000
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%10100001      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00000101      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000000      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
     }
     
     .scene_agony: {
@@ -143,27 +211,6 @@ layerblending: {
         rts
     }
     
-    .default: {
-        ;default screen configuration, used in main gameplay
-        
-        lda #%00000000
-        sta w_colormathlogic
-        ;sta $2130
-        
-        lda #%10100001      ;color math layers
-        sta w_colormathlayers
-        ;sta $2131
-        
-        lda #%00010101      ;main screen layers
-        sta w_mainscreenlayers
-        ;sta $212c
-        
-        lda #%00000000      ;subscreen layers
-        sta w_subscreenlayers
-        ;sta $212d
-        
-        rts
-    }
     
     .weird: {
         ;
@@ -571,7 +618,7 @@ scenetransition: {
     sta.l w_scene_glowlistptr
     
     lda $0013,x
-    sta.l w_scene_bgdataptr
+    sta.l w_scene_bg2dataptr
     
     lda $0015,x
     and #$00ff
@@ -947,8 +994,6 @@ loadgame: {
     jsl load_scene                  ;depends on a call to scenetransition having been done
     jsl load_bg3colortobuffer
     
-    jsr initspecialfx               ;hdma, glows, bg2 tilemap
-    
     stz w_hud_glow
     jsl hud_handleglow
     
@@ -1009,6 +1054,8 @@ loadgame: {
     jsl player_main
     jsl scroll_main
     
+    jsr initspecialfx   ;hdma, glows, bg2 tilemap; needs to happen after scroll call
+    
     jsl fae_clearall
     jsl fae_spawnall
     jsl fae_top
@@ -1066,6 +1113,8 @@ setupresumedgame: {
     
     lda #!player_hp_default
     sta w_player_hp
+    
+    jsr initspecialfx_forresumedgame        ;make sure hdma on bg2 is over being touched
         
     lda #!state_loadgame
     sta w_programstate
@@ -1237,17 +1286,20 @@ initspecialfx: {
     lda w_scene_layerblend
     sta w_layerblendmode
     
+    lda w_scene_bg2dataptr
+    beq +
+    jsl load_bg2fromscenedata
+    jsl scroll_bg2              ;set initial bg2 scroll
+    +
+    
+    .forresumedgame:
+    
     jsl glow_clearall
     jsl glow_spawnfromlist
     
     jsl hdma_clearall
     jsl hdma_clearchannels
     jsl hdma_spawnfromlist
-    
-    lda w_scene_bgdataptr
-    beq +
-    jsl load_bg2fromscenedata
-    +
     
     rts
 }

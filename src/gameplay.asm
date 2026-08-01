@@ -21,7 +21,7 @@ gameplay: {
     
     jsl player_main                     ;3: draws player
     jsl scroll_main
-    ;jsl scroll_bg2
+    jsl scroll_bg2
     
     jsl obj_runmain
     jsl obj_collision
