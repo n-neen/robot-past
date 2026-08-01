@@ -208,7 +208,7 @@ hdma: {
         
         ..returnandenable
         lda #$0001
-        sta w_hdma_enable
+        sta.l w_hdma_enable
         
         ..return:
         plb

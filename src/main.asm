@@ -757,15 +757,23 @@ loadintroscene: {
     
     stz w_hdma_enable
     stz w_glow_enable
+    
     stz w_scene_timer
     stz w_msg_scrollpixels
     
     jsl load_scene
     
-    lda #!state_introhandler
-    sta w_programstate
+    jsl glow_clearall
+    jsl glow_spawnfromlist
+    
+    jsl hdma_clearall
+    jsl hdma_clearchannels
+    jsl hdma_spawnfromlist
     
     jsr layer3on
+    
+    lda #!state_introhandler
+    sta w_programstate
     
     jsr waitfornmi
     jsr fadein

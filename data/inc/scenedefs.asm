@@ -78,7 +78,7 @@ properties: {
         dw $0000                    ;init routine
         dw str_credits              ;scrolling text commands (ptr to strings.asm)
         dw $0000                    ;list of hdma objects to spawn
-        dw $0000                    ;list of glow objects to spawn
+        dw glowlist_meetsisters     ;list of glow objects to spawn
 
     }
     
@@ -259,5 +259,10 @@ glowlist: {
     .agony: {
         dw glow_agony                               ;0
         dw $ffff                                    ;end
+    }
+    
+    .meetsisters: {
+        dw glow_meetsisters
+        dw $ffff
     }
 }

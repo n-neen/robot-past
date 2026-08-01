@@ -3,7 +3,7 @@ to make space for bank $82 to become another code bank
     gonna now be:
     80: main, gampleay, player, interrupts, etc
     81: fae
-    82: color cycling, hdma only (keep this way due to huge tables, lists space)
+    82: color cycling, hdma only (keep this way due to huge tables, lists space?)
 
 
 

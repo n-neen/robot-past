@@ -62,6 +62,7 @@ org $818000
         incsrc "./src/color_cycling/playerhurt.asm"
         incsrc "./src/color_cycling/incrementing_index_glow.asm"
         incsrc "./src/color_cycling/agony.asm"
+        incsrc "./src/color_cycling/meetsisters_introscene.asm"
         
     incsrc "./src/hdma/hdma.asm"
         incsrc "./src/hdma/sinewave_indirect.asm"
