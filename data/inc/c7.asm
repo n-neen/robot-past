@@ -17,3 +17,11 @@ agony: {
     
     .dummylabel:
 }
+
+triangle: {
+    .pal:       incbin "./data/pal/triangle.pal"
+    .gfx:       incbin "./data/gfx/triangle.gfx"
+    .map:       incbin "./data/map/triangle.map"
+    .bg2map:    incbin "./data/map/triangle_bg2.map"
+    .dummylabel:
+}

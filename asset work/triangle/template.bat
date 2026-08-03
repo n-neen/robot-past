@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\triangle\triangle.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\triangle\triangle.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\triangle\triangle.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\triangle\triangle.gfx" --palette-base-offset 1 --color-zero ffff00
+
+pause

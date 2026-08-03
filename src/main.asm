@@ -79,7 +79,8 @@ layerblending: {
             .scene_pieces,      ;5
             .scene_agony,       ;6
             .default_withbg2m,  ;7
-            .default_nosprites  ;8
+            .default_nosprites, ;8
+            .scene_triangle     ;9
     }
     
     .default_withbg2m: {
@@ -182,6 +183,26 @@ layerblending: {
         ;sta $212c
         
         lda #%00000010      ;subscreen layers
+        sta w_subscreenlayers
+        ;sta $212d
+        
+        rts
+    }
+    
+    .scene_triangle: {
+        lda #%00000010
+        sta w_colormathlogic
+        ;sta $2130
+        
+        lda #%11100001      ;color math layers
+        sta w_colormathlayers
+        ;sta $2131
+        
+        lda #%00000010      ;main screen layers
+        sta w_mainscreenlayers
+        ;sta $212c
+        
+        lda #%00000001      ;subscreen layers
         sta w_subscreenlayers
         ;sta $212d
         

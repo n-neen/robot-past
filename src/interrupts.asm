@@ -592,6 +592,7 @@ waitfornmi: {
     
     ;lda #$05                   ;uncomment to show cpu, sm style
     ;sta $2100
+    ;jsl showcpu
     
     rep #$20
     
@@ -624,7 +625,7 @@ showcpu: {
     sta d_vcounter
     
     rep #$20
-    rts
+    rtl
 }
 
 

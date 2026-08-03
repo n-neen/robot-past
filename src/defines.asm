@@ -132,6 +132,7 @@
 !layer_blend_scene_agony        = $0006     ;scene specific mode, has "scene" in name
 !layer_blend_default_withbg2m   = $0007     ;for gameplay with bg2 in main screen
 !layer_blend_default_nosprites  = $0008     ;for nongameplay scenes without sprites
+!layer_blend_scene_triangle     = $0009     ;scene specific mode
 
 
 ;================================ object

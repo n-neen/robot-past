@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\wrinkle\wrinkle_arranged.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\wrinkle\wrinkle_arranged.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\wrinkle\wrinkle_arranged.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\wrinkle\wrinkle_arranged.gfx" --palette-base-offset 1 --color-zero 000000
+
+pause

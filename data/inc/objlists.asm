@@ -42,6 +42,8 @@ objlist: {
         %obj_list_entry (obj_door,          $1a, $13, $0234, $0223,         scenedef_icecave1)
         %obj_list_entry (obj_dialogtrigger, $0a, $10, scenedef_icecave2,    str_piecestext, scenedef_pieces)
         %obj_list_entry (obj_dialogtrigger, $1a, $1a, scenedef_icecave2,    str_agony, scenedef_agony)
+        %obj_list_entry (obj_dialogtrigger, $1a, $23, scenedef_icecave2,    str_blue, scenedef_blue)
+        %obj_list_entry (obj_dialogtrigger, $1a, $26, scenedef_icecave2,    str_blue, scenedef_triangle)
         dw $ffff
     }
     

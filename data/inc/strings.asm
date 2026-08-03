@@ -152,6 +152,10 @@ str: {
         db !msg_end
     }
     
+    .blue: {
+        db !msg_end
+    }
+    
     .agony: {
         db "                   test1", !msg_newline
         db "                   test2", !msg_newline

@@ -67,6 +67,9 @@ org $828000
         incsrc "./src/color_cycling/incrementing_index_glow.asm"
         incsrc "./src/color_cycling/agony.asm"
         incsrc "./src/color_cycling/meetsisters_introscene.asm"
+        incsrc "./src/color_cycling/blue_backdrop.asm"
+        incsrc "./src/color_cycling/triangle_backdrop.asm"
+        incsrc "./src/color_cycling/triangle_glow_mid.asm"
         
     incsrc "./src/hdma/hdma.asm"
         incsrc "./src/hdma/sinewave_indirect.asm"
@@ -74,6 +77,8 @@ org $828000
         incsrc "./src/hdma/testobject_inidisp.asm"
         incsrc "./src/hdma/testobject_coldata.asm"
         incsrc "./src/hdma/screensplit.asm"
+        incsrc "./src/hdma/sinewave_interleaved_indirect.asm"
+        incsrc "./src/hdma/interleave_layers_direct.asm"
         
 print "82 end: ", pc, " color cycling, hdma"
     

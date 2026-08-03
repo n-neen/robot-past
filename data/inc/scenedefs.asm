@@ -137,6 +137,34 @@ scenedef: {
         dw bgdata_agony                     ;background data list           ;$13
         db !layer_blend_scene_agony         ;one byte, index for handler    ;$15
         
+        
+    .blue:              ;%scenedefentry(blue)
+        dl blue                             ;long pointer to the scene data ;$0
+        dw blue_pal                         ;inbank pointer to palette,     ;$3
+        dw blue_gfx                         ;graphics,                      ;$5
+        dw blue_map                         ;tilemap                        ;$7
+        dw datasize(blue_gfx)               ;graphics size                  ;$9
+        dw datasize(blue_map)               ;tilemap size                   ;$b
+        dw properties_blue                  ;gameplay properties            ;$d; in scenedef
+        dw hdmalist_blue                    ;list of hdma objects to spawn  ;$f
+        dw glowlist_blue                    ;list of glow objects to spawn  ;$11
+        dw bgdata_blue                      ;background data list           ;$13
+        db !layer_blend_scene_pieces        ;one byte, index for handler    ;$15
+        
+        
+    .triangle:          ;%scenedefentry(triangle)
+        dl triangle                         ;long pointer to the scene data ;$0
+        dw triangle_pal                     ;inbank pointer to palette,     ;$3
+        dw triangle_gfx                     ;graphics,                      ;$5
+        dw triangle_map                     ;tilemap                        ;$7
+        dw datasize(triangle_gfx)           ;graphics size                  ;$9
+        dw datasize(triangle_map)           ;tilemap size                   ;$b
+        dw properties_triangle              ;gameplay properties            ;$d; in scenedef
+        dw hdmalist_triangle                ;list of hdma objects to spawn  ;$f
+        dw glowlist_triangle                ;list of glow objects to spawn  ;$11
+        dw bgdata_triangle                  ;background data list           ;$13
+        db !layer_blend_scene_triangle      ;one byte, index for handler    ;$15
+ 
     
 ;=================================== gameplay rooms ========================================
     .room1:             ;%scenedefentry(room1)
@@ -289,7 +317,22 @@ properties: {
         dw sceneinit_agony          ;init routine
         dw $0000                    ;scrolling text commands
     }
-
+    
+    .blue: {
+        dw !state_loadnongame
+        dw str_blue
+        db $02                      ;starting line
+        dw sceneinit_blue           ;init routine
+        dw $0000                    ;scrolling text commands
+    }
+    
+    .triangle: {
+        dw !state_loadnongame
+        dw str_blue
+        db $02                      ;starting line
+        dw sceneinit_triangle       ;init routine
+        dw $0000                    ;scrolling text commands
+    }
 
 ; ===================================== gameplay ===========================================
 ; ===================================== rooms ==============================================
@@ -380,6 +423,19 @@ hdmalist: {
         dw $ffff
     }
     
+    .blue: {
+        dw hdma_interleaved_indirect, $0f42         ;1
+        dw $ffff
+    }
+    
+    .triangle: {
+        dw hdma_interleaved_indirect, $0f42     ;bg2 x
+        dw hdma_interleaved_indirect, $0d42     ;bg1 x
+        
+        dw hdma_sinewave_indirect, $0e42        ;bg1 y
+        dw hdma_sinewave_indirect, $1042        ;bg2 y
+        dw $ffff
+    }
 }
 
 
@@ -406,6 +462,17 @@ glowlist: {
         dw glow_animationtest
         dw $ffff
     }
+    
+    .blue: {
+        dw glow_bluebackdrop                        ;0
+        dw $ffff                                    ;end
+    }
+    
+    .triangle: {
+        dw glow_trianglebackdrop
+        dw glow_trianglemid
+        dw $ffff
+    }
 }
 
 ;=================================== LAYER 2 BACKGROUND DATA ====================================
@@ -422,4 +489,12 @@ bgdata: {
     .room1:
         dl room1bg2map
         dw datasize(room1bg2map)
+        
+    .blue:
+        dl blue_map
+        dw datasize(blue_map)
+        
+    .triangle:
+        dl triangle_bg2map
+        dw datasize(triangle_bg2map)
 }

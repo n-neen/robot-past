@@ -9,7 +9,11 @@ room2: {
     .pal:   incbin "./data/pal/room2.pal"
     .gfx:   incbin "./data/gfx/room2.gfx"
     .map:   incbin "./data/map/room2.map"
-    
-    .props:
-        dw $ffff
+}
+
+blue: {
+    .pal:   incbin "./data/pal/blue.pal"
+    .gfx:   incbin "./data/gfx/blue.gfx"
+    .map:   incbin "./data/map/blue.map"
+    .dummylabel
 }
