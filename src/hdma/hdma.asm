@@ -47,7 +47,7 @@
 ;todo: move this somehwere sane
         macro indirecthdmatable(startaddr)
             !a #= 0
-            while !a < $1b8
+            while !a < $1c0
                 db $01 : dw <startaddr>+!a
                 !a #= !a+2
             endwhile

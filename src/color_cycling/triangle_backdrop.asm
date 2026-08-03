@@ -14,7 +14,7 @@
     }
     
     ..list: {
-        dw $0006    ;number of frames (timer nominal value)
+        dw $0007    ;number of frames (timer nominal value)
         dw $0000    ;starting index from start of cg ram buffer
         
         dw $000A, glow_inst_done

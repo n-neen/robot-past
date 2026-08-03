@@ -369,7 +369,9 @@ w: {
     .glow: {
         !glow_objects_count = $0007
         
-        ..enable        : skip 2
+        ..enable            : skip 2
+        
+        ..globaltimer       : skip 2
         
         ..id                : skip 2*!glow_objects_count+2
         ..init              : skip 2*!glow_objects_count+2
