@@ -980,7 +980,11 @@ player: {
             ;if select pressed
             pha
             
-            stz w_hud_glow          ;turn on hud glow
+            stz w_hud_glow          ;turn off hud glow
+            
+            ;also save game
+            lda w_scene_ptr                 ;save room for resume game
+            sta.l s_roomptr
             
             pla
         }

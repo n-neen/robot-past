@@ -198,7 +198,7 @@ layerblending: {
         sta w_colormathlayers
         ;sta $2131
         
-        lda #%00000010      ;main screen layers
+        lda #%00000110      ;main screen layers
         sta w_mainscreenlayers
         ;sta $212c
         
@@ -783,10 +783,10 @@ nongameplayhandler: {
     jsl msg_display
     +
     
-    ;lda w_scene_scrolltextptr
-    ;beq +
-    ;jsl msg_scroll_main
-    ;+
+    lda w_scene_scrolltextptr
+    beq +
+    jsl msg_scroll_main
+    +
     
     lda w_controller
     beq +

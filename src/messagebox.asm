@@ -410,12 +410,12 @@ msg: {
         }
         
         ..nontextcommands: {
-            dw msg_scroll_nontextcommandtest0,
-               msg_scroll_nontextcommandtest1,
-               msg_scroll_nontextcommandtest2
+            dw msg_scroll_writebackdrop,        ;0
+               msg_scroll_spawnglow,            ;1
+               msg_scroll_spawnhdma             ;2
         }
         
-        ..nontextcommandtest0: {
+        ..writebackdrop: {
             ;A = command argument
             ;x = command index if you cared about that (probably not)
             
@@ -424,17 +424,25 @@ msg: {
             rts
         }
         
-        ..nontextcommandtest1: {
+        ..spawnglow: {
             ;A = command argument
+            ;spawn color cycling object
+            ;spawner finds slot on its own
             
-            brk #$00        ;crash the program
+            tay
+            jsl glow_spawn
             
-            ;jml boot
-            ;rts
+            rts
         }
         
-        ..nontextcommandtest2: {
+        ..spawnhdma: {
             ;A = command argument
+            ;spawn hdma object to slot 7
+            
+            tay
+            ldx #$0007*2
+            jsl hdma_spawn
+            
             rts
         }
         

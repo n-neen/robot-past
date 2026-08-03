@@ -148,6 +148,41 @@ str: {
         ..10: db "10 ok this is end line $201", !msg_end
     }
     
+    
+    .scrolltriangle: {
+        !scrolltriangle_lineinterval = 2
+        dw !scrolltriangle_lineinterval*1,  str_scrolltriangle_0
+        dw !scrolltriangle_lineinterval*2,  str_scrolltriangle_1
+        dw !scrolltriangle_lineinterval*3,  str_scrolltriangle_2
+        dw !scrolltriangle_lineinterval*4,  str_scrolltriangle_3
+        dw !scrolltriangle_lineinterval*5,  str_scrolltriangle_4
+        dw !scrolltriangle_lineinterval*6,  str_scrolltriangle_5
+        dw !scrolltriangle_lineinterval*7,  str_scrolltriangle_6
+        dw !scrolltriangle_lineinterval*8,  str_scrolltriangle_7
+        dw !scrolltriangle_lineinterval*9,  str_scrolltriangle_8
+        dw !scrolltriangle_lineinterval*10, str_scrolltriangle_9
+        dw $8001, glow_trianglemid
+        dw !scrolltriangle_lineinterval*11, str_scrolltriangle_10
+        dw !scrolltriangle_lineinterval*12, str_scrolltriangle_11
+        dw $0000  ;end
+        
+        ..0:   db "0 now would be a great time", !msg_end
+        ..1:   db "1 to", !msg_end
+        ..2:   db "2 um", !msg_end
+        ..3:   db "3 ...", !msg_end
+        ..4:   db "4 a", !msg_end
+        ..5:   db "5 b", !msg_end
+        ..6:   db "6 c", !msg_end
+        ..7:   db "7 d", !msg_end
+        ..8:   db "8 e", !msg_end
+        ..9:   db "9 f", !msg_end
+        ..10:  db "10 spawn a color cycling object", !msg_end
+        ..11:  db "11 h", !msg_end
+        ..12:  db "12 i", !msg_end
+        ..13:  db "13 j", !msg_end
+        ..14:  db "14 k", !msg_end
+    }
+    
     .piecestext: {
         db !msg_end
     }

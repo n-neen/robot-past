@@ -331,7 +331,7 @@ properties: {
         dw str_blue
         db $02                      ;starting line
         dw sceneinit_triangle       ;init routine
-        dw $0000                    ;scrolling text commands
+        dw str_scrolltriangle       ;scrolling text commands
     }
 
 ; ===================================== gameplay ===========================================
@@ -470,7 +470,7 @@ glowlist: {
     
     .triangle: {
         dw glow_trianglebackdrop
-        dw glow_trianglemid
+        ;dw glow_trianglemid
         dw $ffff
     }
 }
