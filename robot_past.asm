@@ -74,11 +74,11 @@ org $828000
     incsrc "./src/hdma/hdma.asm"
         incsrc "./src/hdma/sinewave_indirect.asm"
         incsrc "./src/hdma/glitch_bands_indirect.asm"
-        incsrc "./src/hdma/testobject_inidisp.asm"
-        incsrc "./src/hdma/testobject_coldata.asm"
-        incsrc "./src/hdma/screensplit.asm"
+        ;incsrc "./src/hdma/testobject_inidisp.asm"
+        ;incsrc "./src/hdma/testobject_coldata.asm"
+        ;incsrc "./src/hdma/screensplit.asm"
         incsrc "./src/hdma/sinewave_interleaved_indirect.asm"
-        incsrc "./src/hdma/interleave_layers_direct.asm"
+        incsrc "./src/hdma/interleaved_direct.asm"
         
 print "82 end: ", pc, " color cycling, hdma"
     
@@ -136,7 +136,7 @@ org $cb0000
     print "cb end: ", pc, " title screen tilemaps, graphics, palettes"
     
 org $cc0000
-    ;
+    incsrc "./data/inc/cc.asm"
     print "cc end: ", pc
     
 org $cd0000

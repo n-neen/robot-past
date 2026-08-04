@@ -798,6 +798,9 @@ nongameplayhandler: {
         sta w_programstate
         
         jsr fadeout
+        
+        jsl hdma_clearchannels
+        stz w_hdma_enable
     }
     +
     

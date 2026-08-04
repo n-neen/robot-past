@@ -12,6 +12,28 @@ sceneinit: {
         rts
     }
     
+    .lobes: {
+        rts
+        ;load copy of bg1 tilemap to the right of screen
+        ;need a system to do this
+        {
+            lda #lobes_map
+            sta p_0
+            
+            lda #bank(lobes_map)
+            sta p_2
+            
+            lda #datasize(lobes_map)
+            jsl load_romtobuffer
+        }
+        
+        lda #datasize(lobes_map)    ;tilemap size
+        ldx #!bg1tilemap+$400       ;destination in vram
+        jsl load_buffertovram       ;dma tilemap to vram
+        
+        rts
+    }
+    
     .triangle: {
         ;load cop\ies of bg1 tilemap to the right and down of the screen
         {

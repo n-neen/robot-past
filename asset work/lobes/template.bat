@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\lobes\lobes.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\lobes\lobes.pal" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\lobes\lobes.map" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\lobes\lobes.gfx" --palette-base-offset 1 --color-zero ffef88
+
+pause

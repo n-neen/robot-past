@@ -165,6 +165,19 @@ scenedef: {
         dw bgdata_triangle                  ;background data list           ;$13
         db !layer_blend_scene_triangle      ;one byte, index for handler    ;$15
  
+ 
+    .lobes:             ;%scenedefentry(triangle)
+        dl lobes                            ;long pointer to the scene data ;$0
+        dw lobes_pal                        ;inbank pointer to palette,     ;$3
+        dw lobes_gfx                        ;graphics,                      ;$5
+        dw lobes_map                        ;tilemap                        ;$7
+        dw datasize(lobes_gfx)              ;graphics size                  ;$9
+        dw datasize(lobes_map)              ;tilemap size                   ;$b
+        dw properties_lobes                 ;gameplay properties            ;$d; in scenedef
+        dw hdmalist_lobes                   ;list of hdma objects to spawn  ;$f
+        dw glowlist_lobes                   ;list of glow objects to spawn  ;$11
+        dw bgdata_lobes                     ;background data list           ;$13
+        db !layer_blend_scene_pieces        ;one byte, index for handler    ;$15
     
 ;=================================== gameplay rooms ========================================
     .room1:             ;%scenedefentry(room1)
@@ -333,6 +346,14 @@ properties: {
         dw sceneinit_triangle       ;init routine
         dw str_scrolltriangle       ;scrolling text commands
     }
+    
+    .lobes: {
+        dw !state_loadnongame
+        dw str_blue
+        db $00                      ;starting line
+        dw sceneinit_lobes          ;init routine
+        dw $0000                    ;scrolling text commands
+    }
 
 ; ===================================== gameplay ===========================================
 ; ===================================== rooms ==============================================
@@ -429,11 +450,20 @@ hdmalist: {
     }
     
     .triangle: {
-        dw hdma_interleaved_indirect, $0f42     ;bg2 x
-        dw hdma_interleaved_indirect, $0d42     ;bg1 x
+        dw hdma_interleaved_direct,     $0f02       ;bg2 x
+        dw hdma_interleaved_direct,     $0d02       ;bg1 x
         
-        dw hdma_sinewave_indirect, $0e42        ;bg1 y
-        dw hdma_sinewave_indirect, $1042        ;bg2 y
+        dw hdma_sinewave_indirect,      $0e42       ;bg1 y
+        dw hdma_sinewave_indirect,      $1042       ;bg2 y
+        dw $ffff
+    }
+    
+    .lobes: {
+        ;dw hdma_interleaved_direct,     $0d02       ;bg1 x
+        ;dw hdma_interleaved_direct,     $0e02       ;bg1 y
+        
+        ;dw hdma_interleaved_direct,     $0f02       ;bg2 x
+        dw hdma_sinewave_indirect,      $1042       ;bg2 y
         dw $ffff
     }
 }
@@ -473,6 +503,11 @@ glowlist: {
         ;dw glow_trianglemid
         dw $ffff
     }
+    
+    .lobes: {
+        dw glow_incrementing
+        dw $ffff
+    }
 }
 
 ;=================================== LAYER 2 BACKGROUND DATA ====================================
@@ -497,4 +532,8 @@ bgdata: {
     .triangle:
         dl triangle_bg2map
         dw datasize(triangle_bg2map)
+        
+    .lobes:
+        dl lobes_map
+        dw datasize(lobes_map)
 }

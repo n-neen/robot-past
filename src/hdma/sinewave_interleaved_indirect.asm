@@ -15,8 +15,7 @@
     }
     
     ..routine: {
-        ;this shouldn't work but does... ugh
-        
+        ;this is a pain to write, still doesn't really work
         
         phb
         phx
@@ -30,36 +29,51 @@
         inc                       ;we don't use object 0 so use this as a global timer
         sta w_hdma_timer,x
         
-        and #$00ff
         tax
         
         lda #$00e0
         sta p_2
         
-        sep #$20
-        ldy #$00e0*2
-        ldx #$00e0
+        sep #$30
+        ldy #$20
+        ;ldx #$e0
         
         ...loop:
-        lda.l hdma_neg30sinetable,x                 ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
+        lda.l hdma_1fsinetable,x                 ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
         sta.w w_indirecthdmatable2,y
-        
-        lda.l hdma_neg30sinetable+1,x               ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
         eor #$ff
         inc
         sta.w w_indirecthdmatable2+2,y
         
+        lda.l hdma_1fsinetable,x                 ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
+        sta.w w_indirecthdmatable2+$40,y
+        eor #$ff
+        inc
+        sta.w w_indirecthdmatable2+$42,y
+        
+        lda.l hdma_1fsinetable,x                 ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
+        sta.w w_indirecthdmatable2+$80,y
+        eor #$ff
+        inc
+        sta.w w_indirecthdmatable2+$82,y
+        
+        lda.l hdma_1fsinetable,x                 ;hdma_1fsinetable, hdma_neg30sinetable, hdma_neg30sinetabledoubled
+        sta.w w_indirecthdmatable2+$c0,y
+        eor #$ff
+        inc
+        sta.w w_indirecthdmatable2+$c2,y
+        
         dey
         dey
         dey
         dey
         
         dex
-        dex
         
-        bpl ...loop
+        dec p_2
+        bne ...loop
         
-        rep #$20
+        rep #$30
         ply
         plx
         plb
