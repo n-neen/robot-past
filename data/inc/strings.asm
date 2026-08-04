@@ -149,6 +149,28 @@ str: {
     }
     
     
+    .scrolllobes: {
+        !scrolllobes_lineinterval = 4
+        dw !scrolllobes_lineinterval*1, str_scrolllobes_0
+        dw !scrolllobes_lineinterval*2, str_scrolllobes_1
+        dw !scrolllobes_lineinterval*3, str_scrolllobes_2
+        dw !scrolllobes_lineinterval*4, str_scrolllobes_3
+        dw !scrolllobes_lineinterval*5, str_scrolllobes_4
+        dw !scrolllobes_lineinterval*6, str_scrolllobes_5
+        dw !scrolllobes_lineinterval*7, str_scrolllobes_6
+        dw $8001, glow_incrementing
+        dw $0000
+        
+        ..0:   db "0 aaaaaaaa", !msg_end
+        ..1:   db "1 bbbbbbbb", !msg_end
+        ..2:   db "2 cccccccc", !msg_end
+        ..3:   db "3 dddddddd", !msg_end
+        ..4:   db "4 eeeeeeee", !msg_end
+        ..5:   db "5 and then some dramatic line", !msg_end
+        ..6:   db " ", !msg_end
+    }
+    
+    
     .scrolltriangle: {
         !scrolltriangle_lineinterval = 2
         dw !scrolltriangle_lineinterval*1,  str_scrolltriangle_0

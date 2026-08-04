@@ -352,7 +352,7 @@ properties: {
         dw str_blue
         db $00                      ;starting line
         dw sceneinit_lobes          ;init routine
-        dw $0000                    ;scrolling text commands
+        dw str_scrolllobes          ;scrolling text commands
     }
 
 ; ===================================== gameplay ===========================================
@@ -505,7 +505,6 @@ glowlist: {
     }
     
     .lobes: {
-        dw glow_incrementing
         dw $ffff
     }
 }
