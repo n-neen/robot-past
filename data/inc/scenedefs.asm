@@ -149,7 +149,7 @@ scenedef: {
         dw hdmalist_blue                    ;list of hdma objects to spawn  ;$f
         dw glowlist_blue                    ;list of glow objects to spawn  ;$11
         dw bgdata_blue                      ;background data list           ;$13
-        db !layer_blend_scene_pieces        ;one byte, index for handler    ;$15
+        db !layer_blend_scene_blue          ;one byte, index for handler    ;$15
         
         
     .triangle:          ;%scenedefentry(triangle)
@@ -445,7 +445,9 @@ hdmalist: {
     }
     
     .blue: {
-        dw hdma_interleaved_indirect, $0f42         ;1
+        dw hdma_interleaved_direct, $0f02           ;bg2 x
+        dw hdma_sinewave_indirect,  $1042           ;bg2 y
+        ;dw hdma_sinewave_indirect,  $0e42           ;bg1 y
         dw $ffff
     }
     

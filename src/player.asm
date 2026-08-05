@@ -21,6 +21,12 @@ player: {
         lda #!player_ysize_default
         sta w_player_ysize
         
+        stz w_player_xspeed
+        stz w_player_xsubspeed
+        
+        stz w_player_yspeed
+        stz w_player_ysubspeed
+        
         stz w_player_iframes
         
         ;jsr player_olddraw             ;test sprite not real
