@@ -515,8 +515,9 @@ glowlist: {
 
 bgdata: {
     .agony:
-        dl agony_bg2map
-        dw datasize(agony_bg2map)
+        dl agony_bg2map                 ;long pointer to layer 2 tilemap
+        dw datasize(agony_bg2map)       ;size of the above
+       ;db %000000xx                    ;layer 2 screen configuration (the 1 and 2 bits of $2108) unimplemented
         
     .pieces:
         dl pieces_bg2

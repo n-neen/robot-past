@@ -21,7 +21,13 @@ need some kind of system (like the above) to reduce the size and copypasteness o
         layer blending (jump table index) DONE
         hdma object spawning (pointer to list of objects) DOEN
         color cycling spawning (pointer to list of objects) DONE
-        layer 2 backgrounds (pointer to tilemap) TODO
+        layer 2 backgrounds (pointer to tilemap) DONE
+        
+        
+layer 2 background:
+    add one byte for defining layer 2 screen configuration for writing to $2108
+    this would preclude using layer 3 at all unless you rearrange vramn to find 
+    somewhere else to put the extra layre 2 screens
 
 the collision system is in a dire state
     nothing works

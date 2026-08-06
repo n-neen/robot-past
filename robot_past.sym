@@ -1429,7 +1429,7 @@ C7:C2E0 triangle_pal
 0027 98cdd79e c:/users/keenan/desktop/robot_past/robot_past/src/hdma/glitch_bands_indirect.asm
 0028 0bf1c343 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/sinewave_interleaved_indirect.asm
 0029 b8ef28c7 c:/users/keenan/desktop/robot_past/robot_past/src/hdma/interleaved_direct.asm
-002a c15ceea6 c:/users/keenan/desktop/robot_past/robot_past/data/inc/scenedefs.asm
+002a 1f4911eb c:/users/keenan/desktop/robot_past/robot_past/data/inc/scenedefs.asm
 002b d54e8354 c:/users/keenan/desktop/robot_past/robot_past/data/inc/objlists.asm
 002c e07b4baa c:/users/keenan/desktop/robot_past/robot_past/data/inc/faelists.asm
 002d 8a15b0d2 c:/users/keenan/desktop/robot_past/robot_past/data/inc/strings.asm
@@ -1448,7 +1448,7 @@ C7:C2E0 triangle_pal
 003a 0a19be4d c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-9307e5af
+ea16c05b
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -9330,16 +9330,16 @@ c0:028e 002a:000001fa
 c0:0290 002a:000001fe
 c0:0292 002a:00000206
 c0:0295 002a:00000207
-c0:0297 002a:0000020a
-c0:029a 002a:0000020b
-c0:029c 002a:0000020e
-c0:029f 002a:0000020f
-c0:02a1 002a:00000212
-c0:02a4 002a:00000213
-c0:02a6 002a:00000216
-c0:02a9 002a:00000217
-c0:02ab 002a:0000021a
-c0:02ae 002a:0000021b
+c0:0297 002a:0000020b
+c0:029a 002a:0000020c
+c0:029c 002a:0000020f
+c0:029f 002a:00000210
+c0:02a1 002a:00000213
+c0:02a4 002a:00000214
+c0:02a6 002a:00000217
+c0:02a9 002a:00000218
+c0:02ab 002a:0000021b
+c0:02ae 002a:0000021c
 c0:02b0 002b:00000002
 c0:02b2 002b:00000003
 c0:02b3 002b:00000004
