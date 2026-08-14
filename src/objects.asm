@@ -32,6 +32,7 @@ obj: {
         beq +
         
         jsr obj_draw
+        ;jsr obj_writecollisionmap
         
         +
         dex
@@ -197,7 +198,7 @@ obj: {
         sta $4203
         
         rep #$20
-        nop #8
+        nop
         
         lda $4216           ;result = y*32
         asl
@@ -411,7 +412,7 @@ obj: {
         
         rtl
     }
-
+    
     .spawn: {
         ;spawn an object, w_level_objlistindex into the current room's object list
         

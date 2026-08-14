@@ -247,24 +247,24 @@ w: {
         ;%objarrayentry((2*!obj_count+2), id)
         
         print "obj start: ", pc
-        ..id            :   skip 2*!obj_count+2
-        ..xsize         :   skip 2*!obj_count+2
-        ..ysize         :   skip 2*!obj_count+2
-        ..init          :   skip 2*!obj_count+2
-        ..main          :   skip 2*!obj_count+2
-        ..touch         :   skip 2*!obj_count+2
-        ..tile          :   skip 2*!obj_count+2
-        ..draw          :   skip 2*!obj_count+2
+        ..id                :   skip 2*!obj_count+2
+        ..xsize             :   skip 2*!obj_count+2
+        ..ysize             :   skip 2*!obj_count+2
+        ..init              :   skip 2*!obj_count+2
+        ..main              :   skip 2*!obj_count+2
+        ..touch             :   skip 2*!obj_count+2
+        ..tile              :   skip 2*!obj_count+2
+        ..draw              :   skip 2*!obj_count+2
         
-        ..x             :   skip 2*!obj_count+2
-        ..y             :   skip 2*!obj_count+2
-        ..var1          :   skip 2*!obj_count+2
-        ..var2          :   skip 2*!obj_count+2
-        ..var3          :   skip 2*!obj_count+2
+        ..x                 :   skip 2*!obj_count+2
+        ..y                 :   skip 2*!obj_count+2
+        ..var1              :   skip 2*!obj_count+2
+        ..var2              :   skip 2*!obj_count+2
+        ..var3              :   skip 2*!obj_count+2
         
-        ..screenupdates :   skip 2  ;the first four bits control screen updates in vblank
-        ..drawindex     :   skip 2  ;
-        ..index         :   skip 2  ;
+        ..screenupdates     :   skip 2  ;the first four bits control screen updates in vblank
+        ..drawindex         :   skip 2  ;
+        ..index             :   skip 2  ;
         print "obj end:   ", pc
     }
     

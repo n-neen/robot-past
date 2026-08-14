@@ -105,59 +105,6 @@ player: {
         rts
     }
     
-;===================================== LOCATEONTILE ========================================
-;(player_y/8)*level_width+(player_x/8)
-
-;this returns a tile index into l_level_collision
-;if you wanted, could get tile x,y by saving these right-shifted values below
-;
-;this uses the next suggested position in advance of where the player is
-;could make this take argument otherwhere and use it for both current tile
-;and future (next suggested position) tile
-
-    .locateontile: {
-        ;w_player_hitbox variables at this point are calculated for
-        ;w_player_nextx/nexty
-        
-        ;x = pointer to variable for horizontal
-        ;y = pointer to variable for vertical
-        ;
-        ;sei
-        
-        stx p_2
-        sty p_4
-        
-        lda (p_2)
-        lsr
-        lsr
-        lsr
-        sta p_0             ;player next suggested x pixel position/8 = player x tile position
-        
-        lda (p_4)
-        lsr
-        lsr
-        lsr                 ;player next suggested y pixel position/8
-        
-        sep #$20
-        
-        sta $4202
-        
-        lda.b #!level_width ;player y*level width
-        sta $4203
-        
-        rep #$20
-        nop #8
-        
-        lda $4216
-        
-        clc
-        adc p_0             ;+ player x
-        
-        sta w_player_tileindex
-        
-        ;cli
-        rts
-    }
     
 ;========================================= TICKIFRAMES =====================================
 ;count iframes down to 0
@@ -201,22 +148,26 @@ player: {
     .collisionwrapper: {
         ldx #w_player_hitboxleft    ;hitbox left edge
         ldy #w_player_y
-        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        lda #w_player_tileindex
+        jsl locateontile            ;translate player pixel position into tile index (using next suggested position)
         jsr player_collision        ;
         
         ldx #w_player_hitboxright   ;hitbox right edge
         ldy #w_player_y
-        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        lda #w_player_tileindex
+        jsl locateontile            ;translate player pixel position into tile index (using next suggested position)
         jsr player_collision        ;
         
         ldx #w_player_x
         ldy #w_player_hitboxtop     ;top edge
-        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        lda #w_player_tileindex
+        jsl locateontile            ;translate player pixel position into tile index (using next suggested position)
         jsr player_collision        ;
         
         ldx #w_player_x
         ldy #w_player_hitboxbottom  ;bottom edge
-        jsr player_locateontile     ;translate player pixel position into tile index (using next suggested position)
+        lda #w_player_tileindex
+        jsl locateontile            ;translate player pixel position into tile index (using next suggested position)
         jsr player_collision        ;
         
         rts
@@ -614,9 +565,9 @@ player: {
         rts
         
         ..table: {
-            dw player_collision_air,            ;0
-               player_collision_solid,          ;1
-               player_collision_directionalwall ;2
+            dw player_collision_air,                ;0
+               player_collision_solid,              ;1
+               player_collision_directionalwall     ;2
         }
         
         ..air: {

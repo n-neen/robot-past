@@ -1,9 +1,9 @@
 .template: {
-    db $02, $02         ;x, y radii
-    dw ..init           ;\
-    dw ..main           ; routine pointers
-    dw ..touch          ;/
-    dw ..draw           ;draw instruction ptr
+    db $02, $02             ;x, y radii
+    dw ..init               ;\
+    dw ..main               ; routine pointers
+    dw ..touch              ;/
+    dw ..draw               ;draw instruction ptr
     
     ;var1   
     ;var2   text starting line
@@ -20,13 +20,13 @@
     }
     
     ..touch: {
-        ;
+        ;based on hitbox
         rts
     }
     
     ..draw: {
-        db $01                      ;number of tiles
-        db $00, $00 : dw $0000      ;x,y position; tile to draw
+        db $01                              ;number of tiles
+        db $00, $00 : dw $0000              ;x,y position; tile to draw
     }
 }
 
@@ -38,11 +38,11 @@
     ;wrote object system 4.5.26 and this along with it
     ;tested, working
     
-    db $02, $02         ;x, y radii
-    dw obj_door_init    ;\
-    dw obj_door_main    ; routine pointers
-    dw obj_door_touch   ;/
-    dw obj_door_draw    ;draw instruction ptr
+    db $02, $02             ;x, y radii
+    dw obj_door_init        ;\
+    dw obj_door_main        ; routine pointers
+    dw obj_door_touch       ;/
+    dw obj_door_draw        ;draw instruction ptr
     
     ..init: {
         ;runs once when object is spawned
@@ -85,11 +85,11 @@
 
 
 .solid: {
-    db $01, $01         ;x, y radii
-    dw ..init           ;\
-    dw ..main           ; routine pointers
-    dw ..touch          ;/
-    dw ..draw           ;draw instruction ptr
+    db $01, $01             ;x, y radii
+    dw ..init               ;\
+    dw ..main               ; routine pointers
+    dw ..touch              ;/
+    dw ..draw               ;draw instruction ptr
     
     ..init: {
         ;
@@ -139,11 +139,11 @@
 
 
 .texttrigger: {
-    db $02, $02         ;x, y radii
-    dw ..init           ;\
-    dw ..main           ; routine pointers
-    dw ..touch          ;/
-    dw ..draw           ;draw instruction ptr
+    db $02, $02             ;x, y radii
+    dw ..init               ;\
+    dw ..main               ; routine pointers
+    dw ..touch              ;/
+    dw ..draw               ;draw instruction ptr
     
     ;var1   
     ;var2   text starting line
@@ -188,11 +188,11 @@
 
 
 .dialogtrigger: {
-    db $02, $02         ;x, y radii
-    dw ..init           ;\
-    dw ..main           ; routine pointers
-    dw ..touch          ;/
-    dw ..draw           ;draw instruction ptr
+    db $02, $02             ;x, y radii
+    dw ..init               ;\
+    dw ..main               ; routine pointers
+    dw ..touch              ;/
+    dw ..draw               ;draw instruction ptr
     
     ;var1   next scene after dialog
     ;var2   string pointer

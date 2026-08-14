@@ -11,6 +11,40 @@ player->fae collisions are visually off because object center is used
     probably draw off by player_xsize/2 and player_ysize/2?
     same for all fae spritemaps
 
+object collision:
+    maybe can use a collision type with argument as an index, say:
+    
+    player_collision_
+        ..table: {
+            dw player_collision_air,            ;0
+               player_collision_solid,          ;1
+               player_collision_directionalwall ;2
+               player_collision_object          ;3
+               
+               
+               and then, objects become associated with an index by writing a subsystem for this
+               when an object is created find a slot for it
+               up to 15 unique collision subtypes for objects
+               
+                ;collision format is one byte:
+                ;%aaaatttt
+                ;a = argument; data to pass to tile collision handler
+                ;t = tile collision type, used to index jump table
+                
+                and so then
+                a = object's assigned collision subtype
+                t = %0011 (3)
+                
+                need to modify player_locateontile so that it takes argument for destination
+        }
+        
+        started this but not sure it's worth finishing, pieces at:
+            obj_writecollision
+            player_collision (index 3)
+            w_obj_collisionprops
+            w_obj_collisionreaction
+    
+
 BUG
     color cycling runs at half speed during scrolling text
     lag?
