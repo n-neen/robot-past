@@ -16,6 +16,113 @@
 
 
 obj: {
+    .readcollision: {
+        ;x = obj index
+        
+        phb
+        phx
+        phy
+        php
+        
+        phk
+        plb
+        
+        stx w_obj_index
+        
+        lda w_obj_collisionmap,x
+        tay
+        
+        sep #$20
+        {
+            lda $0000,y
+            beq .end
+            sta p_8
+            iny
+            
+            .nexttile:
+            
+            lda $0000,y         ;tile x pos
+            sta p_0
+            
+            lda $0001,y         ;tile y post
+            sta p_2
+            
+            lda $0002,y         ;tile collision value
+            sta p_4
+            
+            jsr obj_writecollision
+            
+            iny
+            iny
+            iny
+            
+            dec p_8
+            bne .nexttile
+        }
+        rep #$20
+        
+        .end:
+        plp
+        ply
+        plx
+        plb
+        rts
+    }
+    
+    
+    .writecollision: {
+        ;x = object index
+        
+        ;(obj_y * level_width) + obj_x
+        
+        ;p_0 = tile x position
+        ;p_2 = tile y position
+        ;p_4 = tile collision value to write
+        ;
+        
+        phx
+        phy
+        php
+        
+        sep #$20
+        
+        lda w_obj_y,x
+        clc
+        adc p_2             ;add y offset
+        
+        sta $4202
+        
+        lda.b #!level_width
+        sta $4203
+        
+        rep #$20
+        nop
+        
+        lda $4216
+        
+        clc
+        adc w_obj_x,x
+        clc
+        sep #$20
+        adc p_0             ;add x offset
+        rep #$20
+        
+        sta w_obj_tileindex
+        
+        tax
+        
+        sep #$20
+        lda p_4
+        sta.l l_level_collision,x
+        rep #$20
+        
+        plp
+        ply
+        plx
+        rts
+    }
+    
+    
     .drawall: {
         phb
         
@@ -32,7 +139,7 @@ obj: {
         beq +
         
         jsr obj_draw
-        ;jsr obj_writecollisionmap
+        jsr obj_readcollision
         
         +
         dex
@@ -51,6 +158,7 @@ obj: {
         tay                 ;y = draw instruction pointer
         lda $0000,y
         and #$00ff
+        beq ..return
         sta p_6             ;number of tiles to draw
         
         iny                 ;y = pointed at first tile
@@ -86,6 +194,7 @@ obj: {
         dec p_6
         bne -
         
+        ..return
         rts
     }
     
@@ -401,6 +510,9 @@ obj: {
         lda $0008,y
         sta.l w_obj_draw,x
         
+        lda $000a,y
+        sta.l w_obj_collisionmap,x
+        
         lda p_0
         sta.l w_obj_x,x
         
@@ -463,6 +575,9 @@ obj: {
         
         lda $0008,y
         sta.l w_obj_draw,x
+        
+        lda $000a,y
+        sta.l w_obj_collisionmap,x
         
         clc
         rts

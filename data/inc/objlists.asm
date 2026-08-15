@@ -35,6 +35,8 @@ objlist: {
     .icecave1: {
         %obj_list_entry (obj_door,          $1a, $13, $0234, $0223,        scenedef_room1)
         %obj_list_entry (obj_door,          $1e, $1e, $0234, $0223,        scenedef_icecave2)
+        
+        %obj_list_entry (obj_solid,         $08, $08, $0000, $0000,        $0000)
         dw $ffff
     }
     
@@ -55,7 +57,8 @@ objlist: {
     }
     
     .moonroom: {
-        %obj_list_entry (obj_door,  $08, $08, $0234, $0000, scenedef_town)
+        %obj_list_entry (obj_door,      $08, $08, $0234,               $0000, scenedef_town)
+        %obj_list_entry (obj_scroll,    $18, $04, scrolldata_moonroom, $0000, $0000)
         dw $ffff
     }
 }

@@ -567,7 +567,13 @@ player: {
         ..table: {
             dw player_collision_air,                ;0
                player_collision_solid,              ;1
-               player_collision_directionalwall     ;2
+               player_collision_directionalwall,    ;2
+               player_collision_test                ;3
+        }
+        
+        ..test: {
+            ;brk #$00
+            rts
         }
         
         ..air: {

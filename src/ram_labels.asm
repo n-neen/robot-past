@@ -255,6 +255,7 @@ w: {
         ..touch             :   skip 2*!obj_count+2
         ..tile              :   skip 2*!obj_count+2
         ..draw              :   skip 2*!obj_count+2
+        ..collisionmap      :   skip 2*!obj_count+2
         
         ..x                 :   skip 2*!obj_count+2
         ..y                 :   skip 2*!obj_count+2
@@ -265,6 +266,7 @@ w: {
         ..screenupdates     :   skip 2  ;the first four bits control screen updates in vblank
         ..drawindex         :   skip 2  ;
         ..index             :   skip 2  ;
+        ..tileindex         :   skip 2  ;
         print "obj end:   ", pc
     }
     

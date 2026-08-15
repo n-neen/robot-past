@@ -90,6 +90,7 @@ org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/objlists.asm"
     incsrc "./data/inc/faelists.asm"
     incsrc "./data/inc/strings.asm"
+    incsrc "./data/inc/scrolldata.asm"
     print "c0 end: ", pc, " scenedef, obj/fae lists, strings"
     
 org $c10000

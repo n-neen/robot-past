@@ -4,6 +4,7 @@
     dw ..main               ; routine pointers
     dw ..touch              ;/
     dw ..draw               ;draw instruction ptr
+    dw ..collisionmap       ;
     
     ;var1   
     ;var2   text starting line
@@ -28,6 +29,11 @@
         db $01                              ;number of tiles
         db $00, $00 : dw $0000              ;x,y position; tile to draw
     }
+    
+    ..collisionmap: {
+        db $01                      ;number of tiles
+        db $00, $00, $00            ;x,y relative to object: tile collision to write
+    }
 }
 
 
@@ -43,6 +49,7 @@
     dw obj_door_main        ; routine pointers
     dw obj_door_touch       ;/
     dw obj_door_draw        ;draw instruction ptr
+    dw obj_door_collisionmap
     
     ..init: {
         ;runs once when object is spawned
@@ -81,6 +88,95 @@
         db $ff, $00 : dw $c234      ;x,y relative to object tile; tile to draw
         
     }
+    
+    ..collisionmap: {
+        db $00                      ;number of tiles
+    }
+}
+
+.scroll: {
+    db $01, $01             ;x, y radii
+    dw ..init               ;\
+    dw ..main               ; routine pointers
+    dw ..touch              ;/
+    dw ..draw               ;draw instruction ptr
+    dw ..collisionmap       ;
+    
+    ;var1 = pointer to scroll limits for up, down, left, right; and x,y size
+    ;var2
+    ;var3
+    
+    ;scrolldata.asm contains:
+        ;camera bounds
+        ;dw $0001    ;up
+        ;dw $0001    ;down
+        ;dw $007f    ;left
+        ;dw $00ff    ;right
+        
+        ;db $02, $02 ;x, y size for instance of object
+    
+    ..init: {
+        phx
+        phy
+        
+        txy
+        
+        lda w_obj_var1,x
+        tax
+        
+        lda.l (bank(scrolldata)<<16)+8,x
+        
+        sep #$20
+        {
+            sta w_obj_xsize,y
+            
+            xba
+            
+            sta w_obj_ysize,y
+        }
+        rep #$20
+        
+        ply
+        plx
+        rts
+    }
+    
+    ..main: {
+        ;
+        rts
+    }
+    
+    ..touch: {
+        phx
+        
+        lda w_obj_var1,x
+        tax
+        
+        lda.l (bank(scrolldata)<<16)+0,x
+        sta w_scroll_upbound
+        
+        lda.l (bank(scrolldata)<<16)+2,x
+        sta w_scroll_downbound
+        
+        lda.l (bank(scrolldata)<<16)+4,x
+        sta w_scroll_leftbound
+        
+        lda.l (bank(scrolldata)<<16)+6,x
+        sta w_scroll_rightbound
+        
+        plx
+        rts
+    }
+    
+    ..draw: {
+        db $01
+        db $00, $00 : dw $8222
+    }
+    
+    ..collisionmap: {
+        db $00                      ;number of tiles
+        db $00, $00, $03            ;x,y relative to object: tile collision to write
+    }
 }
 
 
@@ -90,6 +186,7 @@
     dw ..main               ; routine pointers
     dw ..touch              ;/
     dw ..draw               ;draw instruction ptr
+    dw ..collisionmap
     
     ..init: {
         ;
@@ -102,38 +199,25 @@
     }
     
     ..touch: {
-        
-        lda #!collision_type_solid
-        sta w_player_collisiontype
-        
-        phx
-        ;{
-        ;    ;test harness for dynamic spawning
-        ;    lda w_obj_x,x       ;x+3,y+3
-        ;    inc
-        ;    inc
-        ;    inc
-        ;    sta p_0
-        ;    
-        ;    lda w_obj_y,x
-        ;    inc
-        ;    inc
-        ;    inc
-        ;    sta p_2
-        ;    
-        ;    lda #obj_solid
-        ;    jsl obj_dynamicspawn
-        ;}
-        
-        plx
-        
-        ;jsr obj_clear
         rts
     }
     
     ..draw: {
         db $01
         db $00, $00 : dw $0234
+    }
+    
+    ..collisionmap: {
+        db $09                      ;number of tiles
+        db $ff, $ff, $03            ;x,y relative to object: tile collision to write
+        db $00, $ff, $03            ;x,y relative to object: tile collision to write
+        db $01, $ff, $03            ;x,y relative to object: tile collision to write
+        db $ff, $00, $03            ;x,y relative to object: tile collision to write
+        db $00, $00, $03            ;x,y relative to object: tile collision to write
+        db $01, $00, $03            ;x,y relative to object: tile collision to write
+        db $ff, $01, $03            ;x,y relative to object: tile collision to write
+        db $00, $01, $03            ;x,y relative to object: tile collision to write
+        db $01, $01, $03            ;x,y relative to object: tile collision to write
     }
 }
 
@@ -144,6 +228,7 @@
     dw ..main               ; routine pointers
     dw ..touch              ;/
     dw ..draw               ;draw instruction ptr
+    dw ..collisionmap
     
     ;var1   
     ;var2   text starting line
@@ -184,6 +269,10 @@
         db $01
         db $00, $00 : dw $0234
     }
+    
+    ..collisionmap: {
+        db $00                      ;number of tiles
+    }
 }
 
 
@@ -193,6 +282,7 @@
     dw ..main               ; routine pointers
     dw ..touch              ;/
     dw ..draw               ;draw instruction ptr
+    dw ..collisionmap
     
     ;var1   next scene after dialog
     ;var2   string pointer
@@ -240,5 +330,9 @@
         db $ff, $ff : dw $00ff
         db $00, $00 : dw $00ff
         db $01, $01 : dw $00ff
+    }
+    
+    ..collisionmap: {
+        db $00                      ;number of tiles
     }
 }
