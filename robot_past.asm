@@ -95,31 +95,31 @@ org $c00000                             ;bank for scenes, dialog and room data
     
 org $c10000
     incsrc "./data/inc/c1.asm"
-    print "c1 end: ", pc
+    print "c1 end: ", pc, " scene data, bg3 font"
     
 org $c20000
     incsrc "./data/inc/c2.asm"
-    print "c2 end: ", pc
+    print "c2 end: ", pc, " scene/room data"
     
 org $c30000
     incsrc "./data/inc/c3.asm"
-    print "c3 end: ", pc
+    print "c3 end: ", pc, " scene data, sprite gfx, room data"
 
 org $c40000
     incsrc "./data/inc/c4.asm"
-    print "c4 end: ", pc
+    print "c4 end: ", pc, " scene/room data"
     
 org $c50000
     incsrc "./data/inc/c5.asm"
-    print "c5 end: ", pc
+    print "c5 end: ", pc, " scene data, bg2 background tilemap"
     
 org $c60000
     incsrc "./data/inc/c6.asm"
-    print "c6 end: ", pc
+    print "c6 end: ", pc, " ice cave room data"
     
 org $c70000
     incsrc "./data/inc/c7.asm"
-    print "c7 end: ", pc
+    print "c7 end: ", pc, " scene data"
     
 org $c80000
     incsrc "./data/inc/collision_maps.asm"
@@ -131,7 +131,7 @@ org $c90000
     
 org $ca0000
     incsrc "./data/inc/ca.asm"
-    print "ca end: ", pc
+    print "ca end: ", pc, " room data"
     
 org $cb0000
     incsrc "./data/inc/cb.asm"
@@ -139,7 +139,7 @@ org $cb0000
     
 org $cc0000
     incsrc "./data/inc/cc.asm"
-    print "cc end: ", pc
+    print "cc end: ", pc, " scene data"
     
 org $cd0000
     ;

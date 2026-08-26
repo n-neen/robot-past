@@ -8,7 +8,7 @@ msg: {
         
         stx p_0
         
-        lda #((str&$ff0000)>>16)    ;text string bank
+        lda #bank(str)
         sta p_2
         
         tya
