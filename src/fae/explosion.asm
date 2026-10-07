@@ -35,6 +35,11 @@
         
         ;var1 is set to count down before we get here
         
+        phb
+        
+        phk
+        plb
+        
         lda w_nmicounter
         bit #$0003
         bne +
@@ -57,6 +62,7 @@
         
         +
         
+        plb
         rts
     }
     

@@ -116,7 +116,7 @@ hud: {
             
             -
             lda $0000,y
-            sta.l w_hud_buffer+22,x
+            sta.l w_hud_buffer+22,x     ;hoefully someday i rember why 22
             
             dey
             dex
